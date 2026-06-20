@@ -1,0 +1,195 @@
+
+> frontend-react@0.0.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v8.0.14[39m  [2mready in [0m[1m1155[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5137[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://10.173.44.55:[1m5137[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m5:20:24 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/Dashboard.jsx[22m
+[2m5:21:05 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m5:21:42 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/LevelWise.jsx[22m
+[2m5:21:47 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/TopicWise.jsx[22m
+[2m5:21:47 pm[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] [0mUnexpected token
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/TopicWise.jsx:59:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m59 │[0m }
+ [38;5;240m   │[0m ┬  
+ [38;5;240m   │[0m ╰── 
+[38;5;246m────╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/pages/TopicWise.jsx[39m
+      at transformWithOxc (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3338:19)
+      at TransformPluginContext.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3409:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:30273:51)
+      at async loadAndTransform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24532:26)
+      at async viteTransformMiddleware (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24326:20)
+[2m5:21:51 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/TechniqueWise.jsx[22m
+[2m5:21:54 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/TopicDetail.jsx[22m
+[2m5:22:03 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] [0mUnexpected token
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/TopicWise.jsx:59:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m59 │[0m }
+ [38;5;240m   │[0m ┬  
+ [38;5;240m   │[0m ╰── 
+[38;5;246m────╯[0m
+
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/pages/TopicWise.jsx[39m
+[2m5:22:03 pm[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] [0mUnexpected token
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/TopicWise.jsx:59:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m59 │[0m }
+ [38;5;240m   │[0m ┬  
+ [38;5;240m   │[0m ╰── 
+[38;5;246m────╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/pages/TopicWise.jsx[39m
+      at transformWithOxc (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3338:19)
+      at TransformPluginContext.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3409:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:30273:51)
+      at async loadAndTransform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24532:26)
+      at async viteTransformMiddleware (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24326:20)
+[2m5:22:11 pm[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] [0mUnexpected token
+    [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/TopicWise.jsx:59:1 [38;5;246m][0m
+    [38;5;246m│[0m
+ [38;5;246m59 │[0m }
+ [38;5;240m   │[0m ┬  
+ [38;5;240m   │[0m ╰── 
+[38;5;246m────╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/pages/TopicWise.jsx[39m
+      at transformWithOxc (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3338:19)
+      at TransformPluginContext.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3409:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:30273:51)
+      at async loadAndTransform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24532:26)
+      at async viteTransformMiddleware (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24326:20)
+[2m5:22:11 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/TopicWise.jsx[22m
+[2m5:22:12 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] [0mUnexpected token
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/TopicWise.jsx:5:7 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m5 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m>
+ [38;5;240m  │[0m       ┬  
+ [38;5;240m  │[0m       ╰── 
+[38;5;246m───╯[0m
+
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/pages/TopicWise.jsx[39m
+[2m5:22:12 pm[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] [0mUnexpected token
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/TopicWise.jsx:5:7 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m5 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m>
+ [38;5;240m  │[0m       ┬  
+ [38;5;240m  │[0m       ╰── 
+[38;5;246m───╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/pages/TopicWise.jsx[39m
+      at transformWithOxc (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3338:19)
+      at TransformPluginContext.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3409:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:30273:51)
+      at async loadAndTransform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24532:26)
+      at async viteTransformMiddleware (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24326:20)
+[2m5:22:29 pm[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] [0mUnexpected token
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/TopicWise.jsx:5:7 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m5 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m>
+ [38;5;240m  │[0m       ┬  
+ [38;5;240m  │[0m       ╰── 
+[38;5;246m───╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/pages/TopicWise.jsx[39m
+      at transformWithOxc (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3338:19)
+      at TransformPluginContext.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3409:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:30273:51)
+      at async loadAndTransform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24532:26)
+      at async viteTransformMiddleware (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24326:20)
+[2m5:22:32 pm[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[31m[PARSE_ERROR] [0mUnexpected token
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m src/pages/TopicWise.jsx:5:7 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m5 │[0m [38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m[38;5;249m [0m>
+ [38;5;240m  │[0m       ┬  
+ [38;5;240m  │[0m       ╰── 
+[38;5;246m───╯[0m
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/pages/TopicWise.jsx[39m
+      at transformWithOxc (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3338:19)
+      at TransformPluginContext.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:3409:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:30273:51)
+      at async loadAndTransform (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24532:26)
+      at async viteTransformMiddleware (file:///C:/Users/priya/Documents/tem/leetcode_tracker/frontend/node_modules/vite/dist/node/chunks/node.js:24326:20)
+[2m5:22:36 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/TopicWise.jsx[22m
+[2m5:22:53 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m5:23:09 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m5:25:16 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:25:33 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/LevelWise.jsx[22m
+[2m5:26:28 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:28:05 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:28:52 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:29:47 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:30:44 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:31:32 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:32:53 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:34:21 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/context/AuthContext.jsx, /src/index.css[22m
+[2m5:34:21 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/context/AuthContext.jsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m5:34:21 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/context/AuthContext.jsx[22m
+[2m5:34:45 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/context/DataContext.jsx, /src/index.css[22m
+[2m5:34:45 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/context/DataContext.jsx[22m Could not Fast Refresh ("useData" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m5:34:45 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/context/DataContext.jsx[22m
+[2m5:35:27 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:36:00 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:37:20 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:38:38 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/DSALoader.jsx[22m
+[2m5:40:02 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/TechniqueWise.jsx[22m
+[2m5:57:24 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/TopicWise.jsx[22m
+[2m6:16:13 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.jsx, /src/index.css[22m
+[2m6:16:32 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/Navbar.jsx[22m
+[2m6:19:47 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Account.jsx, /src/index.css[22m
+[2m6:21:13 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Account.jsx, /src/index.css[22m
+[2m6:39:52 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/context/AuthContext.jsx, /src/index.css[22m
+[2m6:39:52 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/context/AuthContext.jsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m6:39:52 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/context/AuthContext.jsx[22m
+[2m6:41:07 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Account.jsx, /src/index.css[22m
+[2m6:43:28 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Account.jsx, /src/index.css[22m
+[2m6:50:04 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m6:50:04 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m6:50:04 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: [postcss] Invalid or unexpected token
+  Plugin: [35mvite:css[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/index.css[39m:undefined:NaN
+[2m6:50:04 pm[22m [31m[1m[vite][22m[39m [31mInternal server error: [postcss] Invalid or unexpected token[39m
+  Plugin: [35mvite:css[39m
+  File: [36mC:/Users/priya/Documents/tem/leetcode_tracker/frontend/src/index.css[39m:undefined:NaN
+      at new Script (node:vm:117:7)
+      at createScript (node:vm:269:10)
+      at Object.runInThisContext (node:vm:317:10)
+      at evalModule (C:\Users\priya\Documents\tem\leetcode_tracker\frontend\node_modules\jiti\dist\jiti.js:1:251724)
+      at jiti (C:\Users\priya\Documents\tem\leetcode_tracker\frontend\node_modules\jiti\dist\jiti.js:1:249841)
+      at C:\Users\priya\Documents\tem\leetcode_tracker\frontend\node_modules\tailwindcss\lib\lib\load-config.js:53:30
+      at loadConfig (C:\Users\priya\Documents\tem\leetcode_tracker\frontend\node_modules\tailwindcss\lib\lib\load-config.js:55:6)
+      at getTailwindConfig (C:\Users\priya\Documents\tem\leetcode_tracker\frontend\node_modules\tailwindcss\lib\lib\setupTrackingContext.js:74:116)
+      at C:\Users\priya\Documents\tem\leetcode_tracker\frontend\node_modules\tailwindcss\lib\lib\setupTrackingContext.js:103:92
+      at C:\Users\priya\Documents\tem\leetcode_tracker\frontend\node_modules\tailwindcss\lib\processTailwindFeatures.js:46:11
+[2m6:50:06 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css[22m

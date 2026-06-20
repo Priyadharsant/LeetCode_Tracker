@@ -1,0 +1,384 @@
+[
+  {
+    "topic": "Arrays",
+    "description": "A data structure consisting of a collection of elements, each identified by an array index. Arrays are stored in contiguous memory locations, making them one of the most fundamental and widely used data structures in computer science. They provide O(1) random access, making them ideal for index-based lookups. Understanding arrays deeply is essential as they form the basis for many other data structures like heaps, hash tables, and matrices.",
+    "whereToUse": [
+      "When you need fast access to elements using an index (O(1) lookup).",
+      "When the number of elements is known and mostly fixed.",
+      "As a foundational structure for building heaps, hash tables, and matrices."
+    ],
+    "tips": [
+      "Watch out for off-by-one errors with indices.",
+      "Consider using Two Pointers or Sliding Window techniques for optimization.",
+      "Remember that inserting/deleting in the middle takes O(n) time."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "int[]",
+        "int[][]",
+        "ArrayList<Integer>",
+        "HashMap<Integer,Integer>"
+      ],
+      "techniques": [
+        "Two Pointers",
+        "Sliding Window",
+        "Prefix Sum",
+        "Kadane's Algorithm (max subarray)",
+        "Binary Search on answer",
+        "Sorting + Greedy"
+      ]
+    },
+    "example": "int[] arr = {10, 20, 30, 40};\nSystem.out.println(arr[1]); // 20\n\n// Two pointer pattern\nint left = 0, right = arr.length - 1;\nwhile (left < right) {\n    // process\n    left++; right--;\n}"
+  },
+  {
+    "topic": "Dynamic Programming",
+    "description": "Dynamic Programming (DP) is an algorithmic technique for solving optimization problems by breaking them down into simpler overlapping subproblems and storing their results to avoid redundant computation. It relies on two key properties: optimal substructure (the optimal solution is built from optimal solutions of subproblems) and overlapping subproblems (the same subproblems are solved multiple times). DP can be approached top-down with memoization or bottom-up with tabulation.",
+    "whereToUse": [
+      "Problems with overlapping subproblems.",
+      "Problems with optimal substructure.",
+      "Finding the max/min, combinations, or paths (e.g., Knapsack, Shortest Path)."
+    ],
+    "tips": [
+      "Always start by writing the recursive relation or drawing the recursion tree.",
+      "Identify changing parameters to design your memoization cache (state).",
+      "Bottom-up (Tabulation) can save recursive stack space."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "int[] dp",
+        "int[][] dp",
+        "HashMap<String,Integer> memo"
+      ],
+      "techniques": [
+        "Top-Down Memoization (Recursion + Cache)",
+        "Bottom-Up Tabulation",
+        "1D DP (linear state)",
+        "2D DP (grid/string problems)",
+        "Space Optimization (rolling array)",
+        "Bitmask DP (subset problems)"
+      ]
+    },
+    "example": "// Bottom-up Fibonacci\nint[] dp = new int[n + 1];\ndp[0] = 0; dp[1] = 1;\nfor (int i = 2; i <= n; i++)\n    dp[i] = dp[i-1] + dp[i-2];\n\n// Top-down with memo\nMap<Integer, Integer> memo = new HashMap<>();\nint fib(int n) {\n    if (n <= 1) return n;\n    if (memo.containsKey(n)) return memo.get(n);\n    int res = fib(n-1) + fib(n-2);\n    memo.put(n, res);\n    return res;\n}"
+  },
+  {
+    "topic": "Trees",
+    "description": "A tree is a hierarchical, non-linear data structure consisting of nodes connected by edges, with a single root node and subtrees of children. Binary trees have at most two children per node. Binary Search Trees (BST) maintain sorted order for efficient search, insert, and delete in O(log n) average. Trees are used extensively in compilers, file systems, databases, and network routing. Mastering tree traversals (DFS and BFS) is critical for solving a wide range of interview problems.",
+    "whereToUse": [
+      "Representing hierarchical data (e.g., file systems, org charts).",
+      "When fast search, insert, and delete operations are needed (e.g., BST).",
+      "Trie structures for dictionary or prefix matching.",
+      "Segment trees for range query problems."
+    ],
+    "tips": [
+      "Recursion is your best friend when traversing trees.",
+      "Know your traversals: In-order, Pre-order, Post-order, and Level-order (BFS).",
+      "For Binary Search Trees, in-order traversal yields sorted elements.",
+      "Use a dummy root or sentinel node to simplify edge cases."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "TreeNode",
+        "Queue<TreeNode>",
+        "Deque<TreeNode>",
+        "TreeMap<Integer,Integer>"
+      ],
+      "techniques": [
+        "DFS \u2014 Preorder / Inorder / Postorder",
+        "BFS \u2014 Level Order Traversal",
+        "Recursive Divide & Conquer",
+        "Iterative with Stack",
+        "Morris Traversal (O(1) space)",
+        "Binary Search on BST"
+      ]
+    },
+    "example": "// BFS Level Order\nQueue<TreeNode> q = new LinkedList<>();\nq.offer(root);\nwhile (!q.isEmpty()) {\n    int size = q.size();\n    for (int i = 0; i < size; i++) {\n        TreeNode node = q.poll();\n        if (node.left != null) q.offer(node.left);\n        if (node.right != null) q.offer(node.right);\n    }\n}"
+  },
+  {
+    "topic": "Linked List",
+    "description": "A linked list is a linear data structure where elements (nodes) are stored in non-contiguous memory locations. Each node contains a value and a pointer to the next node. Unlike arrays, linked lists allow O(1) insertions and deletions at any position if you have a reference to the node, but O(n) access by index. They are the foundation for stacks, queues, and many other data structures. Mastering pointer manipulation is key to solving linked list problems efficiently.",
+    "whereToUse": [
+      "When you need constant time insertions/deletions from the list.",
+      "Implementing stacks or queues.",
+      "When you don't know the exact number of elements in advance.",
+      "Representing adjacency lists in graphs."
+    ],
+    "tips": [
+      "Dummy nodes can help avoid edge cases with head deletion/insertion.",
+      "The Fast/Slow pointer technique is excellent for finding cycles or the middle element.",
+      "Always keep track of your 'next' pointers before modifying them.",
+      "Draw the pointer changes on paper before coding."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "ListNode",
+        "HashMap<ListNode,ListNode>",
+        "Deque<ListNode>"
+      ],
+      "techniques": [
+        "Fast & Slow Pointers (Floyd's)",
+        "Dummy Head Node",
+        "In-Place Reversal",
+        "Two-Pass (find length first)",
+        "Merge Two Lists",
+        "Runner Technique"
+      ]
+    },
+    "example": "// Reverse a linked list\nListNode prev = null, curr = head;\nwhile (curr != null) {\n    ListNode next = curr.next;\n    curr.next = prev;\n    prev = curr;\n    curr = next;\n}\nreturn prev;\n\n// Fast & Slow pointer (find middle)\nListNode slow = head, fast = head;\nwhile (fast != null && fast.next != null) {\n    slow = slow.next;\n    fast = fast.next.next;\n}"
+  },
+  {
+    "topic": "Graphs",
+    "description": "A graph is a non-linear data structure consisting of vertices (nodes) and edges connecting them. Graphs can be directed or undirected, weighted or unweighted, cyclic or acyclic. They are used to model real-world problems like social networks, maps, dependency resolution, and routing. Key algorithms include BFS, DFS, Dijkstra's shortest path, Bellman-Ford, topological sort, and Union-Find. Understanding graph representations (adjacency list vs matrix) and traversal strategies is essential for interviews.",
+    "whereToUse": [
+      "Social networks, maps, routing algorithms.",
+      "Dependency resolution (topological sort).",
+      "Finding shortest paths or analyzing connectivity.",
+      "Detecting cycles in directed or undirected graphs."
+    ],
+    "tips": [
+      "Decide carefully between Adjacency Matrix and Adjacency List based on edge density.",
+      "Keep track of visited nodes to avoid infinite loops during traversal.",
+      "Use BFS for shortest path in unweighted graphs, DFS for connectivity/cycles.",
+      "For weighted graphs, use Dijkstra with a PriorityQueue."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "List<List<Integer>> adj",
+        "boolean[] visited",
+        "int[] dist",
+        "int[] parent"
+      ],
+      "techniques": [
+        "BFS (shortest path, unweighted)",
+        "DFS (connectivity, cycle detection)",
+        "Topological Sort \u2014 Kahn's Algorithm",
+        "Union-Find (Disjoint Set)",
+        "Dijkstra (weighted shortest path)",
+        "Multi-source BFS"
+      ]
+    },
+    "example": "// BFS shortest path\nint[] dist = new int[n];\nArrays.fill(dist, -1);\nQueue<Integer> q = new LinkedList<>();\nq.offer(src); dist[src] = 0;\nwhile (!q.isEmpty()) {\n    int u = q.poll();\n    for (int v : adj.get(u)) {\n        if (dist[v] == -1) {\n            dist[v] = dist[u] + 1;\n            q.offer(v);\n        }\n    }\n}"
+  },
+  {
+    "topic": "Strings",
+    "description": "A string is a sequence of characters used to represent text. In Java, strings are immutable objects, meaning every modification creates a new string. This makes naive string concatenation in loops O(n\u00b2) \u2014 always use StringBuilder instead. String problems frequently involve pattern matching, substring search, palindromes, anagrams, and encoding/decoding. Mastering sliding window, two pointers, and frequency counting with character arrays are the most important techniques for string problems.",
+    "whereToUse": [
+      "Parsing and formatting text.",
+      "Searching for patterns or substrings.",
+      "Encoding/Decoding information.",
+      "Anagram and palindrome detection."
+    ],
+    "tips": [
+      "Strings are immutable in Java \u2014 use StringBuilder for O(n) building.",
+      "Two-pointer techniques are great for palindromes.",
+      "Sliding window is commonly used for substring problems.",
+      "Use int[26] for lowercase letter frequency counting \u2014 faster than HashMap."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "String",
+        "StringBuilder",
+        "char[]",
+        "int[26]",
+        "HashMap<Character,Integer>"
+      ],
+      "techniques": [
+        "Sliding Window (substring problems)",
+        "Two Pointers (palindrome, reverse)",
+        "Frequency Count with int[26]",
+        "KMP / Rabin-Karp (pattern matching)",
+        "Expand Around Center (palindrome)",
+        "Stack (valid parentheses, decode)"
+      ]
+    },
+    "example": "// Sliding window \u2014 longest substring without repeating chars\nMap<Character, Integer> map = new HashMap<>();\nint left = 0, max = 0;\nfor (int right = 0; right < s.length(); right++) {\n    char c = s.charAt(right);\n    map.put(c, map.getOrDefault(c, 0) + 1);\n    while (map.get(c) > 1) {\n        char l = s.charAt(left++);\n        map.put(l, map.get(l) - 1);\n    }\n    max = Math.max(max, right - left + 1);\n}\nreturn max;"
+  },
+  {
+    "topic": "Sorting & Searching",
+    "description": "Sorting arranges data in a specific order while searching finds elements within data. Both are fundamental operations with well-known algorithms. Binary Search is one of the most powerful tools \u2014 it reduces O(n) search to O(log n) on sorted data. Beyond basic sorting, interview problems often require custom comparators, sorting as a preprocessing step, or applying binary search on the answer space rather than the array itself. QuickSelect finds the Kth element in O(n) average without full sorting.",
+    "whereToUse": [
+      "Binary Search on sorted arrays for O(log n) lookup.",
+      "Sorting before applying Two Pointers (e.g., 3Sum, Merge Intervals).",
+      "Custom sorting with comparators for problems like Task Scheduler or K Closest Points.",
+      "Binary Search on Answer for optimization problems (e.g., Koko Eating Bananas)."
+    ],
+    "tips": [
+      "In Java, Arrays.sort() uses dual-pivot QuickSort for primitives and TimSort for objects.",
+      "Binary Search template: lo=0, hi=n-1, mid=lo+(hi-lo)/2 to avoid overflow.",
+      "Use TreeMap or PriorityQueue when you need sorted order dynamically.",
+      "For top-K problems, a min-heap of size K is more efficient than full sort."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "int[]",
+        "int[][] intervals",
+        "PriorityQueue<Integer>",
+        "TreeMap<Integer,Integer>"
+      ],
+      "techniques": [
+        "Binary Search (lo/hi/mid template)",
+        "Binary Search on Answer",
+        "QuickSelect (Kth element)",
+        "Merge Sort (count inversions)",
+        "Custom Comparator Sort",
+        "Two Pointers on Sorted Array"
+      ]
+    },
+    "example": "// Binary Search template\nint lo = 0, hi = arr.length - 1;\nwhile (lo <= hi) {\n    int mid = lo + (hi - lo) / 2;\n    if (arr[mid] == target) return mid;\n    else if (arr[mid] < target) lo = mid + 1;\n    else hi = mid - 1;\n}\nreturn -1;"
+  },
+  {
+    "topic": "Math & Bit Manipulation",
+    "description": "Math problems use number theory, modular arithmetic, prime factorization, and combinatorics. Bit manipulation uses binary operations (AND, OR, XOR, shifts) to solve problems at the bit level with extreme efficiency \u2014 often O(1) or O(log n). XOR is particularly powerful: it is its own inverse, making it useful for finding unique elements. Bit masking enables elegant subset enumeration. Understanding these techniques can turn complex problems into one-liners.",
+    "whereToUse": [
+      "XOR to find a single unique number in an array of duplicates.",
+      "Bit masking for subset enumeration or permission flags.",
+      "Modular arithmetic for large number problems.",
+      "Fast power (x^n) using repeated squaring.",
+      "GCD/LCM for fraction or interval problems."
+    ],
+    "tips": [
+      "n & (n-1) clears the lowest set bit \u2014 use to count set bits or check power of 2.",
+      "n & (-n) isolates the lowest set bit.",
+      "XOR is its own inverse: a ^ b ^ b == a.",
+      "Use long instead of int in Java when intermediate values may overflow."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "int",
+        "long",
+        "Set<Long>"
+      ],
+      "techniques": [
+        "XOR (find unique / swap)",
+        "Bit Masking (subset enumeration)",
+        "n & (n-1) \u2014 power of 2 / clear LSB",
+        "Modular Arithmetic",
+        "Fast Exponentiation (x^n)",
+        "GCD / LCM (Euclidean algorithm)"
+      ]
+    },
+    "example": "// Check power of 2\nboolean isPow2 = (n > 0) && (n & (n - 1)) == 0;\n\n// Count set bits\nint bits = Integer.bitCount(n);\n\n// XOR \u2014 find unique number\nint unique = 0;\nfor (int x : nums) unique ^= x;\n\n// Fast exponentiation\nlong fastPow(long base, long exp, long mod) {\n    long result = 1;\n    while (exp > 0) {\n        if ((exp & 1) == 1) result = result * base % mod;\n        base = base * base % mod;\n        exp >>= 1;\n    }\n    return result;\n}"
+  },
+  {
+    "topic": "Misc / General",
+    "description": "This category covers problems that combine multiple data structures and techniques, or don't fit neatly into one category. These often test your ability to design clean solutions using stacks, queues, hash maps, and greedy strategies. Common patterns include monotonic stack for next greater element problems, sliding window maximum with a deque, LRU Cache design using LinkedHashMap, and greedy interval scheduling. These problems require you to think about which data structure gives you the required time complexity.",
+    "whereToUse": [
+      "Stack for matching/balancing problems (e.g., Valid Parentheses, Daily Temperatures).",
+      "Queue/Deque for sliding window maximum or BFS-based problems.",
+      "HashMap for O(1) lookups in design problems (e.g., LRU Cache).",
+      "Greedy when a locally optimal choice leads to a globally optimal solution."
+    ],
+    "tips": [
+      "For design problems, think about which operations need to be O(1) and pick data structures accordingly.",
+      "Monotonic stack is key for 'next greater element' style problems.",
+      "When stuck, simulate the process manually on a small example first.",
+      "In Java, LinkedHashMap maintains insertion order \u2014 useful for LRU Cache."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "Deque<Integer>",
+        "LinkedHashMap<K,V>",
+        "PriorityQueue",
+        "int[] parent"
+      ],
+      "techniques": [
+        "Monotonic Stack (next greater element)",
+        "Greedy (locally optimal choice)",
+        "Backtracking (explore + undo)",
+        "Simulation",
+        "Design with HashMap + LinkedList",
+        "Heap / Priority Queue"
+      ]
+    },
+    "example": "// Monotonic stack \u2014 Next Greater Element\nint[] nextGreater(int[] arr) {\n    int n = arr.length;\n    int[] res = new int[n];\n    Deque<Integer> stack = new ArrayDeque<>();\n    Arrays.fill(res, -1);\n    for (int i = 0; i < n; i++) {\n        while (!stack.isEmpty() && arr[stack.peek()] < arr[i])\n            res[stack.pop()] = arr[i];\n        stack.push(i);\n    }\n    return res;\n}"
+  },
+  {
+    "topic": "Java",
+    "description": "Java is a statically-typed, object-oriented language widely used in coding interviews. It offers rich built-in data structures and a strong standard library (java.util) that makes implementing algorithms efficient and clean. Key advantages include type safety, explicit data structure control, and powerful collections like PriorityQueue, TreeMap, and LinkedHashMap. Understanding Java-specific nuances \u2014 like integer overflow, autoboxing cost, and the difference between Stack and ArrayDeque \u2014 can make a significant difference in interview performance.",
+    "whereToUse": [
+      "When you need type safety and explicit data structure control.",
+      "For problems requiring PriorityQueue (min/max heap), TreeMap, or LinkedHashMap.",
+      "When implementing OOP-based designs like LRU Cache or custom iterators.",
+      "When precise control over memory and performance is needed."
+    ],
+    "tips": [
+      "Prefer ArrayDeque over Stack \u2014 it's faster and not legacy.",
+      "StringBuilder is O(n) for string building; String + concatenation in a loop is O(n\u00b2).",
+      "Use Collections.sort() with a lambda comparator for custom sorting.",
+      "Map.getOrDefault(key, 0) is cleaner than checking containsKey first.",
+      "Use long when intermediate multiplication may overflow int range."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "int[]",
+        "ArrayList",
+        "HashMap",
+        "HashSet",
+        "ArrayDeque",
+        "PriorityQueue",
+        "TreeMap"
+      ],
+      "techniques": [
+        "Two Pointers",
+        "Sliding Window",
+        "BFS / DFS",
+        "Backtracking",
+        "Greedy",
+        "Divide & Conquer",
+        "Dynamic Programming"
+      ]
+    },
+    "example": "// Common Java collections for LeetCode\nList<Integer> list = new ArrayList<>();\nMap<Integer, Integer> map = new HashMap<>();\nSet<Integer> set = new HashSet<>();\nDeque<Integer> stack = new ArrayDeque<>();\nQueue<Integer> queue = new LinkedList<>();\nPriorityQueue<Integer> minHeap = new PriorityQueue<>();\nPriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\nTreeMap<Integer, Integer> sorted = new TreeMap<>();"
+  },
+  {
+    "topic": "Sliding Window",
+    "description": "The Sliding Window technique is used to perform an operation on a specific window size of a given array or string. It is highly effective for reducing nested loops into a single loop, turning O(N^2) time complexity into O(N). It is often used for problems asking for contiguous subarrays or substrings.",
+    "whereToUse": [
+      "Finding the maximum, minimum, or sum of a subarray of size K.",
+      "Finding the longest/shortest substring with certain conditions.",
+      "Any problem involving contiguous subarrays or substrings."
+    ],
+    "tips": [
+      "Use a variable to keep track of the current window state (e.g., sum, hash map).",
+      "Expand the window by moving the 'right' pointer.",
+      "Contract the window by moving the 'left' pointer when the condition is violated."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "int[]",
+        "String",
+        "HashMap<Character,Integer>"
+      ],
+      "techniques": [
+        "Fixed Size Window",
+        "Variable Size Window"
+      ]
+    },
+    "example": "int left = 0, right = 0, maxLen = 0;\nwhile (right < n) {\n    // add element at right to window\n    while (window is invalid) {\n        // remove element at left from window\n        left++;\n    }\n    maxLen = Math.max(maxLen, right - left + 1);\n    right++;\n}"
+  },
+  {
+    "topic": "Two Pointers",
+    "description": "Two Pointers is a technique where two pointers iterate through a data structure simultaneously, typically at different speeds or starting from different ends. It's heavily used in sorted arrays or linked lists to search for pairs, detect cycles, or partition arrays.",
+    "whereToUse": [
+      "Finding a pair of elements that sum to a target in a sorted array.",
+      "Reversing an array or string in-place.",
+      "Detecting a cycle in a linked list (Fast & Slow pointers)."
+    ],
+    "tips": [
+      "If the array is sorted, consider placing pointers at both ends.",
+      "For linked lists, use a fast pointer (moves by 2) and a slow pointer (moves by 1).",
+      "Carefully manage loop termination conditions."
+    ],
+    "javaTechniques": {
+      "dataTypes": [
+        "int[]",
+        "ListNode",
+        "char[]"
+      ],
+      "techniques": [
+        "Opposite Ends",
+        "Fast and Slow (Floyd's Cycle Finding)"
+      ]
+    },
+    "example": "int left = 0, right = arr.length - 1;\nwhile (left < right) {\n    if (arr[left] + arr[right] == target) return new int[]{left, right};\n    if (arr[left] + arr[right] < target) left++;\n    else right--;\n}"
+  }
+]
