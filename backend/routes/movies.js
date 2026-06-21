@@ -17,6 +17,8 @@ module.exports = function (db) {
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
+  }); router.get('/health', async (req, res) => {
+    res.sendStatus(200);
   });
 
   router.post('/', async (req, res) => {
