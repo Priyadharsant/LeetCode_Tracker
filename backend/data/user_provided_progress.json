@@ -1,0 +1,374 @@
+{
+    "1-0": {
+      "solved": true,
+      "solvedAt": "2026-06-21T07:46:54.280Z"
+    },
+    "1-1": {
+      "solved": true,
+      "solvedAt": "2026-06-11T09:12:26.945Z"
+    },
+    "1-34": {
+      "solved": true,
+      "solvedAt": "2026-06-10T14:04:31.806Z"
+    },
+    "1-2": {
+      "solved": true,
+      "solvedAt": "2026-06-11T09:12:28.128Z"
+    },
+    "1-3": {
+      "solved": true,
+      "solvedAt": "2026-06-11T06:19:51.986Z"
+    },
+    "1-4": {
+      "solved": true,
+      "solvedAt": "2026-06-11T06:25:36.897Z"
+    },
+    "1-5": {
+      "solved": true,
+      "solvedAt": "2026-06-11T06:30:29.319Z"
+    },
+    "1-6": {
+      "solved": true,
+      "solvedAt": "2026-06-11T09:24:34.952Z"
+    },
+    "1-7": {
+      "solved": true,
+      "solvedAt": "2026-06-11T06:40:50.272Z"
+    },
+    "1-8": {
+      "solved": true,
+      "solvedAt": "2026-06-11T08:09:43.421Z"
+    },
+    "1-9": {
+      "solved": true,
+      "solvedAt": "2026-06-11T08:33:44.926Z"
+    },
+    "1-10": {
+      "solved": true,
+      "solvedAt": "2026-06-11T08:36:21.213Z"
+    },
+    "1-11": {
+      "solved": true,
+      "solvedAt": "2026-06-11T08:45:41.603Z"
+    },
+    "1-12": {
+      "solved": true,
+      "solvedAt": "2026-06-11T08:52:52.991Z"
+    },
+    "1-13": {
+      "solved": true,
+      "solvedAt": "2026-06-11T08:54:40.273Z"
+    },
+    "1-14": {
+      "solved": true,
+      "solvedAt": "2026-06-11T08:55:31.010Z"
+    },
+    "1-15": {
+      "solved": true,
+      "solvedAt": "2026-06-11T08:56:27.022Z"
+    },
+    "1-16": {
+      "solved": true,
+      "solvedAt": "2026-06-11T09:02:41.091Z"
+    },
+    "1-17": {
+      "solved": true,
+      "solvedAt": "2026-06-11T09:25:47.952Z"
+    },
+    "1-18": {
+      "solved": true,
+      "solvedAt": "2026-06-11T09:27:30.985Z"
+    },
+    "1-19": {
+      "solved": true,
+      "solvedAt": "2026-06-11T09:31:43.376Z"
+    },
+    "1-20": {
+      "solved": true,
+      "solvedAt": "2026-06-11T12:34:17.325Z"
+    },
+    "1-21": {
+      "solved": true,
+      "solvedAt": "2026-06-11T12:34:18.926Z"
+    },
+    "1-22": {
+      "solved": true,
+      "solvedAt": "2026-06-11T12:34:20.232Z"
+    },
+    "1-23": {
+      "solved": true,
+      "solvedAt": "2026-06-11T12:34:21.456Z"
+    },
+    "1-24": {
+      "solved": true,
+      "solvedAt": "2026-06-11T12:34:22.620Z"
+    },
+    "1-25": {
+      "solved": true,
+      "solvedAt": "2026-06-11T12:34:23.798Z"
+    },
+    "1-26": {
+      "solved": true,
+      "solvedAt": "2026-06-11T12:35:43.334Z"
+    },
+    "1-27": {
+      "solved": true,
+      "solvedAt": "2026-06-11T13:05:57.771Z"
+    },
+    "1-28": {
+      "solved": true,
+      "solvedAt": "2026-06-11T13:07:33.104Z"
+    },
+    "1-29": {
+      "solved": true,
+      "solvedAt": "2026-06-11T13:08:55.364Z"
+    },
+    "1-30": {
+      "solved": true,
+      "solvedAt": "2026-06-11T13:26:51.183Z"
+    },
+    "1-31": {
+      "solved": true,
+      "solvedAt": "2026-06-11T13:35:59.381Z"
+    },
+    "1-32": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:02:36.859Z"
+    },
+    "1-33": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:06:54.233Z"
+    },
+    "1-35": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:08:38.055Z"
+    },
+    "1-36": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:11:08.241Z"
+    },
+    "1-37": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:12:45.511Z"
+    },
+    "1-38": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:14:08.242Z"
+    },
+    "1-39": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:16:07.851Z"
+    },
+    "1-40": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:18:17.001Z"
+    },
+    "1-41": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:20:45.714Z"
+    },
+    "1-42": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:21:53.242Z"
+    },
+    "1-43": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:27:52.941Z"
+    },
+    "1-44": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:29:10.537Z"
+    },
+    "1-45": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:31:43.605Z"
+    },
+    "1-46": {
+      "solved": true,
+      "solvedAt": "2026-06-11T14:35:14.906Z"
+    },
+    "1-47": {
+      "solved": true,
+      "solvedAt": "2026-06-11T15:04:24.168Z"
+    },
+    "1-48": {
+      "solved": true,
+      "solvedAt": "2026-06-11T15:20:15.714Z"
+    },
+    "1-49": {
+      "solved": true,
+      "solvedAt": "2026-06-11T15:38:11.748Z"
+    },
+    "1-50": {
+      "solved": true,
+      "solvedAt": "2026-06-12T03:40:22.370Z"
+    },
+    "1-51": {
+      "solved": true,
+      "solvedAt": "2026-06-12T12:02:00.478Z"
+    },
+    "1-52": {
+      "solved": true,
+      "solvedAt": "2026-06-12T12:46:57.412Z"
+    },
+    "1-53": {
+      "solved": true,
+      "solvedAt": "2026-06-13T11:38:39.770Z"
+    },
+    "1-54": {
+      "solved": true,
+      "solvedAt": "2026-06-13T12:29:55.317Z"
+    },
+    "1-55": {
+      "solved": true,
+      "solvedAt": "2026-06-13T12:43:05.904Z"
+    },
+    "1-56": {
+      "solved": true,
+      "solvedAt": "2026-06-13T14:56:23.169Z"
+    },
+    "1-57": {
+      "solved": true,
+      "solvedAt": "2026-06-14T15:56:23.169Z"
+    },
+    "1-58": {
+      "solved": true,
+      "solvedAt": "2026-06-15T08:07:34.321Z"
+    },
+    "1-59": {
+      "solved": true,
+      "solvedAt": "2026-06-15T08:25:08.044Z"
+    },
+    "1-60": {
+      "solved": true,
+      "solvedAt": "2026-06-15T10:22:17.226Z"
+    },
+    "1-61": {
+      "solved": true,
+      "solvedAt": "2026-06-15T10:34:44.701Z"
+    },
+    "1-62": {
+      "solved": true,
+      "solvedAt": "2026-06-15T11:02:05.126Z"
+    },
+    "1-63": {
+      "solved": true,
+      "solvedAt": "2026-06-15T13:04:37.814Z"
+    },
+    "1-64": {
+      "solved": true,
+      "solvedAt": "2026-06-15T13:04:38.917Z"
+    },
+    "1-65": {
+      "solved": true,
+      "solvedAt": "2026-06-15T13:04:39.931Z"
+    },
+    "1-66": {
+      "solved": true,
+      "solvedAt": "2026-06-15T13:04:55.185Z"
+    },
+    "1-67": {
+      "solved": true,
+      "solvedAt": "2026-06-15T13:05:15.374Z"
+    },
+    "1-68": {
+      "solved": true,
+      "solvedAt": "2026-06-16T04:02:55.418Z"
+    },
+    "1-69": {
+      "solved": true,
+      "solvedAt": "2026-06-16T04:23:54.600Z"
+    },
+    "1-70": {
+      "solved": true,
+      "solvedAt": "2026-06-16T04:39:32.764Z"
+    },
+    "1-71": {
+      "solved": true,
+      "solvedAt": "2026-06-16T04:39:51.351Z"
+    },
+    "1-72": {
+      "solved": true,
+      "solvedAt": "2026-06-16T05:00:15.794Z"
+    },
+    "1-73": {
+      "solved": true,
+      "solvedAt": "2026-06-16T09:24:49.382Z"
+    },
+    "1-74": {
+      "solved": true,
+      "solvedAt": "2026-06-16T12:40:34.115Z"
+    },
+    "1-75": {
+      "solved": true,
+      "solvedAt": "2026-06-16T12:25:29.303Z"
+    },
+    "1-76": {
+      "solved": true,
+      "solvedAt": "2026-06-16T12:26:14.545Z"
+    },
+    "1-77": {
+      "solved": true,
+      "solvedAt": "2026-06-16T12:31:07.112Z"
+    },
+    "1-78": {
+      "solved": true,
+      "solvedAt": "2026-06-16T12:31:21.943Z"
+    },
+    "1-79": {
+      "solved": true,
+      "solvedAt": "2026-06-16T12:40:41.053Z"
+    },
+    "1-80": {
+      "solved": true,
+      "solvedAt": "2026-06-16T12:54:08.732Z"
+    },
+    "1-81": {
+      "solved": true,
+      "solvedAt": "2026-06-16T13:00:11.638Z"
+    },
+    "1-82": {
+      "solved": true,
+      "solvedAt": "2026-06-16T13:03:40.012Z"
+    },
+    "1-83": {
+      "solved": true,
+      "solvedAt": "2026-06-16T13:03:50.685Z"
+    },
+    "1-84": {
+      "solved": true,
+      "solvedAt": "2026-06-16T13:12:43.220Z"
+    },
+    "1-85": {
+      "solved": true,
+      "solvedAt": "2026-06-17T06:59:08.414Z"
+    },
+    "1-86": {
+      "solved": true,
+      "solvedAt": "2026-06-17T07:03:12.241Z"
+    },
+    "1-87": {
+      "solved": true,
+      "solvedAt": "2026-06-17T07:11:24.730Z"
+    },
+    "1-88": {
+      "solved": true,
+      "solvedAt": "2026-06-17T07:14:36.224Z"
+    },
+    "1-89": {
+      "solved": true,
+      "solvedAt": "2026-06-17T07:16:32.134Z"
+    },
+    "1-90": {
+      "solved": true,
+      "solvedAt": "2026-06-17T07:25:35.233Z"
+    },
+    "1-91": {
+      "solved": true,
+      "solvedAt": "2026-06-17T07:29:49.226Z"
+    },
+    "1-92": {
+      "solved": true,
+      "solvedAt": "2026-06-17T07:32:28.949Z"
+    }
+  }

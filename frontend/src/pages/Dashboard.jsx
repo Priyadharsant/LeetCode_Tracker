@@ -2,16 +2,18 @@ import { useData } from '../context/DataContext';
 import { motion } from 'framer-motion';
 import { Target, Sparkles, BookOpen, Layers, Activity, Brain, Network, Compass, ArrowRight, Code, CheckCircle } from 'lucide-react';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RadialProgress from '../components/RadialProgress';
 import RecentProblems from '../components/RecentProblems';
 import Heatmap from '../components/Heatmap';
 import StreakCard from '../components/StreakCard';
 import Sparkline from '../components/Sparkline';
 import DSALoader from '../components/DSALoader';
+import NotificationToast from '../components/NotificationToast';
 
 export default function Dashboard() {
   const { data, getTopicData, getTechniqueData, loading, error } = useData();
+  const navigate = useNavigate();
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
@@ -60,23 +62,6 @@ export default function Dashboard() {
   const totalProblems = data.reduce((acc, level) => acc + level.problems.length, 0);
   const totalSolved = data.reduce((acc, level) => acc + level.problems.filter(p => p.solved).length, 0);
   const overallProgress = totalProblems === 0 ? 0 : (totalSolved / totalProblems) * 100;
-  const topicStats = getTopicData()
-    .map(t => {
-      const solved = t.problems.filter(p => p.solved).length;
-      const total = t.problems.length;
-      return { name: t.topic, solved, total, progress: total === 0 ? 0 : (solved / total) * 100 };
-    })
-    .sort((a, b) => b.total - a.total);
-  const techniqueStats = getTechniqueData()
-    .map(t => {
-      const solved = t.problems.filter(p => p.solved).length;
-      const total = t.problems.length;
-      return { name: t.topic, solved, total, progress: total === 0 ? 0 : (solved / total) * 100 };
-    })
-    .sort((a, b) => b.total - a.total);
-  const techniqueAssignments = techniqueStats.reduce((sum, t) => sum + t.total, 0);
-  const maxTopicTotal = Math.max(...topicStats.map(t => t.total), 1);
-  const maxTechniqueTotal = Math.max(...techniqueStats.map(t => t.total), 1);
 
   const todayKey = new Date().toISOString().slice(0, 10);
   const solvedToday = solvedDates.filter(d => d.slice(0, 10) === todayKey).length;
@@ -140,7 +125,7 @@ export default function Dashboard() {
             </div>
           </div>
           <Link
-            to="/levels"
+            to={`/practice?phase=${nextProblem.level}`}
             className="shrink-0 relative z-10 inline-flex items-center gap-2 px-5 py-2.5 bg-brand-500 hover:bg-brand-400 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-brand-500/20 hover:shadow-brand-500/40"
           >
             Solve Problem
@@ -161,8 +146,8 @@ export default function Dashboard() {
 
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="metric-panel flex flex-col justify-between">
           <div className="relative z-10">
-            <div className="flex items-center gap-2 text-surface-400 mb-2 text-sm font-medium">
-              <Target className="w-4 h-4 text-accent-amber" />
+             <div className="flex items-center gap-2 text-surface-400 mb-2 text-sm font-medium">
+              <Target className="w-4 h-4 text-brand-400" />
               Current Focus
             </div>
             <div className="text-2xl font-bold text-white mt-1">Level {currentLevel}</div>
@@ -179,14 +164,14 @@ export default function Dashboard() {
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="metric-panel flex flex-col justify-between relative overflow-hidden group">
           <div className="relative z-10">
              <div className="flex items-center gap-2 text-surface-400 mb-2 text-sm font-medium">
-              <Activity className="w-4 h-4 text-accent-sky" />
+              <Activity className="w-4 h-4 text-brand-400" />
               Daily Output
             </div>
             <div className="text-4xl font-extrabold text-white mt-2">{solvedToday}</div>
             <p className="text-sm text-surface-500 mt-2">Problems solved today</p>
           </div>
           <div className="absolute -bottom-4 -right-4 opacity-40 group-hover:opacity-60 transition-opacity z-0 pointer-events-none">
-             <Sparkline data={trendData} width={160} height={80} stroke="#0ea5e9" />
+             <Sparkline data={trendData} width={160} height={80} stroke="#ffa116" />
           </div>
         </motion.div>
 
@@ -200,202 +185,81 @@ export default function Dashboard() {
         <div className="lg:col-span-2 flex flex-col gap-6">
           <Heatmap data={solvedDates} days={365} />
           
-          <div className="glass-panel p-6">
-            <div className="flex items-center gap-2 mb-6">
-              <Layers className="w-5 h-5 text-accent-amber" />
-              <h3 className="text-lg font-semibold text-white">Curriculum Progress</h3>
+          {/* Level Master Detailed Section */}
+          <div className="mt-4">
+            <div className="flex items-center gap-3 mb-8">
+              <BookOpen className="w-6 h-6 text-brand-400" />
+              <h2 className="text-2xl font-bold text-white tracking-tight">Level Details</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {data.map((lvl) => {
-                const lTotal = lvl.problems.length;
-                const lSolved = lvl.problems.filter(p => p.solved).length;
+
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              {data.map((levelObj, i) => {
+                const lTotal = levelObj.problems.length;
+                const lSolved = levelObj.problems.filter(p => p.solved).length;
                 const lProg = lTotal === 0 ? 0 : (lSolved / lTotal) * 100;
                 const isComplete = lProg === 100;
 
                 return (
-                  <div key={lvl.level} className={`surface-tile p-4 transition-all duration-500 ${isComplete ? 'border-brand-500/20 bg-brand-500/[0.02]' : ''}`}>
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex items-center gap-2">
-                        <div className={`text-sm font-bold ${isComplete ? 'text-brand-300' : 'text-surface-200'}`}>Level {lvl.level}</div>
-                        {isComplete && <CheckCircle className="w-3.5 h-3.5 text-brand-400" />}
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 * i }}
+                    key={levelObj.level}
+                    onClick={() => navigate(`/practice?phase=${levelObj.level}`)}
+                    className={`group glass-panel p-6 relative overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-1 ${isComplete ? 'border-brand-400/30 shadow-brand-500/5' : 'hover:border-brand-400/20'}`}
+                  >
+                    {isComplete && (
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-brand-500/5 rounded-full blur-3xl group-hover:bg-brand-500/10 transition-all"></div>
+                    )}
+                    
+                    <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6 relative z-10">
+                      <div className="max-w-[75%]">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className={`text-xl font-bold ${isComplete ? 'text-brand-400' : 'text-white'}`}>
+                            Level {levelObj.level}
+                          </h3>
+                          {isComplete && (
+                            <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-brand-500/10 text-brand-300 rounded ring-1 ring-brand-500/20">
+                              Mastered
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-surface-400 leading-relaxed">{levelObj.goal}</p>
                       </div>
-                      <div className="text-xs font-mono text-surface-500">{lSolved}/{lTotal}</div>
+                      
+                      <div className="text-right sm:text-center shrink-0">
+                        <div className="text-2xl font-extrabold text-white">
+                          {lSolved}<span className="text-base text-surface-500 font-medium">/{lTotal}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="w-full bg-surface-800/80 rounded-full h-1.5 overflow-hidden">
-                      <div 
-                        className={`h-full rounded-full transition-all duration-1000 ${isComplete ? 'bg-brand-400' : 'premium-bar-gradient'}`}
-                        style={{ width: `${lProg}%` }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
 
-          <div className="glass-panel p-6 overflow-hidden flex-1 flex flex-col">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-              <div className="flex items-center gap-2">
-                <Compass className="w-5 h-5 text-cyan-300" />
-                <h3 className="text-lg font-semibold text-white">Topic Terrain</h3>
-              </div>
-              <div className="text-xs font-semibold uppercase tracking-widest text-surface-500">
-                {topicStats.length} topics
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {topicStats.slice(0, 12).map((topic, idx) => (
-                <motion.div
-                  key={topic.name}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.03 }}
-                  className="surface-tile p-4 group"
-                >
-                  <div className="flex justify-between items-center mb-3">
-                    <div className="text-sm font-bold text-surface-200 group-hover:text-cyan-300 transition-colors truncate pr-2" title={topic.name}>{topic.name}</div>
-                    <div className="text-xs font-mono text-surface-400 shrink-0">
-                      <span className="text-white font-medium">{topic.solved}</span>/{topic.total}
+                    <div className="relative z-10">
+                      <div className="flex justify-between text-xs font-semibold uppercase tracking-wider mb-2">
+                        <span className="text-surface-500">Progress</span>
+                        <span className={isComplete ? 'text-brand-400' : 'text-surface-300'}>{lProg.toFixed(0)}%</span>
+                      </div>
+                      <div className="w-full bg-surface-800/80 rounded-full h-2 overflow-hidden ring-1 ring-inset ring-white/10">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${lProg}%` }}
+                          transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 + (i * 0.1) }}
+                          className={`h-full rounded-full ${isComplete ? 'bg-brand-400' : 'premium-bar-gradient'}`}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="w-full bg-surface-800 rounded-full h-1.5 overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${topic.progress}%` }}
-                      transition={{ duration: 1, delay: 0.1 + idx * 0.05 }}
-                      className="premium-bar-gradient h-full rounded-full" 
-                    />
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-6">
-          <RecentProblems limit={7} />
-
-          <div className="glass-panel p-6 flex-1">
-            <div className="flex items-center justify-between gap-4 mb-5">
-              <div className="flex items-center gap-2">
-                <Brain className="w-5 h-5 text-emerald-400" />
-                <h3 className="text-lg font-semibold text-white">Technique Matrix</h3>
-              </div>
-              <span className="text-xs font-bold text-surface-500">{totalProblems} problems</span>
-            </div>
-            <div className="mb-5 rounded-lg border border-white/10 bg-surface-950/70 px-3 py-2 text-xs text-surface-500">
-              Multi-tagged as {techniqueAssignments} technique links.
-            </div>
-
-            <div className="space-y-3">
-              {techniqueStats.slice(0, 6).map((technique, idx) => (
-                <motion.div
-                  key={technique.name}
-                  initial={{ opacity: 0, x: 8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.04 }}
-                  className="group"
-                >
-                  <div className="mb-1.5 flex items-center justify-between gap-3">
-                    <div className="min-w-0 flex items-center gap-2">
-                      <Network className="w-3.5 h-3.5 text-surface-600 group-hover:text-brand-300 transition-colors" />
-                      <span className="truncate text-sm font-medium text-surface-300" title={technique.name}>{technique.name}</span>
-                    </div>
-                    <span className="text-xs tabular-nums text-surface-500">{technique.solved}/{technique.total}</span>
-                  </div>
-                  <div className="relative h-3 rounded-full bg-surface-950/90 border border-white/10 overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${Math.max(4, (technique.total / maxTechniqueTotal) * 100)}%` }}
-                      transition={{ duration: 1, delay: 0.2 + idx * 0.04 }}
-                      className="absolute inset-y-0 left-0 rounded-full bg-surface-800/80"
-                    />
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${technique.progress}%` }}
-                      transition={{ duration: 1.2, delay: 0.25 + idx * 0.04 }}
-                      className="absolute inset-y-0 left-0 rounded-full premium-bar-gradient"
-                    />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            <div className="mt-6 flex justify-center">
-              <Link to="/techniques" className="text-xs font-semibold uppercase tracking-widest text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1">
-                View All Techniques <ArrowRight className="w-3 h-3" />
-              </Link>
-            </div>
-          </div>
+          <RecentProblems limit={12} />
         </div>
       </div>
-      
-      {/* Level Master Detailed Section */}
-      <div className="mt-16">
-        <div className="flex items-center gap-3 mb-8">
-          <BookOpen className="w-6 h-6 text-brand-400" />
-          <h2 className="text-2xl font-bold text-white tracking-tight">Level Details</h2>
-        </div>
-
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {data.map((levelObj, i) => {
-            const lTotal = levelObj.problems.length;
-            const lSolved = levelObj.problems.filter(p => p.solved).length;
-            const lProg = lTotal === 0 ? 0 : (lSolved / lTotal) * 100;
-            const isComplete = lProg === 100;
-
-            return (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * i }}
-                key={levelObj.level}
-                className={`group glass-panel p-6 relative overflow-hidden transition-all duration-300 ${isComplete ? 'border-brand-400/30 shadow-brand-500/5' : 'hover:border-brand-400/20'}`}
-              >
-                {isComplete && (
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-brand-500/5 rounded-full blur-3xl group-hover:bg-brand-500/10 transition-all"></div>
-                )}
-                
-                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6 relative z-10">
-                  <div className="max-w-[75%]">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className={`text-xl font-bold ${isComplete ? 'text-brand-400' : 'text-white'}`}>
-                        Level {levelObj.level}
-                      </h3>
-                      {isComplete && (
-                        <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-brand-500/10 text-brand-300 rounded ring-1 ring-brand-500/20">
-                          Mastered
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm text-surface-400 leading-relaxed">{levelObj.goal}</p>
-                  </div>
-                  
-                  <div className="text-right sm:text-center shrink-0">
-                    <div className="text-2xl font-extrabold text-white">
-                      {lSolved}<span className="text-base text-surface-500 font-medium">/{lTotal}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative z-10">
-                  <div className="flex justify-between text-xs font-semibold uppercase tracking-wider mb-2">
-                    <span className="text-surface-500">Progress</span>
-                    <span className={isComplete ? 'text-brand-400' : 'text-surface-300'}>{lProg.toFixed(0)}%</span>
-                  </div>
-                  <div className="w-full bg-surface-800/80 rounded-full h-2 overflow-hidden ring-1 ring-inset ring-white/10">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${lProg}%` }}
-                      transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 + (i * 0.1) }}
-                      className={`h-full rounded-full ${isComplete ? 'bg-brand-400' : 'premium-bar-gradient'}`}
-                    />
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
+      <NotificationToast />
     </div>
   );
 }

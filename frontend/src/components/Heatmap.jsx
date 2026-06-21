@@ -137,7 +137,7 @@ export default function Heatmap({ data = [], days = 365 }) {
                                             const k = formatKey(d);
                                             const c = counts[k] || 0;
                                             const intensity = max === 0 ? 0 : Math.ceil((c / max) * 4);
-                                            const colors = ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'];
+                                            const colors = ['#3e3e3e', '#0e4429', '#006d32', '#26a641', '#39d353'];
                                             const bgColor = c === 0 ? colors[0] : (colors[intensity] || colors[4]);
                                             
                                             return (
@@ -172,7 +172,7 @@ export default function Heatmap({ data = [], days = 365 }) {
             <div className="flex items-center gap-2 mt-2 text-[11px] text-surface-500 justify-end w-full max-w-full">
                 <span>Less</span>
                 <div className="flex gap-[3px]">
-                    {['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'].map((color, i) => (
+                    {['#3e3e3e', '#0e4429', '#006d32', '#26a641', '#39d353'].map((color, i) => (
                         <div key={i} className="w-[11px] h-[11px] rounded-[2px] ring-1 ring-white/[0.04] ring-inset" style={{ backgroundColor: color }} />
                     ))}
                 </div>

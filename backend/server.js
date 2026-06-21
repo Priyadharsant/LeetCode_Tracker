@@ -16,6 +16,19 @@ const { MongoClient } = require('mongodb');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const { inferTechniques } = require('./techniques');
+const webpush = require('web-push');
+const cron = require('node-cron');
+
+// Configure Web Push
+if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
+  webpush.setVapidDetails(
+    'mailto:developer@leetcode-tracker.local',
+    process.env.VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY
+  );
+} else {
+  console.warn('VAPID keys are missing! Push notifications will not work.');
+}
 
 const app = express();
 app.use(cors());
@@ -97,6 +110,7 @@ function applyUserProgress(problems, progress = {}) {
       link: problem.link,
       solved,
       topic: problem.topic,
+      companies: problem.companies || [],
       techniques: Array.isArray(problem.techniques) && problem.techniques.length > 0
         ? problem.techniques
         : inferTechniques(problem)
@@ -196,6 +210,8 @@ app.post('/api/login', async (req, res) => {
 
     if (!isValid) return res.status(401).json({ error: 'Invalid credentials' });
 
+    await usersCol.updateOne({ username }, { $set: { lastActive: new Date() } });
+
     res.json({ username: user.username, token: `mock-token-${user._id}` });
   } catch (err) {
     console.error(err);
@@ -243,6 +259,9 @@ app.get('/api/levels', async (req, res) => {
       .sort({ level: 1, levelIndex: 1 })
       .toArray();
     const username = req.header('X-Username');
+    if (username) {
+      await db.collection('users').updateOne({ username }, { $set: { lastActive: new Date() } });
+    }
     const progress = await getUserProgress(username);
     const levels = groupProblemsByLevel(problems, progress);
     res.json(levels);
@@ -337,5 +356,99 @@ app.patch('/api/levels/:level/problem/:index', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
+  }
+});
+
+// --- Push Notification Routes ---
+
+app.get('/api/notifications/vapidPublicKey', (req, res) => {
+  res.json({ publicKey: process.env.VAPID_PUBLIC_KEY });
+});
+
+app.post('/api/notifications/subscribe', async (req, res) => {
+  try {
+    const { subscription, reminderTime } = req.body;
+    const username = req.header('X-Username');
+    if (!username) return res.status(401).json({ error: 'Unauthorized: X-Username header required' });
+
+    const usersCol = db.collection('users');
+    await usersCol.updateOne(
+      { username },
+      { $set: { pushSubscription: subscription, reminderTime } }
+    );
+    res.status(201).json({ success: true });
+  } catch (err) {
+    console.error(`[API Subscribe] Error:`, err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// --- Background Notification Cron Job ---
+// Running every minute on the dot
+cron.schedule('* * * * *', async () => {
+  if (!db) return;
+  const now = new Date();
+  
+  try {
+    const usersCol = db.collection('users');
+    const usersWithPush = await usersCol.find({
+      reminderTime: { $exists: true, $ne: null },
+      pushSubscription: { $exists: true, $ne: null }
+    }).toArray();
+
+    for (const user of usersWithPush) {
+      const [hours, minutes] = user.reminderTime.split(':').map(Number);
+      
+      // Calculate scheduled time for today
+      const scheduledTime = new Date();
+      scheduledTime.setHours(hours, minutes, 0, 0);
+
+      // Difference in minutes
+      const diffMins = Math.floor((now.getTime() - scheduledTime.getTime()) / 60000);
+
+      let title = null;
+      let body = null;
+
+      // 1st Notification (0 mins)
+      if (diffMins === 0) {
+        title = 'Time to Practice!';
+        body = `Hey ${user.username}, your daily DSA session is calling. Keep your streak alive!`;
+      } 
+      // 2nd Notification (15 mins)
+      else if (diffMins === 15) {
+        if (!user.lastActive || new Date(user.lastActive).getTime() < scheduledTime.getTime()) {
+          title = 'Missed Session!';
+          body = `Hey ${user.username}, you missed your session 15 mins ago! Come back!`;
+        }
+      }
+      // 3rd Notification (30 mins)
+      else if (diffMins === 30) {
+        if (!user.lastActive || new Date(user.lastActive).getTime() < scheduledTime.getTime()) {
+          title = 'Final Reminder!';
+          body = `Hey ${user.username}, your DSA streak is at risk. Practice now!`;
+        }
+      }
+
+      if (title && body) {
+        const payload = JSON.stringify({
+          title,
+          body,
+          icon: '/vite.svg',
+          badge: '/vite.svg'
+        });
+
+        try {
+          await webpush.sendNotification(user.pushSubscription, payload);
+          console.log(`[Cron] Escaped Push (${diffMins}m) sent to ${user.username}`);
+        } catch (err) {
+          console.error(`[Cron] Failed to send push to ${user.username}`, err);
+          if (err.statusCode === 410 || err.statusCode === 404) {
+            await usersCol.updateOne({ username: user.username }, { $unset: { pushSubscription: "" } });
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.error('[Cron] Error in background job', err);
   }
 });

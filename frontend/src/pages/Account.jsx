@@ -1,21 +1,100 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
-import { User, LogOut, Shield, Activity, Lock, Clock, CalendarDays, ExternalLink, KeyRound, ChevronDown, ChevronUp } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
+import { User, LogOut, Shield, Activity, Lock, Clock, ExternalLink, KeyRound, ChevronDown, ChevronUp, Bell, BellRing, BellOff, Save } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Heatmap from '../components/Heatmap';
+import NotificationManager from '../utils/NotificationManager';
 
 export default function Account() {
   const { user, isGuest, logout, changePassword } = useAuth();
   const { data } = useData();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Password change state
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [pwdStatus, setPwdStatus] = useState({ loading: false, error: null, success: false });
-
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+
+  // Notifications state
+  const [notifPermission, setNotifPermission] = useState('default');
+  const [reminderTime, setReminderTime] = useState('09:00');
+  const [timeSaved, setTimeSaved] = useState(false);
+  
+  useEffect(() => {
+    if (NotificationManager.isSupported) {
+      setNotifPermission(NotificationManager.permission);
+    } else {
+      setNotifPermission('unsupported');
+    }
+    
+    const savedTime = localStorage.getItem('dsa_reminder_time');
+    if (savedTime) {
+      setReminderTime(savedTime);
+    }
+
+    // Auto-request permission if navigating from the Toast
+    if (searchParams.get('requestNotify') === 'true') {
+      // Remove query param to avoid re-triggering on refresh
+      setSearchParams({});
+      if (NotificationManager.isSupported && NotificationManager.permission === 'default') {
+        handleRequestNotification();
+      }
+    }
+  }, [searchParams, setSearchParams]);
+
+  const syncSubscriptionToBackend = async (time) => {
+    try {
+      const API_BASE = import.meta.env.VITE_API_URL || '/api';
+      
+      const res = await fetch(`${API_BASE}/notifications/vapidPublicKey`);
+      const { publicKey } = await res.json();
+      
+      const subscription = await NotificationManager.subscribeToPush(publicKey);
+      if (!subscription) {
+        console.error(`[Push] Failed to get subscription object from browser!`);
+        return;
+      }
+
+      await fetch(`${API_BASE}/notifications/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Username': user?.username || ''
+        },
+        body: JSON.stringify({
+          subscription,
+          reminderTime: time
+        })
+      });
+    } catch (err) {
+      console.error('[Push] Critical error during sync:', err);
+    }
+  };
+
+  const handleRequestNotification = async () => {
+    const perm = await NotificationManager.requestPermission();
+    setNotifPermission(perm);
+    if (perm === 'granted') {
+      await syncSubscriptionToBackend(reminderTime);
+    }
+  };
+
+  const handleTestNotification = () => {
+    NotificationManager.sendTestNotification('Test Notification', {
+      body: 'This is a test notification from LeetCode Tracker via Service Worker.',
+    });
+  };
+
+  const handleSaveTime = async () => {
+    localStorage.setItem('dsa_reminder_time', reminderTime);
+    await syncSubscriptionToBackend(reminderTime);
+    setTimeSaved(true);
+    setTimeout(() => setTimeSaved(false), 3000);
+  };
 
   // Process data for Stats and Recent Problems
   const { totalProblems, solvedProblems, recentProblems, solvedDates } = useMemo(() => {
@@ -121,6 +200,103 @@ export default function Account() {
               <LogOut className="w-5 h-5" />
               Sign Out
             </button>
+          </motion.div>
+
+          {/* Notifications Settings */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.15 }}
+            className="glass-panel p-8 flex flex-col h-fit"
+          >
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+              <Bell className="w-5 h-5 text-brand-300" />
+              Notifications
+            </h3>
+            
+            {isGuest ? (
+              <div className="text-center text-surface-500 py-8 flex-grow flex items-center justify-center bg-surface-950/30 rounded-xl border border-white/5 flex-col">
+                <BellOff className="w-8 h-8 text-surface-600 mb-3" />
+                <p className="text-sm font-medium">Guest accounts cannot enable push notifications.</p>
+                <p className="text-xs mt-1">Please create a real account to get daily reminders.</p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <div className="p-4 bg-surface-900 border border-white/10 rounded-xl flex items-center justify-between">
+                  <div>
+                    <h4 className="text-sm font-bold text-white mb-1">Push Notifications</h4>
+                    <p className="text-xs text-surface-400">Receive reminders for daily practice.</p>
+                  </div>
+                  
+                  {notifPermission === 'granted' ? (
+                    <div className="flex items-center gap-2 text-brand-400 text-sm font-bold px-3 py-1.5 bg-brand-500/10 rounded-lg border border-brand-500/20">
+                      <BellRing className="w-4 h-4" />
+                      Enabled
+                    </div>
+                  ) : notifPermission === 'denied' ? (
+                    <div className="flex items-center gap-2 text-red-400 text-sm font-bold px-3 py-1.5 bg-red-500/10 rounded-lg border border-red-500/20">
+                      <BellOff className="w-4 h-4" />
+                      Blocked
+                    </div>
+                  ) : notifPermission === 'unsupported' ? (
+                    <div className="text-surface-500 text-xs font-medium">
+                      Unsupported
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleRequestNotification}
+                      className="px-4 py-2 bg-brand-500 hover:bg-brand-400 text-surface-950 font-bold rounded-lg text-sm transition-colors shadow-lg shadow-brand-500/20"
+                    >
+                      Enable
+                    </button>
+                  )}
+                </div>
+
+                {notifPermission === 'granted' && (
+                  <div className="p-4 bg-surface-900 border border-white/10 rounded-xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-sm font-bold text-white">Daily Reminder Time</h4>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="time"
+                        value={reminderTime}
+                        onChange={(e) => setReminderTime(e.target.value)}
+                        className="bg-surface-950 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-brand-500 flex-grow"
+                      />
+                      <button
+                        onClick={handleSaveTime}
+                        className="px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors flex items-center gap-2"
+                      >
+                        {timeSaved ? <span className="text-brand-300 font-bold text-sm">Saved!</span> : <><Save className="w-4 h-4" /><span className="text-sm font-bold">Save</span></>}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {notifPermission === 'granted' && (
+                  <button
+                    onClick={handleTestNotification}
+                    className="w-full py-3 bg-surface-800 hover:bg-surface-700 text-white font-medium rounded-xl text-sm transition-colors border border-white/5 mt-2"
+                  >
+                    Send Test Notification
+                  </button>
+                )}
+                
+                {notifPermission === 'denied' && !window.isSecureContext && (
+                  <div className="mt-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                    <p className="text-xs text-amber-400 text-center font-medium">
+                      Push notifications require a secure connection. Please access this site via <strong>localhost</strong> or <strong>HTTPS</strong> to enable them.
+                    </p>
+                  </div>
+                )}
+                {notifPermission === 'denied' && window.isSecureContext && (
+                  <p className="text-xs text-surface-500 mt-2 px-1 text-center">
+                    You blocked notifications. Please click the lock icon in your browser's address bar to enable them.
+                  </p>
+                )}
+              </div>
+            )}
           </motion.div>
 
           {/* Change Password Form */}

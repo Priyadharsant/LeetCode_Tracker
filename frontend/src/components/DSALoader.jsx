@@ -23,14 +23,14 @@ export default function DSALoader() {
               animate={{
                 scale: [1, 1, 1.8, 1, 1, 1.8, 1, 1],
                 backgroundColor: [
-                  '#2b3642', // base
-                  '#2b3642', 
-                  '#38ccb1', // highlight
-                  '#2b3642', 
-                  '#2b3642', 
-                  '#38ccb1', // highlight return
-                  '#2b3642', 
-                  '#2b3642'
+                  '#3e3e3e', // base (surface-700)
+                  '#3e3e3e', 
+                  '#ffa116', // highlight (brand-500)
+                  '#3e3e3e', 
+                  '#3e3e3e', 
+                  '#ffa116', // highlight return
+                  '#3e3e3e', 
+                  '#3e3e3e'
                 ],
               }}
               transition={{
@@ -73,7 +73,7 @@ export default function DSALoader() {
             strokeWidth="2.5" 
             strokeLinecap="round" 
             strokeLinejoin="round"
-            style={{ filter: 'drop-shadow(0px 0px 8px rgba(56,204,177,0.6))' }}
+            style={{ filter: 'drop-shadow(0px 0px 8px rgba(255,161,22,0.6))' }}
           >
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>

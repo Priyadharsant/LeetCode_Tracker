@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Code, User, LogIn } from 'lucide-react';
+import { CodeXml, User, LogIn } from 'lucide-react';
 
 export default function LandingPage() {
   const { user, isGuest, loginAsGuest, loginServer } = useAuth();
@@ -10,6 +10,7 @@ export default function LandingPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   if (user || isGuest) {
     return <Navigate to="/dashboard" />;
@@ -18,8 +19,16 @@ export default function LandingPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+
+    setLoading(true);
     const res = await loginServer(username, password);
-    if (!res.success) return setError(res.error || 'Login failed');
+    setLoading(false);
+
+    if (!res.success) {
+      setError(res.error || 'Login failed');
+      return;
+    }
+
     navigate('/dashboard');
   };
 
@@ -37,7 +46,7 @@ export default function LandingPage() {
       >
         <div className="flex justify-center mb-6">
           <div className="p-4 bg-brand-500/10 rounded-xl ring-1 ring-brand-400/20">
-            <Code className="w-12 h-12 text-brand-300" />
+            <CodeXml className="w-12 h-12 text-brand-400" />
           </div>
         </div>
 
@@ -81,17 +90,24 @@ export default function LandingPage() {
           </div>
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-400 text-surface-950 font-bold py-2.5 rounded-lg transition-colors mt-2"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-400 text-surface-950 font-bold py-2.5 rounded-lg transition-colors mt-2 disabled:opacity-50"
           >
-            <LogIn className="w-4 h-4" />
-            Sign In
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-surface-950/30 border-t-surface-950 rounded-full animate-spin" />
+            ) : (
+              <>
+                <LogIn className="w-4 h-4" />
+                Sign In
+              </>
+            )}
           </button>
         </form>
-        
+
         <div className="text-center mb-6">
           <p className="text-surface-500 text-sm">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-brand-300 hover:text-brand-200 font-medium">
+            <Link to="/signup" className="text-brand-400 hover:text-brand-300 font-bold transition-all">
               Sign up here
             </Link>
           </p>

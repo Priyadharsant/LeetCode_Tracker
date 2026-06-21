@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { CodeXml, LayoutDashboard, Layers3, User, Network, Tags } from 'lucide-react';
+import { CodeXml, LayoutDashboard, Layers3, User, Map } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Navbar({ isOffline }) {
@@ -12,9 +12,8 @@ export default function Navbar({ isOffline }) {
   const isActive = (path) => location.pathname === path;
   const navItems = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/levels', label: 'Levels', icon: Layers3 },
-    { to: '/topics', label: 'Topics', icon: Tags },
-    { to: '/techniques', label: 'Techniques', icon: Network },
+    { to: '/roadmap', label: 'Roadmap', icon: Map },
+    { to: '/practice', label: 'Practice', icon: Layers3 },
   ];
 
   return (

@@ -8,7 +8,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5137,
     allowedHosts: [
-      'local.codetracker'
+      'reproduced-lat-tasks-architect.trycloudflare.com'
     ],
 
     proxy: {

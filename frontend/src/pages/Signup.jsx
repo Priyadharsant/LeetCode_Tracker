@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Code, UserPlus } from 'lucide-react';
+import { CodeXml, UserPlus } from 'lucide-react';
 
 export default function Signup() {
   const { user, isGuest, signupServer } = useAuth();
@@ -11,6 +11,7 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   if (user || isGuest) {
     return <Navigate to="/dashboard" />;
@@ -19,28 +20,34 @@ export default function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     setError('');
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
+
+    setLoading(true);
     const res = await signupServer(username, password);
+    setLoading(false);
+
     if (!res.success) {
       setError(res.error || 'Signup failed');
       return;
     }
+
     navigate('/dashboard');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6 relative">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass-panel max-w-md w-full p-8"
+        className="glass-panel max-w-md w-full p-8 relative z-10"
       >
         <div className="flex justify-center mb-6">
           <div className="p-4 bg-brand-500/10 rounded-xl ring-1 ring-brand-400/20">
-            <Code className="w-12 h-12 text-brand-300" />
+            <CodeXml className="w-12 h-12 text-brand-400" />
           </div>
         </div>
 
@@ -91,20 +98,27 @@ export default function Signup() {
               placeholder="Confirm your password"
             />
           </div>
-          
+
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-400 text-surface-950 font-bold py-2.5 rounded-lg transition-colors mt-2"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-400 text-surface-950 font-bold py-2.5 rounded-lg transition-colors mt-2 disabled:opacity-50"
           >
-            <UserPlus className="w-4 h-4" />
-            Sign Up
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-surface-950/30 border-t-surface-950 rounded-full animate-spin" />
+            ) : (
+              <>
+                <UserPlus className="w-4 h-4" />
+                Sign Up
+              </>
+            )}
           </button>
         </form>
 
         <div className="text-center mt-6">
           <p className="text-surface-500 text-sm">
             Already have an account?{' '}
-            <Link to="/" className="text-brand-300 hover:text-brand-200 font-medium">
+            <Link to="/" className="text-brand-400 hover:text-brand-300 font-bold transition-all">
               Log in here
             </Link>
           </p>

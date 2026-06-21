@@ -4,13 +4,12 @@ import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
-import LevelWise from './pages/LevelWise';
-import TopicWise from './pages/TopicWise';
-import TechniqueWise from './pages/TechniqueWise';
-import TopicDetail from './pages/TopicDetail';
+import Roadmap from './pages/Roadmap';
+import Practice from './pages/Practice';
 import Account from './pages/Account';
 import { useAuth } from './context/AuthContext';
 import DSALoader from './components/DSALoader';
+import NotificationManager from './utils/NotificationManager';
 
 function ProtectedRoute({ children }) {
   const { user, isGuest, loading } = useAuth();
@@ -22,6 +21,8 @@ function ProtectedRoute({ children }) {
 function App() {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
+  const { user, isGuest } = useAuth();
+  
   useEffect(() => {
     const handleOffline = () => setIsOffline(true);
     const handleOnline = () => setIsOffline(false);
@@ -50,11 +51,8 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/levels" element={<ProtectedRoute><LevelWise /></ProtectedRoute>} />
-            <Route path="/topics" element={<ProtectedRoute><TopicWise /></ProtectedRoute>} />
-            <Route path="/techniques" element={<ProtectedRoute><TechniqueWise /></ProtectedRoute>} />
-            <Route path="/topics/:topicId" element={<ProtectedRoute><TopicDetail mode="topic" /></ProtectedRoute>} />
-            <Route path="/techniques/:topicId" element={<ProtectedRoute><TopicDetail mode="technique" /></ProtectedRoute>} />
+            <Route path="/roadmap" element={<ProtectedRoute><Roadmap /></ProtectedRoute>} />
+            <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
             <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
