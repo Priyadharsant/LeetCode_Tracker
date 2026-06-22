@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Roadmap from './pages/Roadmap';
 import Practice from './pages/Practice';
 import Account from './pages/Account';
+import Revise from './pages/Revise';
 import { useAuth } from './context/AuthContext';
 import DSALoader from './components/DSALoader';
 import NotificationManager from './utils/NotificationManager';
@@ -53,6 +54,7 @@ function App() {
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/roadmap" element={<ProtectedRoute><Roadmap /></ProtectedRoute>} />
             <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
+            <Route path="/revise" element={<ProtectedRoute><Revise /></ProtectedRoute>} />
             <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

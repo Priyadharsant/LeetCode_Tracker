@@ -43,7 +43,7 @@ export function DataProvider({ children }) {
     if (!cachedLevels) {
       return levels.map(lvl => ({
         ...lvl,
-        problems: lvl.problems.map(p => ({ ...p, solved: false }))
+        problems: lvl.problems.map(p => ({ ...p, solved: false, revised: false }))
       }));
     }
 
@@ -52,7 +52,9 @@ export function DataProvider({ children }) {
       level.problems?.forEach((problem, index) => {
         progressMap.set(`${level.level}-${index}`, {
           solved: Boolean(problem.solved),
-          solvedAt: problem.solvedAt
+          solvedAt: problem.solvedAt,
+          revised: Boolean(problem.revised),
+          revisedAt: problem.revisedAt
         });
       });
     });
@@ -64,7 +66,9 @@ export function DataProvider({ children }) {
         return {
           ...p,
           solved: Boolean(cached?.solved),
-          ...(cached?.solved && cached.solvedAt ? { solvedAt: cached.solvedAt } : {})
+          revised: Boolean(cached?.revised),
+          ...(cached?.solved && cached.solvedAt ? { solvedAt: cached.solvedAt } : {}),
+          ...(cached?.revised && cached.revisedAt ? { revisedAt: cached.revisedAt } : {})
         };
       })
     }));
@@ -169,6 +173,58 @@ export function DataProvider({ children }) {
     }
   };
 
+  const toggleRevisionStatus = async (originalLevel, originalIndex, currentStatus) => {
+    const newStatus = !currentStatus;
+    
+    const newData = [...data];
+    const idx = newData.findIndex(d => d.level === originalLevel);
+    if (idx !== -1) {
+      const updatedLevel = { ...newData[idx] };
+      const updatedProblems = [...updatedLevel.problems];
+      const updatedProblem = { ...updatedProblems[originalIndex], revised: newStatus };
+      if (newStatus) {
+        updatedProblem.revisedAt = new Date().toISOString();
+      } else {
+        delete updatedProblem.revisedAt;
+      }
+      updatedProblems[originalIndex] = updatedProblem;
+      updatedLevel.problems = updatedProblems;
+      newData[idx] = updatedLevel;
+    }
+
+    setData(newData);
+
+    const guestMode = !user && (isGuest || localStorage.getItem('dsa_guest') === 'true');
+    if (guestMode) {
+      localStorage.setItem('dsa_progress_guest', JSON.stringify(newData));
+    } else {
+      try {
+        const payload = { revised: newStatus };
+        if (newStatus) payload.revisedAt = new Date().toISOString();
+        const res = await fetch(`${API_BASE}/levels/${originalLevel}/problem/${originalIndex}/revise`, {
+          method: 'PATCH',
+          headers: getHeaders(),
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Update revised failed on server');
+      } catch (err) {
+        console.error('Update revised failed:', err);
+        setData(prevData => {
+          const newData = [...prevData];
+          const idx = newData.findIndex(d => d.level === originalLevel);
+          if (idx !== -1) {
+            const updatedLevel = { ...newData[idx] };
+            const updatedProblems = [...updatedLevel.problems];
+            updatedProblems[originalIndex] = { ...updatedProblems[originalIndex], revised: currentStatus };
+            updatedLevel.problems = updatedProblems;
+            newData[idx] = updatedLevel;
+          }
+          return newData;
+        });
+      }
+    }
+  };
+
   const getTopicData = () => {
     const topicsMap = new Map();
     data.forEach(levelObj => {
@@ -213,7 +269,7 @@ export function DataProvider({ children }) {
   };
 
   return (
-    <DataContext.Provider value={{ data, topicInfo, loading, error, toggleProblemStatus, getTopicData, getTechniqueData }}>
+    <DataContext.Provider value={{ data, topicInfo, loading, error, toggleProblemStatus, toggleRevisionStatus, getTopicData, getTechniqueData }}>
       {children}
     </DataContext.Provider>
   );

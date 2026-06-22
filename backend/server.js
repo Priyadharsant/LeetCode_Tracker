@@ -105,10 +105,12 @@ function applyUserProgress(problems, progress = {}) {
   return problems.map(problem => {
     const progressEntry = progress[problemProgressKey(problem)];
     const solved = Boolean(progressEntry?.solved);
+    const revised = Boolean(progressEntry?.revised);
     const hydratedProblem = {
       name: problem.name,
       link: problem.link,
       solved,
+      revised,
       topic: problem.topic,
       companies: problem.companies || [],
       techniques: Array.isArray(problem.techniques) && problem.techniques.length > 0
@@ -118,6 +120,10 @@ function applyUserProgress(problems, progress = {}) {
 
     if (solved && progressEntry.solvedAt) {
       hydratedProblem.solvedAt = progressEntry.solvedAt;
+    }
+    
+    if (revised && progressEntry.revisedAt) {
+      hydratedProblem.revisedAt = progressEntry.revisedAt;
     }
 
     return hydratedProblem;
@@ -326,6 +332,36 @@ app.get('/api/topic-info', async (req, res) => {
   }
 });
 
+// GET database backup for the current user
+app.get('/api/backup', async (req, res) => {
+  try {
+    const username = req.header('X-Username');
+    if (!username) {
+      return res.status(401).json({ error: 'Unauthorized: X-Username header required' });
+    }
+
+    const usersCol = db.collection('users');
+    // Fetch user without password
+    const user = await usersCol.findOne({ username }, { projection: { password: 0, _id: 0 } });
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Add metadata
+    const backupData = {
+      exportedAt: new Date().toISOString(),
+      app: "LeetCode Tracker",
+      data: user
+    };
+
+    res.json(backupData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // UPDATE solved status of a specific problem inside the user's progress
 app.patch('/api/levels/:level/problem/:index', async (req, res) => {
   try {
@@ -365,6 +401,51 @@ app.patch('/api/levels/:level/problem/:index', async (req, res) => {
     );
 
     res.json({ success: true, message: 'Updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// UPDATE revised status of a specific problem inside the user's progress
+app.patch('/api/levels/:level/problem/:index/revise', async (req, res) => {
+  try {
+    const levelId = parseInt(req.params.level);
+    const index = parseInt(req.params.index);
+    const { revised, revisedAt } = req.body;
+    const username = req.header('X-Username');
+
+    if (!username) {
+      return res.status(401).json({ error: 'Unauthorized: X-Username header required' });
+    }
+
+    const problemsCol = db.collection('problems');
+    const problem = await problemsCol.findOne({ level: levelId, levelIndex: index });
+    if (!problem) {
+      return res.status(404).json({ error: 'Problem not found' });
+    }
+
+    const usersCol = db.collection('users');
+    const user = await usersCol.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const progressKey = `progress.${levelId}-${index}`;
+
+    const updateQuery = {};
+    updateQuery[`${progressKey}.revised`] = revised;
+    if (revisedAt) {
+      updateQuery[`${progressKey}.revisedAt`] = revisedAt;
+    }
+
+    await usersCol.updateOne(
+      { username },
+      { $set: updateQuery }
+    );
+
+    res.json({ success: true, message: 'Revised status updated successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });

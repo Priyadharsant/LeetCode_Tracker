@@ -1314,6 +1314,119 @@
           "Apple",
           "Bloomberg"
         ]
+      },
+      {
+        "name": "Two Sum",
+        "link": "https://leetcode.com/problems/two-sum/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Amazon",
+          "Google",
+          "Apple"
+        ]
+      },
+      {
+        "name": "Top K Frequent Elements",
+        "link": "https://leetcode.com/problems/top-k-frequent-elements/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Amazon",
+          "Microsoft",
+          "Meta"
+        ]
+      },
+      {
+        "name": "Product of Array Except Self",
+        "link": "https://leetcode.com/problems/product-of-array-except-self/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Amazon",
+          "Apple",
+          "Microsoft"
+        ]
+      },
+      {
+        "name": "Longest Consecutive Sequence",
+        "link": "https://leetcode.com/problems/longest-consecutive-sequence/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Google",
+          "Amazon",
+          "Microsoft"
+        ]
+      },
+      {
+        "name": "Valid Sudoku",
+        "link": "https://leetcode.com/problems/valid-sudoku/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Amazon",
+          "Apple",
+          "Uber"
+        ]
+      },
+      {
+        "name": "Encode and Decode Strings",
+        "link": "https://leetcode.com/problems/encode-and-decode-strings/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Meta",
+          "Google"
+        ]
+      },
+      {
+        "name": "Subarray Sum Equals K",
+        "link": "https://leetcode.com/problems/subarray-sum-equals-k/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Meta",
+          "Amazon"
+        ]
+      },
+      {
+        "name": "Find All Anagrams in a String",
+        "link": "https://leetcode.com/problems/find-all-anagrams-in-a-string/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Amazon",
+          "Microsoft"
+        ]
+      },
+      {
+        "name": "Intersection of Two Arrays",
+        "link": "https://leetcode.com/problems/intersection-of-two-arrays/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Meta",
+          "Google"
+        ]
+      },
+      {
+        "name": "Insert Delete GetRandom O(1)",
+        "link": "https://leetcode.com/problems/insert-delete-getrandom-o1/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Bloomberg",
+          "Amazon"
+        ]
+      },
+      {
+        "name": "First Missing Positive",
+        "link": "https://leetcode.com/problems/first-missing-positive/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Amazon",
+          "Microsoft"
+        ]
+      },
+      {
+        "name": "Word Pattern",
+        "link": "https://leetcode.com/problems/word-pattern/",
+        "topic": "Arrays & Hashing",
+        "companies": [
+          "Amazon",
+          "Apple"
+        ]
       }
     ],
     "total": 3
@@ -1735,13 +1848,31 @@
         "companies": [
           "TikTok"
         ]
+      },
+      {
+        "name": "Word Dictionary",
+        "link": "https://leetcode.com/problems/design-add-and-search-words-data-structure/",
+        "topic": "Tries",
+        "companies": [
+          "Amazon",
+          "Google"
+        ]
+      },
+      {
+        "name": "Count Good Nodes in Binary Tree",
+        "link": "https://leetcode.com/problems/count-good-nodes-in-binary-tree/",
+        "topic": "Trees",
+        "companies": [
+          "Microsoft",
+          "Amazon"
+        ]
       }
     ],
     "total": 46
   },
   {
     "level": 8,
-    "goal": "Heap & Priority Queue",
+    "goal": "Graph/DP/Greedy",
     "problems": [
       {
         "name": "Task Scheduler",
@@ -1801,14 +1932,7 @@
         "companies": [
           "Bloomberg"
         ]
-      }
-    ],
-    "total": 7
-  },
-  {
-    "level": 9,
-    "goal": "Graphs",
-    "problems": [
+      },
       {
         "name": "Number of Islands",
         "link": "https://leetcode.com/problems/number-of-islands/",
@@ -1995,14 +2119,7 @@
           "TikTok",
           "Microsoft"
         ]
-      }
-    ],
-    "total": 21
-  },
-  {
-    "level": 10,
-    "goal": "Advanced Topics",
-    "problems": [
+      },
       {
         "name": "Climbing Stairs",
         "link": "https://leetcode.com/problems/climbing-stairs/",
@@ -2452,7 +2569,6 @@
           "Amazon"
         ]
       }
-    ],
-    "total": 51
+    ]
   }
 ]

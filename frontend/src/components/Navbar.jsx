@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { CodeXml, LayoutDashboard, Layers3, User, Map } from 'lucide-react';
+import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Navbar({ isOffline }) {
@@ -14,6 +14,7 @@ export default function Navbar({ isOffline }) {
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/roadmap', label: 'Roadmap', icon: Map },
     { to: '/practice', label: 'Practice', icon: Layers3 },
+    { to: '/revise', label: 'Revise', icon: BookOpen },
   ];
 
   return (
