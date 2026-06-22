@@ -8,7 +8,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5137,
     allowedHosts: [
-      'reproduced-lat-tasks-architect.trycloudflare.com'
+      'homeland-nonprofit-introduces-fat.trycloudflare.com'
     ],
 
     proxy: {

@@ -173,6 +173,14 @@ app.post('/api/signup', async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) return res.status(400).json({ error: 'username and password required' });
 
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+      return res.status(400).json({ error: 'Username must be 3-20 characters long and contain only letters, numbers, and underscores.' });
+    }
+
+    if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return res.status(400).json({ error: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character.' });
+    }
+
     const usersCol = db.collection('users');
     const exists = await usersCol.findOne({ username });
     if (exists) return res.status(409).json({ error: 'User already exists' });
@@ -225,6 +233,10 @@ app.post('/api/change-password', async (req, res) => {
     const { username, oldPassword, newPassword } = req.body;
     if (!username || !oldPassword || !newPassword) {
       return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword) || !/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)) {
+      return res.status(400).json({ error: 'New password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character.' });
     }
 
     const usersCol = db.collection('users');
@@ -372,13 +384,49 @@ app.post('/api/notifications/subscribe', async (req, res) => {
     if (!username) return res.status(401).json({ error: 'Unauthorized: X-Username header required' });
 
     const usersCol = db.collection('users');
+    const user = await usersCol.findOne({ username });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    let devices = user.devices || [];
+    const deviceIndex = devices.findIndex(d => d.endpoint === subscription.endpoint);
+    
+    if (deviceIndex >= 0) {
+      devices[deviceIndex].subscription = subscription;
+      devices[deviceIndex].reminderTime = reminderTime;
+    } else {
+      devices.push({
+        endpoint: subscription.endpoint,
+        subscription,
+        reminderTime
+      });
+    }
+
     await usersCol.updateOne(
       { username },
-      { $set: { pushSubscription: subscription, reminderTime } }
+      { $set: { devices } }
     );
+    
     res.status(201).json({ success: true });
   } catch (err) {
     console.error(`[API Subscribe] Error:`, err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/notifications/unsubscribe', async (req, res) => {
+  try {
+    const username = req.header('X-Username');
+    const { endpoint } = req.body;
+    if (!username || !endpoint) return res.status(400).json({ error: 'Missing username or endpoint' });
+
+    const usersCol = db.collection('users');
+    await usersCol.updateOne(
+      { username },
+      { $pull: { devices: { endpoint } } }
+    );
+    res.json({ success: true });
+  } catch (err) {
+    console.error(`[API Unsubscribe] Error:`, err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -392,58 +440,54 @@ cron.schedule('* * * * *', async () => {
   try {
     const usersCol = db.collection('users');
     const usersWithPush = await usersCol.find({
-      reminderTime: { $exists: true, $ne: null },
-      pushSubscription: { $exists: true, $ne: null }
+      devices: { $exists: true, $ne: [] }
     }).toArray();
 
     for (const user of usersWithPush) {
-      const [hours, minutes] = user.reminderTime.split(':').map(Number);
-      
-      // Calculate scheduled time for today
-      const scheduledTime = new Date();
-      scheduledTime.setHours(hours, minutes, 0, 0);
+      for (const device of user.devices) {
+        if (!device.reminderTime || !device.subscription) continue;
 
-      // Difference in minutes
-      const diffMins = Math.floor((now.getTime() - scheduledTime.getTime()) / 60000);
+        const [hours, minutes] = device.reminderTime.split(':').map(Number);
+        
+        // Calculate scheduled time for today
+        const scheduledTime = new Date();
+        scheduledTime.setHours(hours, minutes, 0, 0);
 
-      let title = null;
-      let body = null;
+        // Difference in minutes
+        const diffMins = Math.floor((now.getTime() - scheduledTime.getTime()) / 60000);
 
-      // 1st Notification (0 mins)
-      if (diffMins === 0) {
-        title = 'Time to Practice!';
-        body = `Hey ${user.username}, your daily DSA session is calling. Keep your streak alive!`;
-      } 
-      // 2nd Notification (15 mins)
-      else if (diffMins === 15) {
-        if (!user.lastActive || new Date(user.lastActive).getTime() < scheduledTime.getTime()) {
-          title = 'Missed Session!';
-          body = `Hey ${user.username}, you missed your session 15 mins ago! Come back!`;
+        let title = null;
+        let body = null;
+
+        // 1st Notification (0 mins)
+        if (diffMins === 0) {
+          title = 'Time to Practice!';
+          body = `Hey ${user.username}, your daily DSA session is calling. Keep your streak alive!`;
+        } 
+        // 2nd Notification (15 mins)
+        else if (diffMins === 15) {
+          title = 'Still there?';
+          body = `You missed your ${device.reminderTime} practice! It's not too late.`;
         }
-      }
-      // 3rd Notification (30 mins)
-      else if (diffMins === 30) {
-        if (!user.lastActive || new Date(user.lastActive).getTime() < scheduledTime.getTime()) {
-          title = 'Final Reminder!';
-          body = `Hey ${user.username}, your DSA streak is at risk. Practice now!`;
+        // 3rd Notification (60 mins)
+        else if (diffMins === 60) {
+          title = 'Consistency is Key 🔑';
+          body = `Don't break your streak! Just one problem is all it takes today.`;
         }
-      }
 
-      if (title && body) {
-        const payload = JSON.stringify({
-          title,
-          body,
-          icon: '/vite.svg',
-          badge: '/vite.svg'
-        });
-
-        try {
-          await webpush.sendNotification(user.pushSubscription, payload);
-          console.log(`[Cron] Escaped Push (${diffMins}m) sent to ${user.username}`);
-        } catch (err) {
-          console.error(`[Cron] Failed to send push to ${user.username}`, err);
-          if (err.statusCode === 410 || err.statusCode === 404) {
-            await usersCol.updateOne({ username: user.username }, { $unset: { pushSubscription: "" } });
+        if (title && body) {
+          const payload = JSON.stringify({ title, body, icon: '/favicon.svg' });
+          try {
+            await webpush.sendNotification(device.subscription, payload);
+            console.log(`[Cron] Escaped Push (${diffMins}m) sent to ${user.username} (device: ${device.endpoint.substring(0, 15)}...)`);
+          } catch (err) {
+            console.error(`[Cron] Failed to send push to ${user.username}`, err);
+            if (err.statusCode === 410 || err.statusCode === 404) {
+              await usersCol.updateOne(
+                { username: user.username },
+                { $pull: { devices: { endpoint: device.endpoint } } }
+              );
+            }
           }
         }
       }

@@ -70,6 +70,31 @@ class NotificationManager {
     }
   }
 
+  static async unsubscribeFromPush() {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.getSubscription();
+      if (subscription) {
+        await subscription.unsubscribe();
+        return subscription;
+      }
+      return null;
+    } catch (error) {
+      console.error('Failed to unsubscribe:', error);
+      return null;
+    }
+  }
+
+  static async getSubscription() {
+    try {
+      if (!this.isSupported) return null;
+      const registration = await navigator.serviceWorker.ready;
+      return await registration.pushManager.getSubscription();
+    } catch (error) {
+      return null;
+    }
+  }
+
   static async sendTestNotification(title, options = {}) {
     if (!this.isSupported || this.permission !== 'granted') return null;
     try {

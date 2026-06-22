@@ -2,10 +2,11 @@ import { useState, useMemo, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { useSearchParams } from 'react-router-dom';
-import { User, LogOut, Shield, Activity, Lock, Clock, ExternalLink, KeyRound, ChevronDown, ChevronUp, Bell, BellRing, BellOff, Save } from 'lucide-react';
+import { User, LogOut, Shield, Activity, Lock, Clock, ExternalLink, KeyRound, ChevronDown, ChevronUp, Bell, BellRing, BellOff, Save, Eye, EyeOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Heatmap from '../components/Heatmap';
 import NotificationManager from '../utils/NotificationManager';
+import ModernTimePicker from '../components/ModernTimePicker';
 
 export default function Account() {
   const { user, isGuest, logout, changePassword } = useAuth();
@@ -16,17 +17,22 @@ export default function Account() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [pwdStatus, setPwdStatus] = useState({ loading: false, error: null, success: false });
   const [showPasswordForm, setShowPasswordForm] = useState(false);
 
   // Notifications state
   const [notifPermission, setNotifPermission] = useState('default');
+  const [pushEnabled, setPushEnabled] = useState(false);
   const [reminderTime, setReminderTime] = useState('09:00');
   const [timeSaved, setTimeSaved] = useState(false);
   
   useEffect(() => {
     if (NotificationManager.isSupported) {
       setNotifPermission(NotificationManager.permission);
+      NotificationManager.getSubscription().then(sub => setPushEnabled(!!sub));
     } else {
       setNotifPermission('unsupported');
     }
@@ -70,8 +76,31 @@ export default function Account() {
           reminderTime: time
         })
       });
+      setPushEnabled(true);
     } catch (err) {
       console.error('[Push] Critical error during sync:', err);
+    }
+  };
+
+  const disablePush = async () => {
+    try {
+      const API_BASE = import.meta.env.VITE_API_URL || '/api';
+      const oldSub = await NotificationManager.unsubscribeFromPush();
+      if (oldSub) {
+        await fetch(`${API_BASE}/notifications/unsubscribe`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Username': user?.username || ''
+          },
+          body: JSON.stringify({ endpoint: oldSub.endpoint })
+        });
+      }
+      localStorage.removeItem(`dsa_reminder_time_${user?.username}`);
+      setPushEnabled(false);
+      setTimeSaved(false);
+    } catch (err) {
+      console.error('Error disabling push:', err);
     }
   };
 
@@ -83,11 +112,7 @@ export default function Account() {
     }
   };
 
-  const handleTestNotification = () => {
-    NotificationManager.sendTestNotification('Test Notification', {
-      body: 'This is a test notification from LeetCode Tracker via Service Worker.',
-    });
-  };
+
 
   const handleSaveTime = async () => {
     if (user) {
@@ -140,6 +165,17 @@ export default function Account() {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
+
+    if (newPassword.length < 8) {
+      setPwdStatus({ loading: false, error: "Password must be at least 8 characters long.", success: false });
+      return;
+    }
+
+    if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword) || !/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)) {
+      setPwdStatus({ loading: false, error: "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.", success: false });
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       setPwdStatus({ loading: false, error: "New passwords do not match", success: false });
       return;
@@ -230,12 +266,21 @@ export default function Account() {
                     <p className="text-xs text-surface-400">Receive reminders for daily practice.</p>
                   </div>
                   
-                  {notifPermission === 'granted' ? (
-                    <div className="flex items-center gap-2 text-brand-400 text-sm font-bold px-3 py-1.5 bg-brand-500/10 rounded-lg border border-brand-500/20">
-                      <BellRing className="w-4 h-4" />
-                      Enabled
-                    </div>
-                  ) : notifPermission === 'denied' ? (
+                  {pushEnabled ? (
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-brand-500/10 text-brand-400 rounded-lg border border-brand-500/20">
+                          <Bell className="w-4 h-4" />
+                          <span className="font-bold text-sm">Enabled</span>
+                        </div>
+                        <button
+                          onClick={disablePush}
+                          title="Remove from this device"
+                          className="p-1.5 text-surface-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
+                        >
+                          <BellOff className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : notifPermission === 'denied' ? (
                     <div className="flex items-center gap-2 text-red-400 text-sm font-bold px-3 py-1.5 bg-red-500/10 rounded-lg border border-red-500/20">
                       <BellOff className="w-4 h-4" />
                       Blocked
@@ -259,31 +304,22 @@ export default function Account() {
                     <div className="flex items-center justify-between mb-3">
                       <h4 className="text-sm font-bold text-white">Daily Reminder Time</h4>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="time"
-                        value={reminderTime}
-                        onChange={(e) => setReminderTime(e.target.value)}
-                        className="bg-surface-950 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-brand-500 flex-grow"
+                    <div className="flex flex-col gap-3">
+                      <ModernTimePicker 
+                        value={reminderTime} 
+                        onChange={(newTime) => setReminderTime(newTime)} 
                       />
                       <button
                         onClick={handleSaveTime}
-                        className="px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors flex items-center gap-2"
+                        className="w-full px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors flex items-center justify-center gap-2 border border-white/5 shadow-md"
                       >
-                        {timeSaved ? <span className="text-brand-300 font-bold text-sm">Saved!</span> : <><Save className="w-4 h-4" /><span className="text-sm font-bold">Save</span></>}
+                        {timeSaved ? <span className="text-brand-400 font-bold text-sm">Saved!</span> : <><Save className="w-4 h-4" /><span className="text-sm font-bold">Save Time</span></>}
                       </button>
                     </div>
                   </div>
                 )}
 
-                {notifPermission === 'granted' && (
-                  <button
-                    onClick={handleTestNotification}
-                    className="w-full py-3 bg-surface-800 hover:bg-surface-700 text-white font-medium rounded-xl text-sm transition-colors border border-white/5 mt-2"
-                  >
-                    Send Test Notification
-                  </button>
-                )}
+
                 
                 {notifPermission === 'denied' && !window.isSecureContext && (
                   <div className="mt-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
@@ -346,36 +382,63 @@ export default function Account() {
                       <div className="pt-6 space-y-4">
                         <div>
                           <label className="block text-xs font-bold text-surface-400 uppercase tracking-wider mb-2">Old Password</label>
-                          <input
-                            type="password"
-                            required
-                            value={oldPassword}
-                            onChange={e => setOldPassword(e.target.value)}
-                            className="w-full bg-surface-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all"
-                            placeholder="Enter current password"
-                          />
+                          <div className="relative">
+                            <input
+                              type={showOldPassword ? "text" : "password"}
+                              required
+                              value={oldPassword}
+                              onChange={e => setOldPassword(e.target.value)}
+                              className="w-full bg-surface-900 border border-white/10 rounded-xl px-4 py-3 pr-10 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all"
+                              placeholder="Enter current password"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowOldPassword(!showOldPassword)}
+                              className="absolute inset-y-0 right-0 pr-3 flex items-center text-surface-500 hover:text-brand-400 transition-colors"
+                            >
+                              {showOldPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                          </div>
                         </div>
                         <div>
                           <label className="block text-xs font-bold text-surface-400 uppercase tracking-wider mb-2">New Password</label>
-                          <input
-                            type="password"
-                            required
-                            value={newPassword}
-                            onChange={e => setNewPassword(e.target.value)}
-                            className="w-full bg-surface-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all"
-                            placeholder="Enter new password"
-                          />
+                          <div className="relative">
+                            <input
+                              type={showNewPassword ? "text" : "password"}
+                              required
+                              value={newPassword}
+                              onChange={e => setNewPassword(e.target.value)}
+                              className="w-full bg-surface-900 border border-white/10 rounded-xl px-4 py-3 pr-10 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all"
+                              placeholder="Enter new password"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowNewPassword(!showNewPassword)}
+                              className="absolute inset-y-0 right-0 pr-3 flex items-center text-surface-500 hover:text-brand-400 transition-colors"
+                            >
+                              {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                          </div>
                         </div>
                         <div>
                           <label className="block text-xs font-bold text-surface-400 uppercase tracking-wider mb-2">Confirm New Password</label>
-                          <input
-                            type="password"
-                            required
-                            value={confirmPassword}
-                            onChange={e => setConfirmPassword(e.target.value)}
-                            className="w-full bg-surface-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all"
-                            placeholder="Confirm new password"
-                          />
+                          <div className="relative">
+                            <input
+                              type={showConfirmPassword ? "text" : "password"}
+                              required
+                              value={confirmPassword}
+                              onChange={e => setConfirmPassword(e.target.value)}
+                              className="w-full bg-surface-900 border border-white/10 rounded-xl px-4 py-3 pr-10 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all"
+                              placeholder="Confirm new password"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              className="absolute inset-y-0 right-0 pr-3 flex items-center text-surface-500 hover:text-brand-400 transition-colors"
+                            >
+                              {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                          </div>
                         </div>
 
                         <div className="pt-2 space-y-4">

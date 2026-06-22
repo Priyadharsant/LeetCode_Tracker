@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CodeXml, User, LogIn } from 'lucide-react';
+import { CodeXml, User, LogIn, Eye, EyeOff } from 'lucide-react';
 
 export default function LandingPage() {
   const { user, isGuest, loginAsGuest, loginServer } = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -78,15 +79,24 @@ export default function LandingPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-surface-400 mb-1">Password</label>
-            <input
-              id="landing-password"
-              type="password"
-              required
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full bg-surface-950/70 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-all"
-              placeholder="Enter your password"
-            />
+            <div className="relative">
+              <input
+                id="landing-password"
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full bg-surface-950/70 border border-white/10 rounded-lg px-4 py-2.5 pr-10 text-white focus:outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-all"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-surface-500 hover:text-brand-400 transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
           <button
             type="submit"
