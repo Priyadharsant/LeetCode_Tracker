@@ -3,28 +3,44 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import NotificationManager from '../utils/NotificationManager';
+import { useAuth } from '../context/AuthContext';
 
 export default function NotificationToast() {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const { user, isGuest } = useAuth();
 
   useEffect(() => {
-    // Check if we should show the toast
-    // Only show if notifications are supported, permission is default, and user hasn't dismissed it recently
-    const dismissed = sessionStorage.getItem('dsa_notify_dismissed');
+    if (isGuest || !user) return;
     
-    if (NotificationManager.isSupported && !dismissed) {
+    // Only show if notifications are supported, permission is not denied, user hasn't dismissed it recently, and hasn't saved a time yet
+    const dismissed = sessionStorage.getItem(`dsa_notify_dismissed_${user.username}`);
+    const timeSaved = localStorage.getItem(`dsa_reminder_time_${user.username}`);
+    
+    if (NotificationManager.isSupported && Notification.permission !== 'denied' && !dismissed && !timeSaved) {
       // Add a slight delay before popping up so it feels less aggressive
       const timer = setTimeout(() => {
         setShow(true);
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [user, isGuest]);
+
+  useEffect(() => {
+    let hideTimer;
+    if (show) {
+      hideTimer = setTimeout(() => {
+        setShow(false);
+      }, 10000); // Auto close after 10 seconds
+    }
+    return () => clearTimeout(hideTimer);
+  }, [show]);
 
   const handleDismiss = () => {
     setShow(false);
-    sessionStorage.setItem('dsa_notify_dismissed', 'true');
+    if (user) {
+      sessionStorage.setItem(`dsa_notify_dismissed_${user.username}`, 'true');
+    }
   };
 
   const handleNotifyMe = () => {

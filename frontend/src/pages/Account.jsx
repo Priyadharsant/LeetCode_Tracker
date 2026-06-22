@@ -31,7 +31,7 @@ export default function Account() {
       setNotifPermission('unsupported');
     }
     
-    const savedTime = localStorage.getItem('dsa_reminder_time');
+    const savedTime = localStorage.getItem(`dsa_reminder_time_${user?.username}`);
     if (savedTime) {
       setReminderTime(savedTime);
     }
@@ -44,7 +44,7 @@ export default function Account() {
         handleRequestNotification();
       }
     }
-  }, [searchParams, setSearchParams]);
+  }, [searchParams, setSearchParams, user]);
 
   const syncSubscriptionToBackend = async (time) => {
     try {
@@ -90,7 +90,9 @@ export default function Account() {
   };
 
   const handleSaveTime = async () => {
-    localStorage.setItem('dsa_reminder_time', reminderTime);
+    if (user) {
+      localStorage.setItem(`dsa_reminder_time_${user.username}`, reminderTime);
+    }
     await syncSubscriptionToBackend(reminderTime);
     setTimeSaved(true);
     setTimeout(() => setTimeSaved(false), 3000);
