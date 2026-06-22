@@ -11,8 +11,6 @@ export default function Revise() {
 
   const [selectedLevel, setSelectedLevel] = React.useState(null);
 
-  if (loading) return <DSALoader />;
-
   // Filter levels to only include those with at least one solved problem
   const solvedLevels = levels.map(level => {
     return {
@@ -31,6 +29,8 @@ export default function Revise() {
   }, [solvedLevels, selectedLevel]);
 
   const activeLevel = solvedLevels.find(l => l.level === selectedLevel) || solvedLevels[0];
+
+  if (loading) return <DSALoader />;
 
   return (
     <div className="max-w-6xl mx-auto p-6 md:p-12">
