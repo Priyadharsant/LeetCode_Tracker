@@ -64,7 +64,7 @@ export default function MonthCalendar({ data }) {
   const weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
   return (
-    <div className="glass-panel p-5 sticky top-24">
+    <div className="glass-panel p-5">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-surface-200">
           <Calendar className="w-5 h-5 text-brand-500" />

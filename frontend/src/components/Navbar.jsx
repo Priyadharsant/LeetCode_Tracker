@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen } from 'lucide-react';
+import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Navbar({ isOffline }) {
@@ -15,10 +15,11 @@ export default function Navbar({ isOffline }) {
     { to: '/roadmap', label: 'Roadmap', icon: Map },
     { to: '/practice', label: 'Practice', icon: Layers3 },
     { to: '/revise', label: 'Revise', icon: BookOpen },
+    { to: '/cheatsheet', label: 'CheatSheet', icon: Terminal },
   ];
 
   return (
-    <nav className={`sticky z-50 transition-all ${isOffline ? 'top-8' : 'top-0'} w-full border-b border-white/10 bg-surface-900/95 backdrop-blur-2xl shadow-xl shadow-black/40`}>
+    <nav className={`sticky z-40 transition-all ${isOffline ? 'top-8' : 'top-0'} w-full border-b border-white/10 bg-surface-900/95 backdrop-blur-2xl shadow-xl shadow-black/40`}>
       <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-brand-500 via-accent-sky to-accent-amber opacity-80" />
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex justify-between items-center h-[72px] gap-4">
@@ -70,7 +71,7 @@ export default function Navbar({ isOffline }) {
             </div>
             
             <div className="h-6 w-px bg-white/10 mx-2 hidden sm:block"></div>
-            
+
             <Link 
               to="/account"
               className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${

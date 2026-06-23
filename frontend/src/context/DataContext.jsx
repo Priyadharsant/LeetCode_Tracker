@@ -9,6 +9,7 @@ export function DataProvider({ children }) {
   const { user, isGuest } = useAuth();
   const [data, setData] = useState([]);
   const [topicInfo, setTopicInfo] = useState({});
+  const [cheatsheetData, setCheatsheetData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -109,6 +110,13 @@ export function DataProvider({ children }) {
         const tiMap = {};
         tiList.forEach(t => { tiMap[t.topic] = t; });
         setTopicInfo(tiMap);
+      }
+
+      // Fetch cheatsheet data
+      const csRes = await fetch(`${API_BASE}/cheatsheet`);
+      if (csRes.ok) {
+        const csList = await csRes.json();
+        setCheatsheetData(csList);
       }
     } catch (err) {
       console.error('Failed to fetch data:', err);
@@ -225,6 +233,38 @@ export function DataProvider({ children }) {
     }
   };
 
+  const resetReviseProgress = async (level = undefined) => {
+    // Optimistic UI update
+    const newData = data.map(lvl => {
+      if (level !== undefined && lvl.level !== level) {
+        return lvl;
+      }
+      return {
+        ...lvl,
+        problems: lvl.problems.map(p => ({ ...p, revised: false, revisedAt: undefined }))
+      };
+    });
+    setData(newData);
+
+    const guestMode = !user && (isGuest || localStorage.getItem('dsa_guest') === 'true');
+    if (guestMode) {
+      localStorage.setItem('dsa_progress_guest', JSON.stringify(newData));
+    } else {
+      try {
+        const res = await fetch(`${API_BASE}/progress/reset-revise`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify(level !== undefined ? { level } : {})
+        });
+        if (!res.ok) throw new Error('Reset revise failed on server');
+      } catch (err) {
+        console.error('Reset revise failed:', err);
+        // Revert by refetching data
+        fetchData();
+      }
+    }
+  };
+
   const getTopicData = () => {
     const topicsMap = new Map();
     data.forEach(levelObj => {
@@ -269,7 +309,7 @@ export function DataProvider({ children }) {
   };
 
   return (
-    <DataContext.Provider value={{ data, topicInfo, loading, error, toggleProblemStatus, toggleRevisionStatus, getTopicData, getTechniqueData }}>
+    <DataContext.Provider value={{ data, topicInfo, cheatsheetData, loading, error, toggleProblemStatus, toggleRevisionStatus, resetReviseProgress, getTopicData, getTechniqueData }}>
       {children}
     </DataContext.Provider>
   );

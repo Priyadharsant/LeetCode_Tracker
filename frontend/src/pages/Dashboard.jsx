@@ -183,7 +183,9 @@ export default function Dashboard() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
         <div className="lg:col-span-2 flex flex-col gap-6">
-          <Heatmap data={solvedDates} days={365} />
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+            <Heatmap data={solvedDates} days={365} />
+          </motion.div>
           
           {/* Level Master Detailed Section */}
           <div className="mt-4">
@@ -255,9 +257,14 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-6">
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ delay: 0.6 }}
+          className="flex flex-col gap-6"
+        >
           <RecentProblems limit={12} />
-        </div>
+        </motion.div>
       </div>
       <NotificationToast />
     </div>

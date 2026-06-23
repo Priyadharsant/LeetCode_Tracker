@@ -237,7 +237,8 @@
         "companies": [
           "Apple",
           "Bloomberg"
-        ]
+        ],
+        "videoId": "KLlXCFG5TnA"
       },
       {
         "name": "Palindrome Number",
@@ -313,7 +314,8 @@
         "topic": "Two Pointers",
         "companies": [
           "Apple"
-        ]
+        ],
+        "videoId": "jJXJ16kPFWg"
       },
       {
         "name": "Move Zeroes",
@@ -549,7 +551,8 @@
         "topic": "Sliding Window",
         "companies": [
           "Bloomberg"
-        ]
+        ],
+        "videoId": "wiGpQwD31jM"
       },
       {
         "name": "Longest Repeating Character Replacement",
@@ -557,7 +560,8 @@
         "topic": "Sliding Window",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "videoId": "gqXU1UyA8pk"
       },
       {
         "name": "Minimum Size Subarray Sum",
@@ -593,7 +597,8 @@
           "Meta",
           "Microsoft",
           "Google"
-        ]
+        ],
+        "videoId": "jzZsG8n2R9A"
       },
       {
         "name": "Container With Most Water",
@@ -601,7 +606,8 @@
         "topic": "Two Pointers",
         "companies": [
           "Meta"
-        ]
+        ],
+        "videoId": "UuiTPhcgfjg"
       },
       {
         "name": "Sort Colors",
@@ -619,7 +625,8 @@
           "Apple",
           "TikTok",
           "Bloomberg"
-        ]
+        ],
+        "videoId": "bNvIQI2wAjk"
       },
       {
         "name": "Subarray Sum Equals K",
@@ -646,7 +653,8 @@
         "topic": "Arrays & Hashing",
         "companies": [
           "Uber"
-        ]
+        ],
+        "videoId": "YPTqKIzVkZa"
       },
       {
         "name": "Minimum Path Sum",
@@ -715,7 +723,8 @@
         "topic": "Sliding Window",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "videoId": "DfljaUwZsOk"
       },
       {
         "name": "Top K Frequent Words",
@@ -741,7 +750,8 @@
         "topic": "Two Pointers",
         "companies": [
           "Meta"
-        ]
+        ],
+        "videoId": "ZI2z5pq0TqA"
       },
       {
         "name": "Kth Smallest Element in a Sorted Matrix",
@@ -775,7 +785,8 @@
           "TikTok",
           "Microsoft",
           "Apple"
-        ]
+        ],
+        "videoId": "jRmvsY5SgS2"
       },
       {
         "name": "Split Array Largest Sum",
@@ -821,7 +832,8 @@
         "companies": [
           "Meta",
           "Bloomberg"
-        ]
+        ],
+        "videoId": "B1k_snOS4gw"
       },
       {
         "name": "Valid Sudoku",
@@ -829,7 +841,8 @@
         "topic": "Arrays & Hashing",
         "companies": [
           "Bloomberg"
-        ]
+        ],
+        "videoId": "TjFXEUCMqI8"
       },
       {
         "name": "Longest Consecutive Sequence",
@@ -838,7 +851,8 @@
         "companies": [
           "TikTok",
           "Meta"
-        ]
+        ],
+        "videoId": "P6RZZMu_maU"
       },
       {
         "name": "Two Sum II Input Array Is Sorted",
@@ -847,7 +861,8 @@
         "companies": [
           "Uber",
           "Apple"
-        ]
+        ],
+        "videoId": "cQ1Oz4ckceM"
       },
       {
         "name": "Best Time to Buy And Sell Stock",
@@ -855,7 +870,8 @@
         "topic": "Sliding Window",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "videoId": "1pkOgXD63yU"
       },
       {
         "name": "Permutation In String",
@@ -914,7 +930,8 @@
         "companies": [
           "Amazon",
           "Uber"
-        ]
+        ],
+        "videoId": "s4DPM8ct1pI"
       },
       {
         "name": "First Bad Version",
@@ -949,7 +966,8 @@
         "companies": [
           "Uber",
           "Amazon"
-        ]
+        ],
+        "videoId": "Ber2pi2C0j0"
       },
       {
         "name": "Search a 2D Matrix II",
@@ -975,7 +993,8 @@
         "topic": "Binary Search",
         "companies": [
           "Google"
-        ]
+        ],
+        "videoId": "q6IEA26zGlQ"
       },
       {
         "name": "Find Median from Data Stream",
@@ -993,7 +1012,8 @@
         "topic": "Binary Search",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "videoId": "U2SozAs9RzA"
       },
       {
         "name": "Find Minimum In Rotated Sorted Array",
@@ -1002,7 +1022,8 @@
         "companies": [
           "Google",
           "TikTok"
-        ]
+        ],
+        "videoId": "nIVW4P8b1VA"
       },
       {
         "name": "Search In Rotated Sorted Array",
@@ -1012,7 +1033,8 @@
           "Google",
           "TikTok",
           "Bloomberg"
-        ]
+        ],
+        "videoId": "U8XENwh8Oy8"
       },
       {
         "name": "Time Based Key Value Store",
@@ -1021,7 +1043,8 @@
         "companies": [
           "TikTok",
           "Microsoft"
-        ]
+        ],
+        "videoId": "fu2cD_6E8Hw"
       }
     ],
     "total": 17
@@ -1047,7 +1070,8 @@
         "companies": [
           "TikTok",
           "Meta"
-        ]
+        ],
+        "videoId": "G0_I-ZF0S38"
       },
       {
         "name": "Middle of the Linked List",
@@ -1092,7 +1116,8 @@
         "topic": "Linked List",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "videoId": "XVuQxGnc19h"
       },
       {
         "name": "Add Two Numbers",
@@ -1101,7 +1126,8 @@
         "companies": [
           "Apple",
           "Microsoft"
-        ]
+        ],
+        "videoId": "wgFbg7yX60P"
       },
       {
         "name": "Swap Nodes in Pairs",
@@ -1128,7 +1154,8 @@
         "companies": [
           "Bloomberg",
           "TikTok"
-        ]
+        ],
+        "videoId": "S5bfdUTrKlM"
       },
       {
         "name": "Populating Next Right Pointers in Each Node",
@@ -1166,7 +1193,8 @@
           "Uber",
           "Amazon",
           "Google"
-        ]
+        ],
+        "videoId": "q5a5OiGbT6Q"
       },
       {
         "name": "Merge Two Sorted Lists",
@@ -1174,7 +1202,8 @@
         "topic": "Linked List",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "videoId": "XIdigk956u0"
       },
       {
         "name": "Linked List Cycle",
@@ -1183,7 +1212,8 @@
         "companies": [
           "Google",
           "Meta"
-        ]
+        ],
+        "videoId": "gBTe7lFR3vc"
       },
       {
         "name": "Copy List With Random Pointer",
@@ -1191,7 +1221,8 @@
         "topic": "Linked List",
         "companies": [
           "Apple"
-        ]
+        ],
+        "videoId": "5Y2EiZST97Y"
       },
       {
         "name": "Find The Duplicate Number",
@@ -1201,7 +1232,8 @@
           "Microsoft",
           "Uber",
           "Meta"
-        ]
+        ],
+        "videoId": "wjYnzkAh752"
       },
       {
         "name": "LRU Cache",
@@ -1210,7 +1242,8 @@
         "companies": [
           "Amazon",
           "TikTok"
-        ]
+        ],
+        "videoId": "7ABFKPK2hD4"
       },
       {
         "name": "Reverse Nodes In K Group",
@@ -1219,7 +1252,8 @@
         "companies": [
           "Uber",
           "Bloomberg"
-        ]
+        ],
+        "videoId": "1UOPsfP85A4"
       }
     ],
     "total": 21
@@ -1236,7 +1270,8 @@
           "Apple",
           "TikTok",
           "Amazon"
-        ]
+        ],
+        "videoId": "WTzjTskDFMg"
       },
       {
         "name": "Min Stack",
@@ -1244,7 +1279,8 @@
         "topic": "Stack",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "videoId": "qkLl7nAwDPo"
       },
       {
         "name": "Evaluate Reverse Polish Notation",
@@ -1253,7 +1289,8 @@
         "companies": [
           "Meta",
           "Google"
-        ]
+        ],
+        "videoId": "iu0082c4HDE"
       },
       {
         "name": "Daily Temperatures",
@@ -1262,7 +1299,8 @@
         "companies": [
           "Bloomberg",
           "Microsoft"
-        ]
+        ],
+        "videoId": "cTBiBSnjO3c"
       },
       {
         "name": "Car Fleet",
@@ -1272,7 +1310,8 @@
           "Apple",
           "Uber",
           "Meta"
-        ]
+        ],
+        "videoId": "Pr6T-3yB9RM"
       },
       {
         "name": "Largest Rectangle In Histogram",
@@ -1281,7 +1320,8 @@
         "companies": [
           "Bloomberg",
           "Meta"
-        ]
+        ],
+        "videoId": "zx5Sw9130L0"
       }
     ],
     "total": 6
@@ -1296,7 +1336,8 @@
         "topic": "Arrays & Hashing",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "videoId": "3OamzN90kPg"
       },
       {
         "name": "Valid Anagram",
@@ -1304,7 +1345,8 @@
         "topic": "Arrays & Hashing",
         "companies": [
           "Meta"
-        ]
+        ],
+        "videoId": "9UtInBqnCgA"
       },
       {
         "name": "Group Anagrams",
@@ -1313,7 +1355,8 @@
         "companies": [
           "Apple",
           "Bloomberg"
-        ]
+        ],
+        "videoId": "vzdNOKCGsz4"
       },
       {
         "name": "Two Sum",
@@ -1323,7 +1366,8 @@
           "Amazon",
           "Google",
           "Apple"
-        ]
+        ],
+        "videoId": "KLlXCFG5TnA"
       },
       {
         "name": "Top K Frequent Elements",
@@ -1333,7 +1377,8 @@
           "Amazon",
           "Microsoft",
           "Meta"
-        ]
+        ],
+        "videoId": "YPTqKIzVkZa"
       },
       {
         "name": "Product of Array Except Self",
@@ -1343,7 +1388,8 @@
           "Amazon",
           "Apple",
           "Microsoft"
-        ]
+        ],
+        "videoId": "bNvIQI2wAjk"
       },
       {
         "name": "Longest Consecutive Sequence",
@@ -1353,7 +1399,8 @@
           "Google",
           "Amazon",
           "Microsoft"
-        ]
+        ],
+        "videoId": "P6RZZMu_maU"
       },
       {
         "name": "Valid Sudoku",
@@ -1363,7 +1410,8 @@
           "Amazon",
           "Apple",
           "Uber"
-        ]
+        ],
+        "videoId": "TjFXEUCMqI8"
       },
       {
         "name": "Encode and Decode Strings",
@@ -1372,7 +1420,8 @@
         "companies": [
           "Meta",
           "Google"
-        ]
+        ],
+        "videoId": "B1k_snOS4gw"
       },
       {
         "name": "Subarray Sum Equals K",
@@ -1451,7 +1500,8 @@
           "Microsoft",
           "Google",
           "Amazon"
-        ]
+        ],
+        "videoId": "vRbbcKXCxOw"
       },
       {
         "name": "Symmetric Tree",
@@ -1468,7 +1518,8 @@
         "companies": [
           "Amazon",
           "TikTok"
-        ]
+        ],
+        "videoId": "hTM3phVI6YQ"
       },
       {
         "name": "Balanced Binary Tree",
@@ -1478,7 +1529,8 @@
           "Meta",
           "Apple",
           "Uber"
-        ]
+        ],
+        "videoId": "QfJsau0ItOY"
       },
       {
         "name": "Minimum Depth of Binary Tree",
@@ -1497,7 +1549,8 @@
           "Microsoft",
           "Amazon",
           "Meta"
-        ]
+        ],
+        "videoId": "OnSn2XEQ4MY"
       },
       {
         "name": "Repeated Substring Pattern",
@@ -1514,7 +1567,8 @@
         "topic": "Trees",
         "companies": [
           "Google"
-        ]
+        ],
+        "videoId": "bkxqA8RxH5e"
       },
       {
         "name": "Find Mode in Binary Search Tree",
@@ -1631,7 +1685,8 @@
           "Meta",
           "Microsoft",
           "Amazon"
-        ]
+        ],
+        "videoId": "X71o9i1fE4s"
       },
       {
         "name": "Binary Tree Right Side View",
@@ -1649,7 +1704,8 @@
         "companies": [
           "Meta",
           "TikTok"
-        ]
+        ],
+        "videoId": "E36O5SWp-LE"
       },
       {
         "name": "Kth Smallest Element in a BST",
@@ -1785,7 +1841,8 @@
         "topic": "Trees",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "videoId": "gs2LMfuHd9C"
       },
       {
         "name": "Count Good Nodes In Binary Tree",
@@ -1872,7 +1929,8 @@
   },
   {
     "level": 8,
-    "goal": "Graph/DP/Greedy",
+    "goal": "Heap",
+    "description": "Master Priority Queues and Heap structures.",
     "problems": [
       {
         "name": "Task Scheduler",
@@ -1932,7 +1990,14 @@
         "companies": [
           "Bloomberg"
         ]
-      },
+      }
+    ]
+  },
+  {
+    "level": 9,
+    "goal": "Graph",
+    "description": "Master Graph Traversals, Shortest Paths, and Minimum Spanning Trees.",
+    "problems": [
       {
         "name": "Number of Islands",
         "link": "https://leetcode.com/problems/number-of-islands/",
@@ -2119,24 +2184,14 @@
           "TikTok",
           "Microsoft"
         ]
-      },
-      {
-        "name": "Climbing Stairs",
-        "link": "https://leetcode.com/problems/climbing-stairs/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Bloomberg",
-          "Amazon"
-        ]
-      },
-      {
-        "name": "Is Subsequence",
-        "link": "https://leetcode.com/problems/is-subsequence/",
-        "topic": "Dynamic Programming",
-        "companies": [
-          "Google"
-        ]
-      },
+      }
+    ]
+  },
+  {
+    "level": 10,
+    "goal": "Greedy",
+    "description": "Master Greedy algorithms and Interval logic.",
+    "problems": [
       {
         "name": "Merge Intervals",
         "link": "https://leetcode.com/problems/merge-intervals/",
@@ -2157,123 +2212,11 @@
         ]
       },
       {
-        "name": "House Robber",
-        "link": "https://leetcode.com/problems/house-robber/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Microsoft",
-          "TikTok"
-        ]
-      },
-      {
         "name": "Jump Game",
         "link": "https://leetcode.com/problems/jump-game/",
         "topic": "Greedy",
         "companies": [
           "Apple"
-        ]
-      },
-      {
-        "name": "Coin Change",
-        "link": "https://leetcode.com/problems/coin-change/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Meta"
-        ]
-      },
-      {
-        "name": "Longest Increasing Subsequence",
-        "link": "https://leetcode.com/problems/longest-increasing-subsequence/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Uber",
-          "Amazon"
-        ]
-      },
-      {
-        "name": "Partition Equal Subset Sum",
-        "link": "https://leetcode.com/problems/partition-equal-subset-sum/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Amazon",
-          "Uber"
-        ]
-      },
-      {
-        "name": "Decode Ways",
-        "link": "https://leetcode.com/problems/decode-ways/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "TikTok"
-        ]
-      },
-      {
-        "name": "Word Search",
-        "link": "https://leetcode.com/problems/word-search/",
-        "topic": "Backtracking",
-        "companies": [
-          "TikTok",
-          "Google"
-        ]
-      },
-      {
-        "name": "Generate Parentheses",
-        "link": "https://leetcode.com/problems/generate-parentheses/",
-        "topic": "Backtracking",
-        "companies": [
-          "TikTok"
-        ]
-      },
-      {
-        "name": "Permutations",
-        "link": "https://leetcode.com/problems/permutations/",
-        "topic": "Backtracking",
-        "companies": [
-          "Meta",
-          "Amazon"
-        ]
-      },
-      {
-        "name": "Subsets",
-        "link": "https://leetcode.com/problems/subsets/",
-        "topic": "Backtracking",
-        "companies": [
-          "Uber"
-        ]
-      },
-      {
-        "name": "Combination Sum",
-        "link": "https://leetcode.com/problems/combination-sum/",
-        "topic": "Backtracking",
-        "companies": [
-          "Google"
-        ]
-      },
-      {
-        "name": "Letter Combinations of a Phone Number",
-        "link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
-        "topic": "Backtracking",
-        "companies": [
-          "Apple"
-        ]
-      },
-      {
-        "name": "Longest Palindromic Substring",
-        "link": "https://leetcode.com/problems/longest-palindromic-substring/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Google",
-          "Meta",
-          "Microsoft"
-        ]
-      },
-      {
-        "name": "Combination Sum II",
-        "link": "https://leetcode.com/problems/combination-sum-ii/",
-        "topic": "Backtracking",
-        "companies": [
-          "Amazon",
-          "Uber"
         ]
       },
       {
@@ -2296,194 +2239,11 @@
         ]
       },
       {
-        "name": "Word Break",
-        "link": "https://leetcode.com/problems/word-break/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Bloomberg",
-          "Amazon"
-        ]
-      },
-      {
-        "name": "Maximum Product Subarray",
-        "link": "https://leetcode.com/problems/maximum-product-subarray/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Meta",
-          "Uber",
-          "Amazon"
-        ]
-      },
-      {
-        "name": "House Robber II",
-        "link": "https://leetcode.com/problems/house-robber-ii/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Bloomberg",
-          "Apple"
-        ]
-      },
-      {
-        "name": "Palindromic Substrings",
-        "link": "https://leetcode.com/problems/palindromic-substrings/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Google"
-        ]
-      },
-      {
         "name": "IPO",
         "link": "https://leetcode.com/problems/ipo/",
         "topic": "Greedy",
         "companies": [
           "Meta"
-        ]
-      },
-      {
-        "name": "Edit Distance",
-        "link": "https://leetcode.com/problems/edit-distance/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Meta",
-          "Microsoft",
-          "Google"
-        ]
-      },
-      {
-        "name": "Distinct Subsequences",
-        "link": "https://leetcode.com/problems/distinct-subsequences/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Amazon"
-        ]
-      },
-      {
-        "name": "Burst Balloons",
-        "link": "https://leetcode.com/problems/burst-balloons/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Bloomberg"
-        ]
-      },
-      {
-        "name": "Interleaving String",
-        "link": "https://leetcode.com/problems/interleaving-string/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Uber"
-        ]
-      },
-      {
-        "name": "N-Queens",
-        "link": "https://leetcode.com/problems/n-queens/",
-        "topic": "Backtracking",
-        "companies": [
-          "Amazon",
-          "Apple"
-        ]
-      },
-      {
-        "name": "Sudoku Solver",
-        "link": "https://leetcode.com/problems/sudoku-solver/",
-        "topic": "Backtracking",
-        "companies": [
-          "Apple"
-        ]
-      },
-      {
-        "name": "Subsets II",
-        "link": "https://leetcode.com/problems/subsets-ii/",
-        "topic": "Backtracking",
-        "companies": [
-          "Uber"
-        ]
-      },
-      {
-        "name": "Palindrome Partitioning",
-        "link": "https://leetcode.com/problems/palindrome-partitioning/",
-        "topic": "Backtracking",
-        "companies": [
-          "Apple",
-          "Microsoft",
-          "Uber"
-        ]
-      },
-      {
-        "name": "N Queens",
-        "link": "https://leetcode.com/problems/n-queens/",
-        "topic": "Backtracking",
-        "companies": [
-          "Uber",
-          "Bloomberg"
-        ]
-      },
-      {
-        "name": "Min Cost Climbing Stairs",
-        "link": "https://leetcode.com/problems/min-cost-climbing-stairs/",
-        "topic": "1-D Dynamic Programming",
-        "companies": [
-          "Uber",
-          "Amazon"
-        ]
-      },
-      {
-        "name": "Unique Paths",
-        "link": "https://leetcode.com/problems/unique-paths/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Amazon",
-          "TikTok"
-        ]
-      },
-      {
-        "name": "Longest Common Subsequence",
-        "link": "https://leetcode.com/problems/longest-common-subsequence/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Apple"
-        ]
-      },
-      {
-        "name": "Best Time to Buy And Sell Stock With Cooldown",
-        "link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "TikTok"
-        ]
-      },
-      {
-        "name": "Coin Change II",
-        "link": "https://leetcode.com/problems/coin-change-ii/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "TikTok"
-        ]
-      },
-      {
-        "name": "Target Sum",
-        "link": "https://leetcode.com/problems/target-sum/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Apple",
-          "Microsoft"
-        ]
-      },
-      {
-        "name": "Longest Increasing Path In a Matrix",
-        "link": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Meta",
-          "Apple"
-        ]
-      },
-      {
-        "name": "Regular Expression Matching",
-        "link": "https://leetcode.com/problems/regular-expression-matching/",
-        "topic": "2-D Dynamic Programming",
-        "companies": [
-          "Bloomberg",
-          "Uber"
         ]
       },
       {
@@ -2567,6 +2327,333 @@
         "companies": [
           "Microsoft",
           "Amazon"
+        ]
+      }
+    ]
+  },
+  {
+    "level": 11,
+    "goal": "Backtracking",
+    "description": "Master Combinatorics and Exhaustive Search.",
+    "problems": [
+      {
+        "name": "Word Search",
+        "link": "https://leetcode.com/problems/word-search/",
+        "topic": "Backtracking",
+        "companies": [
+          "TikTok",
+          "Google"
+        ]
+      },
+      {
+        "name": "Generate Parentheses",
+        "link": "https://leetcode.com/problems/generate-parentheses/",
+        "topic": "Backtracking",
+        "companies": [
+          "TikTok"
+        ],
+        "videoId": "s9fokUqJf3A"
+      },
+      {
+        "name": "Permutations",
+        "link": "https://leetcode.com/problems/permutations/",
+        "topic": "Backtracking",
+        "companies": [
+          "Meta",
+          "Amazon"
+        ]
+      },
+      {
+        "name": "Subsets",
+        "link": "https://leetcode.com/problems/subsets/",
+        "topic": "Backtracking",
+        "companies": [
+          "Uber"
+        ]
+      },
+      {
+        "name": "Combination Sum",
+        "link": "https://leetcode.com/problems/combination-sum/",
+        "topic": "Backtracking",
+        "companies": [
+          "Google"
+        ]
+      },
+      {
+        "name": "Letter Combinations of a Phone Number",
+        "link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
+        "topic": "Backtracking",
+        "companies": [
+          "Apple"
+        ]
+      },
+      {
+        "name": "Combination Sum II",
+        "link": "https://leetcode.com/problems/combination-sum-ii/",
+        "topic": "Backtracking",
+        "companies": [
+          "Amazon",
+          "Uber"
+        ]
+      },
+      {
+        "name": "N-Queens",
+        "link": "https://leetcode.com/problems/n-queens/",
+        "topic": "Backtracking",
+        "companies": [
+          "Amazon",
+          "Apple"
+        ]
+      },
+      {
+        "name": "Sudoku Solver",
+        "link": "https://leetcode.com/problems/sudoku-solver/",
+        "topic": "Backtracking",
+        "companies": [
+          "Apple"
+        ]
+      },
+      {
+        "name": "Subsets II",
+        "link": "https://leetcode.com/problems/subsets-ii/",
+        "topic": "Backtracking",
+        "companies": [
+          "Uber"
+        ]
+      },
+      {
+        "name": "Palindrome Partitioning",
+        "link": "https://leetcode.com/problems/palindrome-partitioning/",
+        "topic": "Backtracking",
+        "companies": [
+          "Apple",
+          "Microsoft",
+          "Uber"
+        ]
+      },
+      {
+        "name": "N Queens",
+        "link": "https://leetcode.com/problems/n-queens/",
+        "topic": "Backtracking",
+        "companies": [
+          "Uber",
+          "Bloomberg"
+        ]
+      }
+    ]
+  },
+  {
+    "level": 12,
+    "goal": "Dynamic Programming",
+    "description": "Master State Transition, Memoization, and Tabulation.",
+    "problems": [
+      {
+        "name": "Climbing Stairs",
+        "link": "https://leetcode.com/problems/climbing-stairs/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Bloomberg",
+          "Amazon"
+        ]
+      },
+      {
+        "name": "Is Subsequence",
+        "link": "https://leetcode.com/problems/is-subsequence/",
+        "topic": "Dynamic Programming",
+        "companies": [
+          "Google"
+        ]
+      },
+      {
+        "name": "House Robber",
+        "link": "https://leetcode.com/problems/house-robber/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Microsoft",
+          "TikTok"
+        ]
+      },
+      {
+        "name": "Coin Change",
+        "link": "https://leetcode.com/problems/coin-change/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Meta"
+        ]
+      },
+      {
+        "name": "Longest Increasing Subsequence",
+        "link": "https://leetcode.com/problems/longest-increasing-subsequence/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Uber",
+          "Amazon"
+        ]
+      },
+      {
+        "name": "Partition Equal Subset Sum",
+        "link": "https://leetcode.com/problems/partition-equal-subset-sum/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Amazon",
+          "Uber"
+        ]
+      },
+      {
+        "name": "Decode Ways",
+        "link": "https://leetcode.com/problems/decode-ways/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "TikTok"
+        ]
+      },
+      {
+        "name": "Longest Palindromic Substring",
+        "link": "https://leetcode.com/problems/longest-palindromic-substring/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Google",
+          "Meta",
+          "Microsoft"
+        ]
+      },
+      {
+        "name": "Word Break",
+        "link": "https://leetcode.com/problems/word-break/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Bloomberg",
+          "Amazon"
+        ]
+      },
+      {
+        "name": "Maximum Product Subarray",
+        "link": "https://leetcode.com/problems/maximum-product-subarray/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Meta",
+          "Uber",
+          "Amazon"
+        ]
+      },
+      {
+        "name": "House Robber II",
+        "link": "https://leetcode.com/problems/house-robber-ii/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Bloomberg",
+          "Apple"
+        ]
+      },
+      {
+        "name": "Palindromic Substrings",
+        "link": "https://leetcode.com/problems/palindromic-substrings/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Google"
+        ]
+      },
+      {
+        "name": "Edit Distance",
+        "link": "https://leetcode.com/problems/edit-distance/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Meta",
+          "Microsoft",
+          "Google"
+        ]
+      },
+      {
+        "name": "Distinct Subsequences",
+        "link": "https://leetcode.com/problems/distinct-subsequences/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Amazon"
+        ]
+      },
+      {
+        "name": "Burst Balloons",
+        "link": "https://leetcode.com/problems/burst-balloons/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Bloomberg"
+        ]
+      },
+      {
+        "name": "Interleaving String",
+        "link": "https://leetcode.com/problems/interleaving-string/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Uber"
+        ]
+      },
+      {
+        "name": "Min Cost Climbing Stairs",
+        "link": "https://leetcode.com/problems/min-cost-climbing-stairs/",
+        "topic": "1-D Dynamic Programming",
+        "companies": [
+          "Uber",
+          "Amazon"
+        ]
+      },
+      {
+        "name": "Unique Paths",
+        "link": "https://leetcode.com/problems/unique-paths/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Amazon",
+          "TikTok"
+        ]
+      },
+      {
+        "name": "Longest Common Subsequence",
+        "link": "https://leetcode.com/problems/longest-common-subsequence/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Apple"
+        ]
+      },
+      {
+        "name": "Best Time to Buy And Sell Stock With Cooldown",
+        "link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "TikTok"
+        ]
+      },
+      {
+        "name": "Coin Change II",
+        "link": "https://leetcode.com/problems/coin-change-ii/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "TikTok"
+        ]
+      },
+      {
+        "name": "Target Sum",
+        "link": "https://leetcode.com/problems/target-sum/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Apple",
+          "Microsoft"
+        ]
+      },
+      {
+        "name": "Longest Increasing Path In a Matrix",
+        "link": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Meta",
+          "Apple"
+        ]
+      },
+      {
+        "name": "Regular Expression Matching",
+        "link": "https://leetcode.com/problems/regular-expression-matching/",
+        "topic": "2-D Dynamic Programming",
+        "companies": [
+          "Bloomberg",
+          "Uber"
         ]
       }
     ]

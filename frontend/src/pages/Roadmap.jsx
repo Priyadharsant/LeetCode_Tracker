@@ -45,7 +45,7 @@ export default function Roadmap() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className={`w-full md:w-[45%] glass-panel p-6 relative group transition-all duration-300 hover:border-brand-500 cursor-pointer ${isComplete ? 'border-brand-500/50' : ''}`}
+                  className={`w-full md:w-[45%] glass-panel p-6 relative group transition-colors duration-300 hover:border-brand-500 cursor-pointer ${isComplete ? 'border-brand-500/50' : ''}`}
                 >
                   <Link to={`/practice?phase=${lvl.level}`} className="block">
                     <div className="flex justify-between items-start mb-4">

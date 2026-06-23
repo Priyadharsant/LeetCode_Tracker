@@ -34,6 +34,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Feedback route (does not require DB connection)
+app.use('/api/feedback', require('./routes/feedback'));
+
 let db;
 
 app.use((req, res, next) => {
@@ -135,7 +138,6 @@ async function getUserProgress(username) {
 
   const usersCol = db.collection('users');
   const user = await usersCol.findOne({ username });
-  console.log(user,"njn");
   
   return user?.progress || {};
 }
@@ -285,6 +287,16 @@ app.get('/api/levels', async (req, res) => {
     res.json(levels);
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/cheatsheet', async (req, res) => {
+  try {
+    const cheatsheet = await db.collection('cheatsheet').find().toArray();
+    res.json(cheatsheet);
+  } catch (err) {
+    console.error("Error fetching cheatsheet:", err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -445,13 +457,58 @@ app.patch('/api/levels/:level/problem/:index/revise', async (req, res) => {
       { $set: updateQuery }
     );
 
-    res.json({ success: true, message: 'Revised status updated successfully' });
+    res.json({ success: true, message: 'Updated successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
 
+// RESET all revised status to false
+app.post('/api/progress/reset-revise', async (req, res) => {
+  try {
+    const username = req.header('X-Username');
+    const { level } = req.body || {};
+
+    if (!username) {
+      return res.status(401).json({ error: 'Unauthorized: X-Username header required' });
+    }
+
+    const usersCol = db.collection('users');
+    const user = await usersCol.findOne({ username });
+
+    if (!user || !user.progress) {
+      return res.json({ success: true });
+    }
+
+    const updateQuery = { $unset: {} };
+    let hasUpdates = false;
+
+    for (const key in user.progress) {
+      if (user.progress[key].revised) {
+        // If level is provided, only reset if key starts with "level-"
+        if (level !== undefined) {
+          const [probLevel] = key.split('-');
+          if (parseInt(probLevel) !== parseInt(level)) {
+            continue; // skip this one
+          }
+        }
+        updateQuery.$unset[`progress.${key}.revised`] = "";
+        updateQuery.$unset[`progress.${key}.revisedAt`] = "";
+        hasUpdates = true;
+      }
+    }
+
+    if (hasUpdates) {
+      await usersCol.updateOne({ username }, updateQuery);
+    }
+
+    res.json({ success: true, message: 'Reset successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
 // --- Push Notification Routes ---
 
 app.get('/api/notifications/vapidPublicKey', (req, res) => {
