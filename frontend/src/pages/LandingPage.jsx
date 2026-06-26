@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { CodeXml, User, LogIn, Eye, EyeOff } from 'lucide-react';
 
 export default function LandingPage() {
@@ -40,11 +39,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass-panel max-w-md w-full p-8"
-      >
+      <div className="glass-panel max-w-md w-full p-8">
         <div className="flex justify-center mb-6">
           <div className="p-4 bg-brand-500/10 rounded-xl ring-1 ring-brand-400/20">
             <CodeXml className="w-12 h-12 text-brand-400" />
@@ -139,7 +134,7 @@ export default function LandingPage() {
         <p className="text-center text-surface-600 mt-4 text-xs">
           Guest progress is saved to your browser's local storage.
         </p>
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { ExternalLink, CheckCircle, Circle, Trophy, PartyPopper, ChevronDown, ChevronUp } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import AchievementOverlay from '../components/AchievementOverlay';
 import MonthCalendar from '../components/MonthCalendar';
@@ -20,6 +19,7 @@ export default function Practice() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [showAchievement, setShowAchievement] = useState(false);
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   
   // Video Modal State
   const [videoModalConfig, setVideoModalConfig] = useState({
@@ -78,9 +78,6 @@ export default function Practice() {
     if (filterStatus === 'unsolved' && p.solved) return false;
     if (selectedCompany && (!p.companies || !p.companies.includes(selectedCompany))) return false;
     return true;
-  }).sort((a, b) => {
-    if (a.solved === b.solved) return 0;
-    return a.solved ? 1 : -1;
   });
 
   const totalCurrent = problems.length;
@@ -111,14 +108,12 @@ export default function Practice() {
         videoId={videoModalConfig.videoId}
         problemName={videoModalConfig.problemName}
       />
-      <AnimatePresence>
-        {showAchievement && (
-          <AchievementOverlay
-            level={currentLevel}
-            onHide={() => setShowAchievement(false)}
-          />
-        )}
-      </AnimatePresence>
+      {showAchievement && (
+        <AchievementOverlay
+          level={currentLevel}
+          onHide={() => setShowAchievement(false)}
+        />
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
@@ -148,29 +143,22 @@ export default function Practice() {
                   {isExpanded ? <ChevronUp className="w-5 h-5 text-surface-500" /> : <ChevronDown className="w-5 h-5 text-surface-500" />}
                 </button>
                 
-                <AnimatePresence>
-                  {isExpanded && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="bg-surface-900 border-t border-surface-700"
-                    >
-                      <div className="p-4 space-y-4">
-                        <div>
-                          <p className="text-sm text-surface-300 font-medium">{lvl.goal}</p>
-                          <div className="mt-2 text-xs text-surface-500">{lSolved} / {lTotal} Solved</div>
-                        </div>
-                        <button
-                          onClick={() => setCurrentLevel(lvl.level)}
-                          className={`w-full py-2 rounded text-sm font-bold transition-colors ${isActive ? 'bg-brand-500 text-surface-900' : 'bg-surface-800 text-brand-500 hover:bg-surface-700 border border-brand-500'}`}
-                        >
-                          {isActive ? 'Current View' : 'All Problems'}
-                        </button>
+                {isExpanded && (
+                  <div className="bg-surface-900 border-t border-surface-700">
+                    <div className="p-4 space-y-4">
+                      <div>
+                        <p className="text-sm text-surface-300 font-medium">{lvl.goal}</p>
+                        <div className="mt-2 text-xs text-surface-500">{lSolved} / {lTotal} Solved</div>
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      <button
+                        onClick={() => setCurrentLevel(lvl.level)}
+                        className={`w-full py-2 rounded text-sm font-bold transition-colors ${isActive ? 'bg-brand-500 text-surface-900' : 'bg-surface-800 text-brand-500 hover:bg-surface-700 border border-brand-500'}`}
+                      >
+                        {isActive ? 'Current View' : 'All Problems'}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
@@ -203,59 +191,63 @@ export default function Practice() {
                <div className={`text-sm font-mono px-3 py-1.5 rounded-md border transition-colors ${isLevelComplete ? 'bg-brand-500/10 border-brand-500/20 text-brand-500' : 'bg-surface-900 border-surface-700 text-surface-400'}`}>
                  <span className={`${isLevelComplete ? 'text-brand-500' : 'text-brand-500'} font-bold`}>{solvedCurrent}</span> / {totalCurrent} Solved
                </div>
-               <div className="relative group">
-                 <button className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-surface-900 border border-surface-700 rounded-lg text-surface-300 hover:text-white hover:border-surface-600 transition-colors">
+               <div className="relative z-30">
+                 <button 
+                   onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                   className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-surface-900 border border-surface-700 rounded-lg text-surface-300 hover:text-white hover:border-surface-600 transition-colors"
+                 >
                    <span className="capitalize">{filterStatus} Problems</span>
-                   <ChevronDown className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                   <ChevronDown className={`w-4 h-4 opacity-70 transition-transform ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
                  </button>
                  
-                 <div className="absolute right-0 mt-2 w-40 bg-surface-800 border border-surface-700 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden transform origin-top-right scale-95 group-hover:scale-100">
-                   <div className="py-1">
-                     {['all', 'solved', 'unsolved'].map(f => (
-                       <button
-                         key={f}
-                         onClick={() => setFilterStatus(f)}
-                         className={`w-full text-left px-4 py-2 text-sm capitalize transition-colors ${filterStatus === f ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
-                       >
-                         {f} Problems
-                       </button>
-                     ))}
-                   </div>
-                 </div>
+                 {isFilterDropdownOpen && (
+                   <>
+                     <div 
+                       className="fixed inset-0 z-40" 
+                       onClick={() => setIsFilterDropdownOpen(false)}
+                     />
+                     <div className="absolute right-0 mt-2 w-40 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
+                       <div className="py-1">
+                         {['all', 'solved', 'unsolved'].map(f => (
+                           <button
+                             key={f}
+                             onClick={() => {
+                               setFilterStatus(f);
+                               setIsFilterDropdownOpen(false);
+                             }}
+                             className={`w-full text-left px-4 py-2 text-sm capitalize transition-colors ${filterStatus === f ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
+                           >
+                             {f} Problems
+                           </button>
+                         ))}
+                       </div>
+                     </div>
+                   </>
+                 )}
                </div>
             </div>
           </div>
 
           {totalCurrent > 0 && (
             <div className="w-full bg-surface-800 rounded-full h-2 mb-8 overflow-hidden ring-1 ring-surface-700">
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: `${(solvedCurrent / totalCurrent) * 100}%` }}
+              <div 
+                style={{ width: `${(solvedCurrent / totalCurrent) * 100}%` }}
                 className="premium-bar-gradient h-2 rounded-full transition-all duration-500 ease-out"
               />
             </div>
           )}
 
           <div className="space-y-3 pb-20">
-            <AnimatePresence>
-              {filteredProblems.length === 0 ? (
-                <motion.div
-                  key="empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="text-center py-12 text-surface-600 italic"
+            {filteredProblems.length === 0 ? (
+              <div className="text-center py-12 text-surface-600 italic">
+                No problems found for this filter.
+              </div>
+            ) : (
+              filteredProblems.map((p, idx) => (
+                <div 
+                  key={`${levelObj.level}-${p.originalIndex}`} 
+                  className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${p.solved ? 'bg-brand-500/[0.03] border-brand-500/10 opacity-90 shadow-sm' : 'bg-surface-800 border-surface-700 hover:border-brand-500/50 hover:bg-surface-700'}`}
                 >
-                  No problems found for this filter.
-                </motion.div>
-              ) : (
-                filteredProblems.map((p) => (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    key={`${levelObj.level}-${p.originalIndex}`} 
-                    className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${p.solved ? 'bg-brand-500/[0.03] border-brand-500/10 opacity-90 shadow-sm' : 'bg-surface-800 border-surface-700 hover:border-brand-500/50 hover:bg-surface-700'}`}
-                  >
                   <div className="flex items-center gap-4 flex-1">
                     <button 
                       onClick={() => handleToggle(levelObj.level, p.originalIndex, p.solved)}
@@ -271,80 +263,80 @@ export default function Practice() {
                         </div>
                       )}
                     </button>
-                                        <div className="flex flex-col min-w-0 flex-1">
-                                <div className="flex items-center gap-2">
-                                  <a 
-                                    href={p.link} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    className={`font-medium text-sm md:text-base transition-colors truncate hover:text-brand-300 ${p.solved ? 'line-through text-surface-400' : 'text-white'}`}
-                                  >
-                                    {p.name}
-                                  </a>
-                                </div>
-                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
-                                  <span className="text-[10px] uppercase font-bold tracking-widest text-surface-500 flex items-center gap-1.5 bg-surface-900 px-2 py-0.5 rounded">
-                                    <div className={`w-1 h-1 rounded-full ${p.solved ? 'bg-brand-500' : 'bg-surface-600'}`}></div>
-                                    {p.topic}
-                                  </span>
-                                  
-                                  {p.companies && p.companies.length > 0 && (
-                                    <div className="flex items-center gap-1.5 border-l border-surface-700/50 pl-3">
-                                      {p.companies.map(c => (
-                                        <span key={c} className="text-[9px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded-md border bg-surface-800 text-surface-400 border-surface-700">
-                                          {c}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  )}
+                    
+                    <div className="flex flex-col min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <a 
+                          href={p.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className={`font-medium text-sm md:text-base transition-colors truncate hover:text-brand-300 ${p.solved ? 'line-through text-surface-400' : 'text-white'}`}
+                        >
+                          {p.name}
+                        </a>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
+                        <span className="text-[10px] uppercase font-bold tracking-widest text-surface-500 flex items-center gap-1.5 bg-surface-900 px-2 py-0.5 rounded">
+                          <div className={`w-1 h-1 rounded-full ${p.solved ? 'bg-brand-500' : 'bg-surface-600'}`}></div>
+                          {p.topic}
+                        </span>
+                        
+                        {p.companies && p.companies.length > 0 && (
+                          <div className="flex items-center gap-1.5 border-l border-surface-700/50 pl-3">
+                            {p.companies.map(c => (
+                              <span key={c} className="text-[9px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded-md border bg-surface-800 text-surface-400 border-surface-700">
+                                {c}
+                              </span>
+                            ))}
+                          </div>
+                        )}
 
-                                  {p.solved && p.solvedAt && (
-                                    <span className="text-[10px] font-medium text-surface-500 ml-auto md:ml-0">
-                                      Solved {new Date(p.solvedAt).toLocaleDateString()}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
+                        {p.solved && p.solvedAt && (
+                          <span className="text-[10px] font-medium text-surface-500 ml-auto md:ml-0">
+                            Solved {new Date(p.solvedAt).toLocaleDateString()}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
 
-                            <div className="flex items-center gap-1 shrink-0 ml-2">
-                              <div className={`relative group/vidbtn flex items-center justify-center transition-all ${p.videoId ? '' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
-                                <button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    setVideoModalConfig({
-                                      isOpen: true,
-                                      videoId: p.videoId || null,
-                                      problemName: p.name
-                                    });
-                                  }}
-                                  className={`p-2 rounded-xl transition-colors ${p.videoId ? 'text-red-500 hover:bg-red-500/10' : 'text-surface-400 hover:text-white hover:bg-surface-800'}`}
-                                >
-                                  <YoutubeIcon className="w-5 h-5" />
-                                </button>
-                                <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/vidbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
-                                  Video Solution
-                                </div>
-                              </div>
-                              
-                              <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
-                                <a 
-                                  href={p.link} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="p-2 rounded-xl text-surface-500 hover:text-brand-500 hover:bg-brand-500/10 transition-colors"
-                                >
-                                  <ExternalLink className="w-5 h-5" />
-                                </a>
-                                <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/linkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
-                                  Solve on LeetCode
-                                </div>
-                              </div>
-                            </div>
-                </motion.div>
+                  <div className="flex items-center gap-1 shrink-0 ml-2">
+                    <div className={`relative group/vidbtn flex items-center justify-center transition-all ${p.videoId ? '' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setVideoModalConfig({
+                            isOpen: true,
+                            videoId: p.videoId || null,
+                            problemName: p.name
+                          });
+                        }}
+                        className={`p-2 rounded-xl transition-colors ${p.videoId ? 'text-red-500 hover:bg-red-500/10' : 'text-surface-400 hover:text-white hover:bg-surface-800'}`}
+                      >
+                        <YoutubeIcon className="w-5 h-5" />
+                      </button>
+                      <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/vidbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                        Video Solution
+                      </div>
+                    </div>
+                    
+                    <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                      <a 
+                        href={p.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-xl text-surface-500 hover:text-brand-500 hover:bg-brand-500/10 transition-colors"
+                      >
+                        <ExternalLink className="w-5 h-5" />
+                      </a>
+                      <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/linkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                        Solve on LeetCode
+                      </div>
+                    </div>
+                  </div>
+                </div>
               ))
             )}
-            </AnimatePresence>
           </div>
         </div>
 
@@ -353,19 +345,14 @@ export default function Practice() {
           <MonthCalendar data={data} />
           
           {topicStats && topicStats.length > 0 && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="glass-panel p-5"
-            >
+            <div className="glass-panel p-5">
               <div className="flex items-center gap-2 mb-4">
                 <Trophy className="w-5 h-5 text-brand-400" />
                 <h3 className="font-bold text-white">Strongest Topics</h3>
               </div>
               
               <div className="space-y-4">
-                {topicStats.map((stat, i) => (
+                {topicStats.map((stat) => (
                   <div key={stat.topic} className="relative">
                     <div className="flex justify-between text-xs mb-1">
                       <span className="font-medium text-surface-300 truncate pr-2" title={stat.topic}>
@@ -376,17 +363,15 @@ export default function Practice() {
                       </span>
                     </div>
                     <div className="w-full bg-surface-800 rounded-full h-1.5 overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${stat.percentage}%` }}
-                        transition={{ duration: 1, delay: 0.3 + (i * 0.1) }}
+                      <div
+                        style={{ width: `${stat.percentage}%` }}
                         className="h-full bg-brand-500 rounded-full"
                       />
                     </div>
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           )}
         </div>
         

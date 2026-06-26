@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen, Terminal } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen, Terminal, LibraryBig } from 'lucide-react';
 
 export default function Navbar({ isOffline }) {
   const { user, isGuest } = useAuth();
@@ -13,6 +12,7 @@ export default function Navbar({ isOffline }) {
   const navItems = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/roadmap', label: 'Roadmap', icon: Map },
+    { to: '/patterns', label: 'Patterns', icon: LibraryBig },
     { to: '/practice', label: 'Practice', icon: Layers3 },
     { to: '/revise', label: 'Revise', icon: BookOpen },
     { to: '/cheatsheet', label: 'CheatSheet', icon: Terminal },
@@ -45,8 +45,7 @@ export default function Navbar({ isOffline }) {
                   <Icon className={`w-4 h-4 transition-colors ${isActive(to) ? 'text-brand-400' : 'text-surface-500 group-hover:text-brand-400/70'}`} />
                   {label}
                   {isActive(to) && (
-                    <motion.div 
-                      layoutId="navbar-active"
+                    <div 
                       className="absolute bottom-2 left-0 right-0 h-[3px] bg-brand-400 rounded-full shadow-[0_-2px_10px_rgba(56,204,177,0.5)]"
                     />
                   )}

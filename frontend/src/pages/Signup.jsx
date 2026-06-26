@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { CodeXml, UserPlus, Eye, EyeOff } from 'lucide-react';
 
 export default function Signup() {
@@ -57,11 +56,7 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass-panel max-w-md w-full p-8 relative z-10"
-      >
+      <div className="glass-panel max-w-md w-full p-8 relative z-10">
         <div className="flex justify-center mb-6">
           <div className="p-4 bg-brand-500/10 rounded-xl ring-1 ring-brand-400/20">
             <CodeXml className="w-12 h-12 text-brand-400" />
@@ -158,7 +153,7 @@ export default function Signup() {
             </Link>
           </p>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

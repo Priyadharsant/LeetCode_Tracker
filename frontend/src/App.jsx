@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { MessageSquare } from 'lucide-react';
 import Navbar from './components/Navbar';
@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Roadmap from './pages/Roadmap';
 import Practice from './pages/Practice';
+import Patterns from './pages/Patterns';
 import Account from './pages/Account';
 import Revise from './pages/Revise';
 import CheatSheet from './pages/CheatSheet';
@@ -22,6 +23,7 @@ function ProtectedRoute({ children }) {
 }
 
 function App() {
+  const location = useLocation();
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
@@ -50,12 +52,13 @@ function App() {
       )}
       <div className={isOffline ? "pt-8" : ""}>
         <Navbar isOffline={isOffline} />
-        <main>
-          <Routes>
+        <main key={location.pathname} className="animate-page-enter">
+          <Routes location={location}>
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/roadmap" element={<ProtectedRoute><Roadmap /></ProtectedRoute>} />
+            <Route path="/patterns" element={<ProtectedRoute><Patterns /></ProtectedRoute>} />
             <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
             <Route path="/revise" element={<ProtectedRoute><Revise /></ProtectedRoute>} />
             <Route path="/cheatsheet" element={<ProtectedRoute><CheatSheet /></ProtectedRoute>} />
@@ -70,7 +73,6 @@ function App() {
           <button 
             onClick={() => setIsFeedbackOpen(true)}
             className="fixed bottom-6 right-6 z-40 p-3 bg-surface-800 border border-surface-700 text-surface-400 hover:bg-brand-500 hover:text-white hover:border-brand-500 rounded-full shadow-lg transition-all hover:scale-110 active:scale-95 flex items-center justify-center group"
-            title="Send Feedback"
           >
             <MessageSquare className="w-5 h-5" />
             <span className="absolute right-full mr-4 px-2 py-1 bg-surface-800 text-white text-xs font-medium rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700">

@@ -10,6 +10,7 @@ export function DataProvider({ children }) {
   const [data, setData] = useState([]);
   const [topicInfo, setTopicInfo] = useState({});
   const [cheatsheetData, setCheatsheetData] = useState([]);
+  const [materialsData, setMaterialsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -79,9 +80,6 @@ export function DataProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      // TEST MODE: artificial 2 second delay to show the loading animation
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
       // Fetch levels
       const guestMode = !user && (isGuest || localStorage.getItem('dsa_guest') === 'true');
       if (guestMode) {
@@ -117,6 +115,13 @@ export function DataProvider({ children }) {
       if (csRes.ok) {
         const csList = await csRes.json();
         setCheatsheetData(csList);
+      }
+
+      // Fetch materials data
+      const matRes = await fetch(`${API_BASE}/materials`);
+      if (matRes.ok) {
+        const matList = await matRes.json();
+        setMaterialsData(matList);
       }
     } catch (err) {
       console.error('Failed to fetch data:', err);
@@ -265,6 +270,44 @@ export function DataProvider({ children }) {
     }
   };
 
+  const resetTechniqueRevision = async (technique) => {
+    const keysToReset = [];
+    
+    // Optimistic UI update
+    const newData = data.map(lvl => {
+      return {
+        ...lvl,
+        problems: lvl.problems.map((p, index) => {
+          const pTechs = p.techniques && p.techniques.length > 0 ? p.techniques : ["Other"];
+          if (pTechs.includes(technique)) {
+            keysToReset.push(`${lvl.level}-${index}`);
+            return { ...p, revised: false, revisedAt: undefined };
+          }
+          return p;
+        })
+      };
+    });
+    setData(newData);
+
+    const guestMode = !user && (isGuest || localStorage.getItem('dsa_guest') === 'true');
+    if (guestMode) {
+      localStorage.setItem('dsa_progress_guest', JSON.stringify(newData));
+    } else {
+      try {
+        const res = await fetch(`${API_BASE}/progress/reset-revise`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ keys: keysToReset })
+        });
+        if (!res.ok) throw new Error('Reset technique revise failed on server');
+      } catch (err) {
+        console.error('Reset technique revise failed:', err);
+        // Revert by refetching data
+        fetchData();
+      }
+    }
+  };
+
   const getTopicData = () => {
     const topicsMap = new Map();
     data.forEach(levelObj => {
@@ -309,7 +352,20 @@ export function DataProvider({ children }) {
   };
 
   return (
-    <DataContext.Provider value={{ data, topicInfo, cheatsheetData, loading, error, toggleProblemStatus, toggleRevisionStatus, resetReviseProgress, getTopicData, getTechniqueData }}>
+    <DataContext.Provider value={{
+      data,
+      topicInfo,
+      cheatsheetData,
+      materialsData,
+      loading,
+      error,
+      toggleProblemStatus,
+      toggleRevisionStatus,
+      resetReviseProgress,
+      resetTechniqueRevision,
+      getTopicData,
+      getTechniqueData
+    }}>
       {children}
     </DataContext.Provider>
   );

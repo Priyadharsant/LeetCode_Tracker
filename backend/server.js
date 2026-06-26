@@ -301,6 +301,42 @@ app.get('/api/cheatsheet', async (req, res) => {
   }
 });
 
+// GET all materials
+app.get('/api/materials', async (req, res) => {
+  try {
+    const materials = await db.collection('materials').find().toArray();
+    res.json(materials);
+  } catch (err) {
+    console.error("Error fetching materials:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Proxy material downloads to hide Vercel URL
+app.get('/material/:filename', async (req, res) => {
+  try {
+    const filename = req.params.filename;
+    const fileUrl = `${process.env.MATERIALS_BASE_URL}${filename}`;
+    
+    const response = await fetch(fileUrl);
+    if (!response.ok) {
+      return res.status(response.status).send('Material not found');
+    }
+    
+    // Copy headers from the remote response
+    response.headers.forEach((value, name) => {
+      res.setHeader(name, value);
+    });
+    
+    // Stream the body directly to the client
+    const { Readable } = require('stream');
+    Readable.fromWeb(response.body).pipe(res);
+  } catch (err) {
+    console.error("Error proxying material:", err);
+    res.status(500).send("Error fetching material");
+  }
+});
+
 // GET topics
 app.get('/api/topics', async (req, res) => {
   try {
@@ -468,7 +504,7 @@ app.patch('/api/levels/:level/problem/:index/revise', async (req, res) => {
 app.post('/api/progress/reset-revise', async (req, res) => {
   try {
     const username = req.header('X-Username');
-    const { level } = req.body || {};
+    const { level, keys } = req.body || {};
 
     if (!username) {
       return res.status(401).json({ error: 'Unauthorized: X-Username header required' });
@@ -490,6 +526,12 @@ app.post('/api/progress/reset-revise', async (req, res) => {
         if (level !== undefined) {
           const [probLevel] = key.split('-');
           if (parseInt(probLevel) !== parseInt(level)) {
+            continue; // skip this one
+          }
+        }
+        // If keys array is provided, only reset if key is in the array
+        if (keys !== undefined && Array.isArray(keys)) {
+          if (!keys.includes(key)) {
             continue; // skip this one
           }
         }

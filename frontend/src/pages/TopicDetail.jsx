@@ -2,7 +2,6 @@ import { useParams, Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useState } from 'react';
 import { ExternalLink, CheckCircle, Circle, ArrowLeft } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import TopicInfo from '../components/TopicInfo';
 import DSALoader from '../components/DSALoader';
 
@@ -31,9 +30,6 @@ export default function TopicDetail({ mode = 'topic' }) {
     if (filterStatus === 'solved') return p.solved;
     if (filterStatus === 'unsolved') return !p.solved;
     return true;
-  }).sort((a, b) => {
-    if (a.solved === b.solved) return 0;
-    return a.solved ? 1 : -1;
   });
 
   const totalCurrent = topicObj.problems.length;
@@ -46,18 +42,14 @@ export default function TopicDetail({ mode = 'topic' }) {
         Back to {isTechnique ? 'Techniques' : 'Topics'}
       </Link>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
+      <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-accent-sky to-accent-amber">{decodedTopic}</h1>
         <p className="text-surface-400">
           {isTechnique
             ? `Practice questions that train the ${decodedTopic} technique, including problems that also belong to other patterns.`
             : `Practice questions related to ${decodedTopic}.`}
         </p>
-      </motion.div>
+      </div>
 
       {!isTechnique && <TopicInfo topic={decodedTopic} />}
 
@@ -92,42 +84,24 @@ export default function TopicDetail({ mode = 'topic' }) {
       {/* Progress Bar */}
       {totalCurrent > 0 && (
         <div className="w-full bg-surface-900/80 rounded-full h-2 mb-8 overflow-hidden ring-1 ring-white/10">
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: `${(solvedCurrent / totalCurrent) * 100}%` }}
-            className="premium-bar-gradient h-2 rounded-full transition-all duration-500 ease-out"
+          <div 
+            style={{ width: `${(solvedCurrent / totalCurrent) * 100}%` }}
+            className="premium-bar-gradient h-2 rounded-full"
           />
         </div>
       )}
 
       {/* Problem List */}
       <div className="space-y-3 pb-20">
-        <AnimatePresence mode="popLayout">
         {filteredProblems.length === 0 ? (
-          <motion.div 
-            key="empty"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="text-center py-12 text-surface-600 italic"
-          >
+          <div className="text-center py-12 text-surface-600 italic">
             No problems found for this filter.
-          </motion.div>
+          </div>
         ) : (
           filteredProblems.map((p) => (
-            <motion.div 
-              layout
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-              exit={{ 
-                opacity: [1, 0],
-                x: [0, 40],
-                filter: ["blur(0px)", "blur(12px)"],
-                clipPath: ["inset(0% 0% 0% 0%)", "inset(0% 0% 0% 100%)"],
-                transition: { duration: 0.5, ease: "easeOut" }
-              }}
+            <div 
               key={`${p.originalLevel}-${p.originalIndex}`} 
-              className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-200 ${
+              className={`group flex items-center justify-between p-4 rounded-xl border ${
                 p.solved 
                   ? 'bg-surface-950/50 border-white/5 opacity-75' 
                   : 'bg-surface-900/75 border-white/10 hover:border-brand-400/30 hover:bg-surface-900 hover:shadow-lg hover:shadow-black/20'
@@ -185,14 +159,13 @@ export default function TopicDetail({ mode = 'topic' }) {
                 href={p.link} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-2 text-surface-600 hover:text-brand-300 opacity-0 group-hover:opacity-100 transition-all focus:opacity-100"
+                className="p-2 text-surface-600 hover:text-brand-300 opacity-0 group-hover:opacity-100 focus:opacity-100"
               >
                 <ExternalLink className="w-5 h-5" />
               </a>
-            </motion.div>
+            </div>
           ))
         )}
-        </AnimatePresence>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import { useData } from '../context/DataContext';
-import { motion } from 'framer-motion';
-import { Target, Sparkles, BookOpen, Layers, Activity, Brain, Network, Compass, ArrowRight, Code, CheckCircle } from 'lucide-react';
+import { Target, Sparkles, BookOpen, Layers, Activity, Brain, Network, Compass, ArrowRight, Code } from 'lucide-react';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import RadialProgress from '../components/RadialProgress';
@@ -80,11 +79,7 @@ export default function Dashboard() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Header Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6"
-      >
+      <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/[0.04] border border-white/10 rounded-full text-brand-300 mb-4 text-xs font-semibold uppercase tracking-widest shadow-sm">
             <Sparkles className="w-3.5 h-3.5" />
@@ -95,16 +90,11 @@ export default function Dashboard() {
             Monitor your DSA journey, identify patterns, and systematically conquer your interview prep.
           </p>
         </div>
-      </motion.div>
+      </div>
 
       {/* Suggested Next Problem Banner */}
       {nextProblem && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.05 }}
-          className="mb-8 bg-gradient-to-r from-brand-900/40 via-surface-900 to-surface-900 border border-brand-500/20 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-brand-900/10 relative overflow-hidden"
-        >
+        <div className="mb-8 bg-gradient-to-r from-brand-900/40 via-surface-900 to-surface-900 border border-brand-500/20 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-brand-900/10 relative overflow-hidden">
           <div className="absolute -left-12 -top-12 w-32 h-32 bg-brand-500/20 blur-[50px] rounded-full"></div>
           <div className="flex items-center gap-4 relative z-10">
             <div className="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 shrink-0">
@@ -131,20 +121,20 @@ export default function Dashboard() {
             Solve Problem
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </motion.div>
+        </div>
       )}
 
       {/* Top Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="metric-panel flex flex-col justify-between items-center text-center group">
+        <div className="metric-panel flex flex-col justify-between items-center text-center group">
           <div className="panel-title relative z-10 mb-4 group-hover:text-brand-300 transition-colors">Total Completion</div>
           <RadialProgress value={overallProgress} size={130} stroke={10} />
           <div className="relative z-10 mt-4 text-sm text-surface-500 font-medium">
             <span className="text-white font-bold text-base mr-1">{totalSolved}</span> of {totalProblems} solved
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="metric-panel flex flex-col justify-between">
+        <div className="metric-panel flex flex-col justify-between">
           <div className="relative z-10">
              <div className="flex items-center gap-2 text-surface-400 mb-2 text-sm font-medium">
               <Target className="w-4 h-4 text-brand-400" />
@@ -159,9 +149,9 @@ export default function Dashboard() {
               <span className="text-brand-300 font-bold">{overallProgress.toFixed(1)}%</span>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="metric-panel flex flex-col justify-between relative overflow-hidden group">
+        <div className="metric-panel flex flex-col justify-between relative overflow-hidden group">
           <div className="relative z-10">
              <div className="flex items-center gap-2 text-surface-400 mb-2 text-sm font-medium">
               <Activity className="w-4 h-4 text-brand-400" />
@@ -173,19 +163,19 @@ export default function Dashboard() {
           <div className="absolute -bottom-4 -right-4 opacity-40 group-hover:opacity-60 transition-opacity z-0 pointer-events-none">
              <Sparkline data={trendData} width={160} height={80} stroke="#ffa116" />
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="h-full">
+        <div className="h-full">
           <StreakCard dates={solvedDates} />
-        </motion.div>
+        </div>
       </div>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
         <div className="lg:col-span-2 flex flex-col gap-6">
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+          <div>
             <Heatmap data={solvedDates} days={365} />
-          </motion.div>
+          </div>
           
           {/* Level Master Detailed Section */}
           <div className="mt-4">
@@ -193,19 +183,16 @@ export default function Dashboard() {
               <BookOpen className="w-6 h-6 text-brand-400" />
               <h2 className="text-2xl font-bold text-white tracking-tight">Level Details</h2>
             </div>
-
+            
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              {data.map((levelObj, i) => {
+              {data.map((levelObj) => {
                 const lTotal = levelObj.problems.length;
                 const lSolved = levelObj.problems.filter(p => p.solved).length;
                 const lProg = lTotal === 0 ? 0 : (lSolved / lTotal) * 100;
                 const isComplete = lProg === 100;
 
                 return (
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 * i }}
+                  <div
                     key={levelObj.level}
                     onClick={() => navigate(`/practice?phase=${levelObj.level}`)}
                     className={`group glass-panel p-6 relative overflow-hidden transition-all duration-300 cursor-pointer hover:-translate-y-1 ${isComplete ? 'border-brand-400/30 shadow-brand-500/5' : 'hover:border-brand-400/20'}`}
@@ -242,29 +229,22 @@ export default function Dashboard() {
                         <span className={isComplete ? 'text-brand-400' : 'text-surface-300'}>{lProg.toFixed(0)}%</span>
                       </div>
                       <div className="w-full bg-surface-800/80 rounded-full h-2 overflow-hidden ring-1 ring-inset ring-white/10">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${lProg}%` }}
-                          transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 + (i * 0.1) }}
+                        <div
+                          style={{ width: `${lProg}%` }}
                           className={`h-full rounded-full ${isComplete ? 'bg-brand-400' : 'premium-bar-gradient'}`}
                         />
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
           </div>
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }} 
-          animate={{ opacity: 1, x: 0 }} 
-          transition={{ delay: 0.6 }}
-          className="flex flex-col gap-6"
-        >
+        <div className="flex flex-col gap-6">
           <RecentProblems limit={12} />
-        </motion.div>
+        </div>
       </div>
       <NotificationToast />
     </div>

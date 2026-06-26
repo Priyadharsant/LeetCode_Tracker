@@ -1,5 +1,4 @@
 import { useData } from '../context/DataContext';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Map, CheckCircle, Code } from 'lucide-react';
 import DSALoader from '../components/DSALoader';
@@ -12,11 +11,7 @@ export default function Roadmap() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-12 text-center"
-      >
+      <div className="mb-12 text-center">
         <div className="inline-flex items-center justify-center p-3 rounded-full bg-surface-800 border border-surface-700 mb-4">
           <Map className="w-8 h-8 text-brand-500" />
         </div>
@@ -25,7 +20,7 @@ export default function Roadmap() {
           Follow this 10-phase structured path to master Data Structures and Algorithms. 
           Complete each node to unlock your full potential.
         </p>
-      </motion.div>
+      </div>
 
       <div className="relative py-10">
         <div className="absolute left-[50%] top-0 bottom-0 w-1 bg-surface-700 -translate-x-1/2 rounded-full hidden md:block"></div>
@@ -40,11 +35,7 @@ export default function Roadmap() {
 
             return (
               <div key={lvl.level} className={`flex flex-col md:flex-row items-center w-full ${isEven ? 'md:justify-start' : 'md:justify-end'} relative md:-mb-12`}>
-                <motion.div
-                  initial={{ opacity: 0, x: isEven ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
+                <div
                   className={`w-full md:w-[45%] glass-panel p-6 relative group transition-colors duration-300 hover:border-brand-500 cursor-pointer ${isComplete ? 'border-brand-500/50' : ''}`}
                 >
                   <Link to={`/practice?phase=${lvl.level}`} className="block">
@@ -69,12 +60,12 @@ export default function Roadmap() {
                     
                     <div className="w-full bg-surface-900 rounded-full h-1.5 mt-3 overflow-hidden">
                       <div 
-                        className="h-full bg-brand-500 transition-all duration-1000"
+                        className="h-full bg-brand-500"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
                   </Link>
-                </motion.div>
+                </div>
 
                 <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-surface-900 border-4 border-surface-800 items-center justify-center z-20">
                   <div className={`w-3 h-3 rounded-full ${isComplete ? 'bg-brand-500' : 'bg-surface-500'}`}></div>
@@ -87,4 +78,3 @@ export default function Roadmap() {
     </div>
   );
 }
-

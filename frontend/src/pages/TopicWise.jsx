@@ -1,6 +1,5 @@
 import { useData } from '../context/DataContext';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Network, Sparkles, BookOpen, Gauge } from 'lucide-react';
 import DSALoader from '../components/DSALoader';
 
@@ -33,11 +32,7 @@ export default function TopicWise() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 md:p-12">
-      <motion.div 
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6"
-      >
+      <div className="mb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-300 mb-4">
             <Sparkles className="w-3.5 h-3.5" />
@@ -75,25 +70,20 @@ export default function TopicWise() {
             <div className="text-sm font-bold text-white truncate">{strongest?.topic || 'None yet'}</div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {topics.length === 0 ? (
         <div className="text-center text-zinc-500 py-10">No topic problems found yet.</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {topics.map((t, idx) => {
+          {topics.map((t) => {
             const total = t.problems.length;
             const solved = t.problems.filter(p => p.solved).length;
             const progress = total === 0 ? 0 : (solved / total) * 100;
             const isComplete = progress === 100;
 
             return (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: idx * 0.05 }}
-                key={t.topic}
-              >
+              <div key={t.topic}>
                 <Link 
                   to={`/topics/${encodeURIComponent(t.topic)}`}
                   className={`glass-panel block h-full p-6 group overflow-hidden relative transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_40px_rgba(22,183,157,0.12)] ${
@@ -127,10 +117,9 @@ export default function TopicWise() {
                     </div>
 
                     <div className="h-1.5 w-full bg-surface-950 rounded-full overflow-hidden mb-6 ring-1 ring-white/5">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: `${progress}%` }}
-                        className={`h-full rounded-full transition-all duration-1000 ${
+                      <div 
+                        style={{ width: `${progress}%` }}
+                        className={`h-full rounded-full ${
                           isComplete ? 'bg-brand-400 shadow-[0_0_10px_rgba(56,204,177,0.5)]' : 'bg-gradient-to-r from-surface-600 to-brand-500'
                         }`}
                       />
@@ -156,7 +145,7 @@ export default function TopicWise() {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
         </div>
