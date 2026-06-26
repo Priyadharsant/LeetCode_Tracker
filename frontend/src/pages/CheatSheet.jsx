@@ -13,6 +13,15 @@ export default function CheatSheet() {
     title: ''
   });
 
+  const getMaterialUrl = (endpoint) => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    if (apiUrl) {
+      const baseUrl = apiUrl.replace(/\/api\/?$/, '');
+      return `${baseUrl}/material/${endpoint}`;
+    }
+    return `/material/${endpoint}`;
+  };
+
   if (loading) {
     return <DSALoader message="Loading Cheat Sheet..." />;
   }
@@ -51,7 +60,7 @@ export default function CheatSheet() {
           {materialsData && materialsData.length > 0 && (
             <div className="flex flex-wrap gap-4 mb-8">
               {materialsData.map((material) => {
-                const fileUrl = `/material/${material.endpoint}`;
+                const fileUrl = getMaterialUrl(material.endpoint);
 
                 return (
                   <button
