@@ -73,12 +73,19 @@ export default function Practice() {
   const levelObj = data.find(d => d.level === currentLevel) || data[0];
   const problems = levelObj.problems.map((p, i) => ({ ...p, originalIndex: i }));
   
-  const filteredProblems = problems.filter(p => {
-    if (filterStatus === 'solved' && !p.solved) return false;
-    if (filterStatus === 'unsolved' && p.solved) return false;
-    if (selectedCompany && (!p.companies || !p.companies.includes(selectedCompany))) return false;
-    return true;
-  });
+  const filteredProblems = problems
+    .filter(p => {
+      if (filterStatus === 'solved' && !p.solved) return false;
+      if (filterStatus === 'unsolved' && p.solved) return false;
+      if (selectedCompany && (!p.companies || !p.companies.includes(selectedCompany))) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      if (a.solved !== b.solved) {
+        return a.solved ? 1 : -1;
+      }
+      return a.originalIndex - b.originalIndex;
+    });
 
   const totalCurrent = problems.length;
   const solvedCurrent = problems.filter(p => p.solved).length;

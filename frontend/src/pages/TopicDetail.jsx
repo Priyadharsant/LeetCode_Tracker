@@ -26,11 +26,21 @@ export default function TopicDetail({ mode = 'topic' }) {
     return <div className="p-12 text-center text-zinc-500">{isTechnique ? 'Technique' : 'Topic'} not found.</div>;
   }
 
-  const filteredProblems = topicObj.problems.filter(p => {
-    if (filterStatus === 'solved') return p.solved;
-    if (filterStatus === 'unsolved') return !p.solved;
-    return true;
-  });
+  const filteredProblems = topicObj.problems
+    .filter(p => {
+      if (filterStatus === 'solved') return p.solved;
+      if (filterStatus === 'unsolved') return !p.solved;
+      return true;
+    })
+    .sort((a, b) => {
+      if (a.solved !== b.solved) {
+        return a.solved ? 1 : -1;
+      }
+      if (a.originalLevel !== b.originalLevel) {
+        return a.originalLevel - b.originalLevel;
+      }
+      return a.originalIndex - b.originalIndex;
+    });
 
   const totalCurrent = topicObj.problems.length;
   const solvedCurrent = topicObj.problems.filter(p => p.solved).length;

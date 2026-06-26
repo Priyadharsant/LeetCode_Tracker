@@ -54,14 +54,25 @@ export default function Patterns() {
     }
   }, [sortedTechniques, activeTechnique]);
 
+  const currentProblems = useMemo(() => {
+    const problems = activeTechnique ? techniquesMap.get(activeTechnique) || [] : [];
+    return [...problems].sort((a, b) => {
+      if (a.solved !== b.solved) {
+        return a.solved ? 1 : -1;
+      }
+      if (a.level !== b.level) {
+        return a.level - b.level;
+      }
+      return a.originalIndex - b.originalIndex;
+    });
+  }, [activeTechnique, techniquesMap]);
+
   if (loading || !data || data.length === 0) {
     return <DSALoader message="Loading Pattern View..." />;
   }
   if (error) {
     return <div className="p-12 text-center text-red-500">{error}</div>;
   }
-
-  const currentProblems = activeTechnique ? techniquesMap.get(activeTechnique) || [] : [];
   const totalCurrent = currentProblems.length;
   const solvedCurrent = currentProblems.filter(p => p.solved).length;
 

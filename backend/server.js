@@ -68,7 +68,7 @@ function startServer() {
 
 async function connectWithFallback() {
   try {
-    console.log(`Connecting to MongoDB at ${primaryMongoUri}`);
+    console.log(`Connecting to MongoDB`);
     await client.connect();
     db = client.db(DB_NAME);
     console.log('Connected to Database');
