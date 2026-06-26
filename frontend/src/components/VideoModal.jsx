@@ -44,16 +44,16 @@ export default function VideoModal({ isOpen, onClose, videoId, problemName }) {
         }
 
         setIsFetching(true);
-        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(problemName)}&channelId=UCJskGeByzRRSvmOyZOz61ig&maxResults=1&type=video&key=${API_KEY}`)
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(problemName)}&channelId=UC_mYaQAE6-71rjSN6CeCA-g&maxResults=1&type=video&key=${API_KEY}`)
           .then(res => res.json())
           .then(data => {
             if (data.items && data.items.length > 0) {
               setDynamicVideoId(data.items[0].id.videoId);
             } else {
-              // Not found in Take U forward's channel, redirect directly to general YouTube search
+              // Not found in NeetCode's channel, redirect directly to general YouTube search
               setDynamicVideoId(null);
               onClose();
-              window.open(`https://www.youtube.com/results?search_query=Take U forward+${encodeURIComponent(problemName)}`, '_blank');
+              window.open(`https://www.youtube.com/results?search_query=NeetCode+${encodeURIComponent(problemName)}`, '_blank');
             }
           })
           .catch(err => {
@@ -73,7 +73,7 @@ export default function VideoModal({ isOpen, onClose, videoId, problemName }) {
   }, [isOpen, videoId, problemName]);
 
   const handleSearchYouTube = () => {
-    window.open(`https://www.youtube.com/results?search_query=Take U forward+${encodeURIComponent(problemName)}`, '_blank');
+    window.open(`https://www.youtube.com/results?search_query=NeetCode+${encodeURIComponent(problemName)}`, '_blank');
   };
 
   if (!shouldRender) return null;
@@ -144,7 +144,7 @@ export default function VideoModal({ isOpen, onClose, videoId, problemName }) {
                 onClick={handleSearchYouTube}
                 className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold transition-all shadow-lg shadow-red-500/20"
               >
-                Search Take U forward on YouTube
+                Search NeetCode on YouTube
                 <ExternalLink className="w-4 h-4 ml-1" />
               </button>
             </div>
@@ -154,12 +154,12 @@ export default function VideoModal({ isOpen, onClose, videoId, problemName }) {
         {/* Footer */}
         <div className="px-6 py-3 border-t border-surface-800 bg-surface-900/30 flex justify-between items-center text-xs text-surface-500">
           <p>
-            {dynamicVideoId ? (videoId ? "Explanation by Take U forward (Direct Link)" : "Auto-playing first YouTube search result") : "Video Search"}
+            {dynamicVideoId ? (videoId ? "Explanation by NeetCode (Direct Link)" : "Auto-playing first YouTube search result") : "Video Search"}
           </p>
           <a 
             href={dynamicVideoId 
               ? `https://www.youtube.com/watch?v=${dynamicVideoId}` 
-              : `https://www.youtube.com/results?search_query=Take U forward+${encodeURIComponent(problemName)}`
+              : `https://www.youtube.com/results?search_query=NeetCode+${encodeURIComponent(problemName)}`
             }
             target="_blank"
             rel="noopener noreferrer"

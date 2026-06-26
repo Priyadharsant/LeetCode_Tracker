@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Trophy, Sparkles, ArrowRight, Share2 } from 'lucide-react';
 
 export default function AchievementOverlay({ level, onHide }) {
@@ -9,8 +10,8 @@ export default function AchievementOverlay({ level, onHide }) {
     return () => clearTimeout(timer);
   }, []);
 
-  return (
-    <div className={`fixed inset-0 z-[100] flex items-center justify-center p-4 bg-surface-950/90 backdrop-blur-md transition-opacity duration-500 ${
+  return createPortal(
+    <div className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-surface-950/90 backdrop-blur-md transition-opacity duration-500 ${
       animate ? 'opacity-100' : 'opacity-0'
     }`}>
       <div className={`relative max-w-md w-full glass-panel p-8 text-center overflow-hidden transition-all duration-500 transform ${
@@ -68,6 +69,7 @@ export default function AchievementOverlay({ level, onHide }) {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
