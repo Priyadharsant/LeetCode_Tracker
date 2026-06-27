@@ -74,6 +74,7 @@ async function connectWithFallback() {
     console.log('Connected to Database');
     const dbGeneral = client.db('General');
     app.use('/api/movies', require('./routes/movies')(dbGeneral));
+    app.use('/api', require('./routes/portfolio')(dbGeneral));
     startServer();
   } catch (error) {
     console.error('MongoDB connection error:', error);
@@ -87,6 +88,7 @@ async function connectWithFallback() {
         console.log('Connected to local MongoDB');
         const dbGeneralLocal = fallbackClient.db('General');
         app.use('/api/movies', require('./routes/movies')(dbGeneralLocal));
+        app.use('/api', require('./routes/portfolio')(dbGeneralLocal));
         startServer();
       } catch (fallbackError) {
         console.error('Local MongoDB fallback failed:', fallbackError);
