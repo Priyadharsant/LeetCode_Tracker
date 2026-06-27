@@ -40,7 +40,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
     setErrorMessage('');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/feedback`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/feedback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
