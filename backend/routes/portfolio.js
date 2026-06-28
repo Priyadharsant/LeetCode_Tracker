@@ -23,6 +23,25 @@ module.exports = function (db) {
       .replaceAll("'", '&#039;');
   }
 
+  function getKolkataDayBounds() {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    const parts = formatter.formatToParts(new Date());
+    const year = parts.find(p => p.type === 'year').value;
+    const month = parts.find(p => p.type === 'month').value;
+    const day = parts.find(p => p.type === 'day').value;
+    const dateString = `${year}-${month}-${day}`;
+
+    return {
+      startOfDay: new Date(`${dateString}T00:00:00.000+05:30`),
+      endOfDay: new Date(`${dateString}T23:59:59.999+05:30`)
+    };
+  }
+
   async function sendResendEmail(payload) {
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -93,11 +112,7 @@ module.exports = function (db) {
 
   async function sendInstantReport(chatId = null) {
     try {
-      const startOfDay = new Date();
-      startOfDay.setHours(0, 0, 0, 0);
-
-      const endOfDay = new Date();
-      endOfDay.setHours(23, 59, 59, 999);
+      const { startOfDay, endOfDay } = getKolkataDayBounds();
 
       const activities = await activityCol.find({
         createdAt: { $gte: startOfDay, $lte: endOfDay }
@@ -405,8 +420,8 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
         const text = update.message.text;
         const chatId = update.message.chat.id;
         console.log(text, chatId);
-        if (text === 'report' || text === 'status') await sendInstantReport(chatId);
-        if (text === 'errors') await sendRecentErrors(chatId);
+        if (text === 'report' || text === 'status' || text=="/report" || text=="/status") await sendInstantReport(chatId);
+        if (text === 'errors' || text=="/errors") await sendRecentErrors(chatId);
       }
     } catch (err) {
       console.error('[API] Webhook error:', err);
@@ -513,7 +528,7 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
   }
 
   // Daily 9:00 PM CRON Job
-  cron.schedule('0 21 13 * * *', async () => {
+  cron.schedule('0 0 21 * * *', async () => {
     console.log('Running daily 9:00 PM report cron...');
     if (!process.env.PORTFOLIO_REPORT_MAIL || !process.env.PORTFOLIO_RESEND_FROM || !process.env.PORTFOLIO_RESEND_API_KEY) {
       console.log('Missing env for report mail, skipping cron.');
@@ -521,11 +536,7 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
     }
 
     try {
-      const startOfDay = new Date();
-      startOfDay.setHours(0, 0, 0, 0);
-
-      const endOfDay = new Date();
-      endOfDay.setHours(23, 59, 59, 999);
+      const { startOfDay, endOfDay } = getKolkataDayBounds();
 
       const activities = await activityCol.find({
         createdAt: { $gte: startOfDay, $lte: endOfDay }
@@ -543,7 +554,7 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
               <h1 style="margin:8px 0 0;color:#ffffff;font-size:24px;">Portfolio Digest</h1>
             </div>
             <div style="padding:24px;">
-              <p style="margin:0 0 20px;color:#475569;">Here is the activity summary for today (${new Date().toLocaleDateString()}).</p>
+              <p style="margin:0 0 20px;color:#475569;">Here is the activity summary for today (${new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}).</p>
               
               <div style="margin-bottom:16px;padding:20px;background:#f0fdfa;border-radius:10px;border:1px solid #ccfbf1;display:flex;justify-content:space-between;align-items:center;">
                 <div>
@@ -596,6 +607,9 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
     } catch (err) {
       console.error('Failed to run daily report cron:', err);
     }
+  }, {
+    scheduled: true,
+    timezone: "Asia/Kolkata"
   });
 
   // Run initialization setup

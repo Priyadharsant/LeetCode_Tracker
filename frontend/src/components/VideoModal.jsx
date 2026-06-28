@@ -36,33 +36,8 @@ export default function VideoModal({ isOpen, onClose, videoId, problemName }) {
       if (videoId) {
         setDynamicVideoId(videoId);
       } else {
-        // Dynamically fetch using YouTube API
-        const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
-        if (!API_KEY) {
-          setDynamicVideoId(null);
-          return;
-        }
-
-        setIsFetching(true);
-        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(problemName)}&channelId=UC_mYaQAE6-71rjSN6CeCA-g&maxResults=1&type=video&key=${API_KEY}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.items && data.items.length > 0) {
-              setDynamicVideoId(data.items[0].id.videoId);
-            } else {
-              // Not found in NeetCode's channel, redirect directly to general YouTube search
-              setDynamicVideoId(null);
-              onClose();
-              window.open(`https://www.youtube.com/results?search_query=NeetCode+${encodeURIComponent(problemName)}`, '_blank');
-            }
-          })
-          .catch(err => {
-            console.error("YouTube API Error:", err);
-            setDynamicVideoId(null);
-          })
-          .finally(() => {
-            setIsFetching(false);
-          });
+        // Fallback to manual YouTube search if no ID is found in the database
+        setDynamicVideoId(null);
       }
     } else {
       document.body.style.overflow = 'auto';
@@ -136,9 +111,7 @@ export default function VideoModal({ isOpen, onClose, videoId, problemName }) {
               </div>
               <h4 className="text-xl font-bold text-white mb-2">Video Not Found</h4>
               <p className="text-surface-400 max-w-md mb-6">
-                {import.meta.env.VITE_YOUTUBE_API_KEY 
-                  ? "We couldn't automatically find a highly relevant video for this problem. You can search YouTube manually!"
-                  : "To automatically search and play videos inside the app, please add your VITE_YOUTUBE_API_KEY to your frontend .env file."}
+                This problem doesn't have a linked video solution in the database yet. You can search for one directly on YouTube!
               </p>
               <button
                 onClick={handleSearchYouTube}

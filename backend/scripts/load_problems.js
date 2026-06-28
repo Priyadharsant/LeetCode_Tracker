@@ -16,7 +16,7 @@ Each problem is stored as its own document:
 const fs = require('fs');
 const path = require('path');
 const { MongoClient } = require('mongodb');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const { inferTechniques } = require('./techniques');
 
