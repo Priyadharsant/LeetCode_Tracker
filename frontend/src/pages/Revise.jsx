@@ -395,7 +395,7 @@ export default function Revise() {
                           </div>
 
                           <div className="flex items-center gap-1 shrink-0 ml-2">
-                            <div className={`relative group/vidbtn flex items-center justify-center transition-all ${problem.videoId ? '' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
+                            <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
                               <button
                                 onClick={(e) => {
                                   e.preventDefault();
@@ -405,7 +405,7 @@ export default function Revise() {
                                     problemName: problem.name
                                   });
                                 }}
-                                className={`p-2 rounded-xl transition-colors ${problem.videoId ? 'text-red-500 hover:bg-red-500/10' : 'text-surface-400 hover:text-white hover:bg-surface-800'}`}
+                                className="p-2 rounded-xl transition-colors text-surface-400 hover:text-white hover:bg-surface-800"
                               >
                                 <YoutubeIcon className="w-5 h-5" />
                               </button>

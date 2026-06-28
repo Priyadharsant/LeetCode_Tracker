@@ -120,7 +120,8 @@ function applyUserProgress(problems, progress = {}) {
       companies: problem.companies || [],
       techniques: Array.isArray(problem.techniques) && problem.techniques.length > 0
         ? problem.techniques
-        : inferTechniques(problem)
+        : inferTechniques(problem),
+      videoId: problem.videoId
     };
 
     if (solved && progressEntry.solvedAt) {
@@ -617,24 +618,25 @@ app.delete('/api/notifications/unsubscribe', async (req, res) => {
 // Running every minute on the dot
 cron.schedule('* * * * *', async () => {
   if (!db) return;
-  const now = new Date();
+  // Get current time in Indian Standard Time (IST)
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
   
   try {
     const usersCol = db.collection('users');
     const usersWithPush = await usersCol.find({
       devices: { $exists: true, $ne: [] }
     }).toArray();
-
+ 
     for (const user of usersWithPush) {
       for (const device of user.devices) {
         if (!device.reminderTime || !device.subscription) continue;
-
+ 
         const [hours, minutes] = device.reminderTime.split(':').map(Number);
         
-        // Calculate scheduled time for today
-        const scheduledTime = new Date();
+        // Calculate scheduled time for today in Indian Standard Time (IST)
+        const scheduledTime = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
         scheduledTime.setHours(hours, minutes, 0, 0);
-
+ 
         // Difference in minutes
         const diffMins = Math.floor((now.getTime() - scheduledTime.getTime()) / 60000);
 
