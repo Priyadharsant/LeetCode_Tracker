@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../context/DataContext';
-import { ExternalLink, CheckCircle, Circle, LibraryBig, Code2 } from 'lucide-react';
+import { ExternalLink, CheckCircle, Circle, LibraryBig, Code2, Bookmark } from 'lucide-react';
 import DSALoader from '../components/DSALoader';
 import VideoModal from '../components/VideoModal';
 import YoutubeIcon from '../components/YoutubeIcon';
 
 export default function Patterns() {
-  const { data, loading, error, toggleProblemStatus } = useData();
+  const { data, loading, error, toggleProblemStatus, toggleDoLaterStatus } = useData();
   const [activeTechnique, setActiveTechnique] = useState(null);
   
   // Video Modal State
@@ -195,7 +195,6 @@ export default function Patterns() {
                         >
                           {problem.name}
                         </a>
-                        <ExternalLink className="w-3.5 h-3.5 text-surface-500 hidden sm:block" />
                       </div>
                       
                       <div className="flex flex-wrap items-center gap-2">
@@ -212,28 +211,59 @@ export default function Patterns() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    {/* Video Button */}
+                  <div className="flex items-center gap-1 shrink-0 ml-2">
+                    {/* Video Solution Button */}
                     {(problem.videoId || problem.name) && (
+                      <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setVideoModalConfig({
+                              isOpen: true,
+                              videoId: problem.videoId || null,
+                              problemName: problem.name
+                            });
+                          }}
+                          className="group/youtube p-2 rounded-xl transition-colors text-surface-400 hover:text-red-500 hover:bg-red-500/10"
+                        >
+                          <YoutubeIcon className="w-5 h-5" />
+                        </button>
+                        <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/vidbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                          Video Solution
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* LeetCode link */}
+                    <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                      <a 
+                        href={problem.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-xl text-surface-500 hover:text-brand-500 hover:bg-brand-500/10 transition-colors"
+                      >
+                        <ExternalLink className="w-5 h-5" />
+                      </a>
+                      <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/linkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                        Solve on LeetCode
+                      </div>
+                    </div>
+
+                    {/* Bookmark Button */}
+                    <div className={`relative group/bookmarkbtn flex items-center justify-center transition-all ${problem.doLater ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          setVideoModalConfig({
-                            isOpen: true,
-                            videoId: problem.videoId || null,
-                            problemName: problem.name
-                          });
+                          toggleDoLaterStatus(problem.level, problem.originalIndex, problem.doLater);
                         }}
-                        className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors group/video ${
-                          problem.videoId 
-                            ? 'bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white' 
-                            : 'text-surface-400 hover:bg-surface-700 hover:text-surface-300 opacity-0 group-hover:opacity-100'
-                        }`}
-                        title="Video Solution"
+                        className={`p-2 rounded-xl transition-colors ${problem.doLater ? 'text-amber-500 hover:text-amber-600' : 'text-surface-500 hover:text-amber-500 hover:bg-surface-800'}`}
                       >
-                        <YoutubeIcon className={`w-5 h-5 ${problem.videoId ? '' : 'text-surface-400 group-hover/video:text-surface-300'}`} />
+                        <Bookmark className={`w-5 h-5 ${problem.doLater ? 'fill-current' : ''}`} />
                       </button>
-                    )}
+                      <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/bookmarkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                        {problem.doLater ? 'Remove Bookmark' : 'Do Later'}
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
