@@ -6,11 +6,19 @@ import VideoModal from '../components/VideoModal';
 import YoutubeIcon from '../components/YoutubeIcon';
 import { Link } from 'react-router-dom';
 
+const difficultyWeights = {
+  'Easy': 1,
+  'Medium': 2,
+  'Hard': 3
+};
+
 export default function DoLater() {
   const { data: levels, loading, toggleProblemStatus, toggleDoLaterStatus } = useData();
 
   const [filterStatus, setFilterStatus] = React.useState('all');
+  const [sortBy, setSortBy] = React.useState('default');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = React.useState(false);
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = React.useState(false);
 
   const [videoModalConfig, setVideoModalConfig] = React.useState({
     isOpen: false,
@@ -37,12 +45,30 @@ export default function DoLater() {
   }, [levels]);
 
   const filteredProblems = React.useMemo(() => {
-    return bookmarkedProblems.filter(p => {
-      if (filterStatus === 'solved' && !p.solved) return false;
-      if (filterStatus === 'unsolved' && p.solved) return false;
-      return true;
-    });
-  }, [bookmarkedProblems, filterStatus]);
+    return bookmarkedProblems
+      .filter(p => {
+        if (filterStatus === 'solved' && !p.solved) return false;
+        if (filterStatus === 'unsolved' && p.solved) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        if (a.solved !== b.solved) {
+          return a.solved ? 1 : -1;
+        }
+        
+        if (sortBy === 'difficultyAsc') {
+          const diffA = difficultyWeights[a.difficulty] || 2;
+          const diffB = difficultyWeights[b.difficulty] || 2;
+          if (diffA !== diffB) return diffA - diffB;
+        } else if (sortBy === 'difficultyDesc') {
+          const diffA = difficultyWeights[a.difficulty] || 2;
+          const diffB = difficultyWeights[b.difficulty] || 2;
+          if (diffA !== diffB) return diffB - diffA;
+        }
+        
+        return 0;
+      });
+  }, [bookmarkedProblems, filterStatus, sortBy]);
 
   if (loading) return <DSALoader message="Loading Bookmarks..." />;
 
@@ -81,39 +107,82 @@ export default function DoLater() {
               </span>
             </div>
 
-            <div className="relative">
-              <button 
-                onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-                className="flex items-center justify-between gap-2 px-4 py-2 w-full sm:w-auto text-sm font-semibold bg-surface-900 border border-surface-700 rounded-xl text-surface-300 hover:text-white hover:border-surface-600 transition-all active:scale-95"
-              >
-                <span className="capitalize">{filterStatus} Bookmarks</span>
-                <ChevronDown className={`w-4 h-4 opacity-70 transition-transform duration-300 ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {isFilterDropdownOpen && (
-                <>
-                  <div 
-                    className="fixed inset-0 z-40" 
-                    onClick={() => setIsFilterDropdownOpen(false)}
-                  />
-                  <div className="absolute right-0 mt-2 w-48 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
-                    <div className="py-1">
-                      {['all', 'solved', 'unsolved'].map(f => (
-                        <button
-                          key={f}
-                          onClick={() => {
-                            setFilterStatus(f);
-                            setIsFilterDropdownOpen(false);
-                          }}
-                          className={`w-full text-left px-4 py-2 text-sm capitalize transition-colors ${filterStatus === f ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
-                        >
-                          {f} Bookmarks
-                        </button>
-                      ))}
+            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+              {/* Sort Dropdown */}
+              <div className="relative">
+                <button 
+                  onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                  className="flex items-center justify-between gap-2 px-4 py-2 w-full sm:w-auto text-sm font-semibold bg-surface-900 border border-surface-700 rounded-xl text-surface-300 hover:text-white hover:border-surface-600 transition-all active:scale-95"
+                >
+                  <span>Sort: {sortBy === 'default' ? 'Default' : sortBy === 'difficultyAsc' ? 'Easy → Hard' : 'Hard → Easy'}</span>
+                  <ChevronDown className={`w-4 h-4 opacity-70 transition-transform duration-300 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isSortDropdownOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setIsSortDropdownOpen(false)}
+                    />
+                    <div className="absolute right-0 mt-2 w-48 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
+                      <div className="py-1">
+                        {[
+                          { value: 'default', label: 'Default Order' },
+                          { value: 'difficultyAsc', label: 'Difficulty: Easy to Hard' },
+                          { value: 'difficultyDesc', label: 'Difficulty: Hard to Easy' }
+                        ].map(opt => (
+                          <button
+                            key={opt.value}
+                            onClick={() => {
+                              setSortBy(opt.value);
+                              setIsSortDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm transition-colors ${sortBy === opt.value ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
+                  </>
+                )}
+              </div>
+
+              {/* Filter Dropdown */}
+              <div className="relative">
+                <button 
+                  onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                  className="flex items-center justify-between gap-2 px-4 py-2 w-full sm:w-auto text-sm font-semibold bg-surface-900 border border-surface-700 rounded-xl text-surface-300 hover:text-white hover:border-surface-600 transition-all active:scale-95"
+                >
+                  <span className="capitalize">{filterStatus} Bookmarks</span>
+                  <ChevronDown className={`w-4 h-4 opacity-70 transition-transform duration-300 ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isFilterDropdownOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-40" 
+                      onClick={() => setIsFilterDropdownOpen(false)}
+                    />
+                    <div className="absolute right-0 mt-2 w-48 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
+                      <div className="py-1">
+                        {['all', 'solved', 'unsolved'].map(f => (
+                          <button
+                            key={f}
+                            onClick={() => {
+                              setFilterStatus(f);
+                              setIsFilterDropdownOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-2 text-sm capitalize transition-colors ${filterStatus === f ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
+                          >
+                            {f} Bookmarks
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -187,6 +256,16 @@ export default function DoLater() {
                         <span className="text-[10px] uppercase font-bold tracking-widest text-surface-500 flex items-center gap-1.5 bg-surface-900 px-2 py-0.5 rounded border border-surface-800">
                           {problem.topic}
                         </span>
+
+                        {problem.difficulty && (
+                          <span className={`text-[10px] px-2 py-0.5 font-bold rounded border ${
+                            problem.difficulty === 'Easy' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+                            problem.difficulty === 'Medium' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
+                            'bg-red-500/10 border-red-500/20 text-red-400'
+                          }`}>
+                            {problem.difficulty}
+                          </span>
+                        )}
 
                         {problem.companies && problem.companies.length > 0 && (
                           <div className="flex items-center gap-1">
