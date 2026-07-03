@@ -14,7 +14,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 MONGO_URI = os.environ["MONGO_URI"]
 DB_NAME = os.environ["DB_NAME"]
 COLLECTION = "topic_info"
-JSON_FILE = os.path.join(os.path.dirname(__file__), "data", "topicInfo.json")
+JSON_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "topicInfo.json")
 
 def load():
     client = MongoClient(MONGO_URI)

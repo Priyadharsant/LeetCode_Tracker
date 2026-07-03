@@ -115,6 +115,7 @@ function applyUserProgress(problems, progress = {}) {
     const hydratedProblem = {
       name: problem.name,
       link: problem.link,
+      difficulty: problem.difficulty,
       solved,
       revised,
       doLater,

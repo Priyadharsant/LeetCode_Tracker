@@ -9,7 +9,8 @@
         "topic": "Math & Bit Manipulation",
         "companies": [
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Add Binary",
@@ -18,7 +19,8 @@
         "companies": [
           "Apple",
           "Google"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Single Number",
@@ -27,7 +29,8 @@
         "companies": [
           "Microsoft",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Excel Sheet Column Number",
@@ -36,7 +39,8 @@
         "companies": [
           "Amazon",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Reverse Bits",
@@ -44,7 +48,8 @@
         "topic": "Bit Manipulation",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Number of 1 Bits",
@@ -53,7 +58,8 @@
         "companies": [
           "Google",
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Happy Number",
@@ -62,7 +68,8 @@
         "companies": [
           "Uber",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Missing Number",
@@ -72,7 +79,8 @@
           "Google",
           "Apple",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Third Maximum Number",
@@ -82,7 +90,8 @@
           "TikTok",
           "Bloomberg",
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Largest Number At Least Twice of Others",
@@ -90,7 +99,8 @@
         "topic": "Math & Bit Manipulation",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Number of Good Pairs",
@@ -99,7 +109,8 @@
         "companies": [
           "Google",
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Number of Steps to Reduce a Number to Zero",
@@ -107,7 +118,8 @@
         "topic": "Math & Bit Manipulation",
         "companies": [
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Count the Digits That Divide a Number",
@@ -115,7 +127,8 @@
         "topic": "Math & Bit Manipulation",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Spiral Matrix",
@@ -124,7 +137,8 @@
         "companies": [
           "Amazon",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Set Matrix Zeroes",
@@ -133,7 +147,8 @@
         "companies": [
           "Apple",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Single Number II",
@@ -142,7 +157,8 @@
         "companies": [
           "Google",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Integer Break",
@@ -151,7 +167,8 @@
         "companies": [
           "TikTok",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Counting Bits",
@@ -160,7 +177,8 @@
         "companies": [
           "TikTok",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Rotate Image",
@@ -169,7 +187,8 @@
         "companies": [
           "Microsoft",
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Plus One",
@@ -179,7 +198,8 @@
           "Microsoft",
           "Meta",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Pow(x, n)",
@@ -188,7 +208,8 @@
         "companies": [
           "TikTok",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Multiply Strings",
@@ -196,7 +217,8 @@
         "topic": "Math & Geometry",
         "companies": [
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Detect Squares",
@@ -204,7 +226,8 @@
         "topic": "Math & Geometry",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Sum of Two Integers",
@@ -212,7 +235,8 @@
         "topic": "Bit Manipulation",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Reverse Integer",
@@ -221,7 +245,8 @@
         "companies": [
           "TikTok",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       }
     ],
     "total": 25
@@ -238,7 +263,8 @@
           "Apple",
           "Bloomberg"
         ],
-        "videoId": "KLlXCFG5TnA"
+        "videoId": "KLlXCFG5TnA",
+        "difficulty": "Easy"
       },
       {
         "name": "Palindrome Number",
@@ -247,7 +273,8 @@
         "companies": [
           "Apple",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Longest Common Prefix",
@@ -257,7 +284,8 @@
           "Amazon",
           "TikTok",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Remove Duplicates from Sorted Array",
@@ -267,7 +295,8 @@
           "Amazon",
           "Apple",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Remove Element",
@@ -277,7 +306,8 @@
           "Amazon",
           "Microsoft",
           "Uber"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Length of Last Word",
@@ -287,7 +317,8 @@
           "Amazon",
           "Uber",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Merge Sorted Array",
@@ -297,7 +328,8 @@
           "TikTok",
           "Meta",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Path Sum",
@@ -306,7 +338,8 @@
         "companies": [
           "Google",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Valid Palindrome",
@@ -315,7 +348,8 @@
         "companies": [
           "Apple"
         ],
-        "videoId": "jJXJ16kPFWg"
+        "videoId": "jJXJ16kPFWg",
+        "difficulty": "Easy"
       },
       {
         "name": "Move Zeroes",
@@ -323,7 +357,8 @@
         "topic": "Two Pointers",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "First Unique Character in a String",
@@ -332,7 +367,8 @@
         "companies": [
           "Bloomberg",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Reverse String",
@@ -341,7 +377,8 @@
         "companies": [
           "Meta",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Reverse Words in a String III",
@@ -350,7 +387,8 @@
         "companies": [
           "Amazon",
           "Google"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Longest Palindrome",
@@ -359,7 +397,8 @@
         "companies": [
           "Apple",
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Maximum Average Subarray I",
@@ -369,7 +408,8 @@
           "Apple",
           "Meta",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Find All Numbers Disappeared in an Array",
@@ -378,7 +418,8 @@
         "companies": [
           "Apple",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Array Partition",
@@ -387,7 +428,8 @@
         "companies": [
           "Uber",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Distribute Candies",
@@ -396,7 +438,8 @@
         "companies": [
           "Microsoft",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Find Pivot Index",
@@ -405,7 +448,8 @@
         "companies": [
           "Uber",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Toeplitz Matrix",
@@ -415,7 +459,8 @@
           "Amazon",
           "Google",
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Matrix Diagonal Sum",
@@ -424,7 +469,8 @@
         "companies": [
           "Bloomberg",
           "Google"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Running Sum of 1d Array",
@@ -433,7 +479,8 @@
         "companies": [
           "Microsoft",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Shuffle the Array",
@@ -442,7 +489,8 @@
         "companies": [
           "Bloomberg",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Kids With the Greatest Number of Candies",
@@ -452,7 +500,8 @@
           "Bloomberg",
           "Google",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Build Array from Permutation",
@@ -461,7 +510,8 @@
         "companies": [
           "Google",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Concatenation of Array",
@@ -470,7 +520,8 @@
         "companies": [
           "TikTok",
           "Google"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Subtract the Product and Sum of Digits of an Integer",
@@ -479,7 +530,8 @@
         "companies": [
           "Bloomberg",
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Maximum Number of Words Found in Sentences",
@@ -489,7 +541,8 @@
           "Meta",
           "Google",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Two Sum II - Input Array Is Sorted",
@@ -499,7 +552,8 @@
           "Uber",
           "Meta",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Squares of a Sorted Array",
@@ -507,7 +561,8 @@
         "topic": "Arrays",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Sort Array By Parity",
@@ -516,7 +571,8 @@
         "companies": [
           "TikTok",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Summary Ranges",
@@ -525,7 +581,8 @@
         "companies": [
           "Uber",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Find Peak Element",
@@ -534,7 +591,8 @@
         "companies": [
           "TikTok",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Next Greater Element I",
@@ -543,7 +601,8 @@
         "companies": [
           "Google",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Longest Substring Without Repeating Characters",
@@ -552,7 +611,8 @@
         "companies": [
           "Bloomberg"
         ],
-        "videoId": "wiGpQwD31jM"
+        "videoId": "wiGpQwD31jM",
+        "difficulty": "Medium"
       },
       {
         "name": "Longest Repeating Character Replacement",
@@ -561,7 +621,8 @@
         "companies": [
           "TikTok"
         ],
-        "videoId": "gqXU1UyA8pk"
+        "videoId": "gqXU1UyA8pk",
+        "difficulty": "Medium"
       },
       {
         "name": "Minimum Size Subarray Sum",
@@ -571,7 +632,8 @@
           "Bloomberg",
           "Amazon",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Permutation in String",
@@ -579,7 +641,8 @@
         "topic": "Sliding Window",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Find All Anagrams in a String",
@@ -587,7 +650,8 @@
         "topic": "Sliding Window",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "3Sum",
@@ -598,7 +662,8 @@
           "Microsoft",
           "Google"
         ],
-        "videoId": "jzZsG8n2R9A"
+        "videoId": "jzZsG8n2R9A",
+        "difficulty": "Medium"
       },
       {
         "name": "Container With Most Water",
@@ -607,7 +672,8 @@
         "companies": [
           "Meta"
         ],
-        "videoId": "UuiTPhcgfjg"
+        "videoId": "UuiTPhcgfjg",
+        "difficulty": "Medium"
       },
       {
         "name": "Sort Colors",
@@ -615,7 +681,8 @@
         "topic": "Two Pointers",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Product of Array Except Self",
@@ -626,7 +693,8 @@
           "TikTok",
           "Bloomberg"
         ],
-        "videoId": "bNvIQI2wAjk"
+        "videoId": "bNvIQI2wAjk",
+        "difficulty": "Medium"
       },
       {
         "name": "Subarray Sum Equals K",
@@ -636,7 +704,8 @@
           "Bloomberg",
           "Apple",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Find the Duplicate Number",
@@ -645,7 +714,8 @@
         "companies": [
           "Microsoft",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Top K Frequent Elements",
@@ -654,7 +724,8 @@
         "companies": [
           "Uber"
         ],
-        "videoId": "YPTqKIzVkZa"
+        "videoId": "YPTqKIzVkZa",
+        "difficulty": "Medium"
       },
       {
         "name": "Minimum Path Sum",
@@ -664,7 +735,8 @@
           "Microsoft",
           "Meta",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "String to Integer (atoi)",
@@ -672,7 +744,8 @@
         "topic": "Strings",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "3Sum Closest",
@@ -680,7 +753,8 @@
         "topic": "Arrays",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "4Sum",
@@ -690,7 +764,8 @@
           "TikTok",
           "Meta",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Find First and Last Position of Element in Sorted Array",
@@ -698,7 +773,8 @@
         "topic": "Arrays",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Combination Sum III",
@@ -707,7 +783,8 @@
         "companies": [
           "Google",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Contains Duplicate II",
@@ -715,7 +792,8 @@
         "topic": "Arrays",
         "companies": [
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Sliding Window Maximum",
@@ -724,7 +802,8 @@
         "companies": [
           "TikTok"
         ],
-        "videoId": "DfljaUwZsOk"
+        "videoId": "DfljaUwZsOk",
+        "difficulty": "Hard"
       },
       {
         "name": "Top K Frequent Words",
@@ -733,7 +812,8 @@
         "companies": [
           "Google",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Word Ladder II",
@@ -742,7 +822,8 @@
         "companies": [
           "Apple",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Trapping Rain Water",
@@ -751,7 +832,8 @@
         "companies": [
           "Meta"
         ],
-        "videoId": "ZI2z5pq0TqA"
+        "videoId": "ZI2z5pq0TqA",
+        "difficulty": "Hard"
       },
       {
         "name": "Kth Smallest Element in a Sorted Matrix",
@@ -759,7 +841,8 @@
         "topic": "Arrays",
         "companies": [
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Palindrome Partitioning II",
@@ -767,7 +850,8 @@
         "topic": "Strings",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Longest Valid Parentheses",
@@ -775,7 +859,8 @@
         "topic": "Strings",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Minimum Window Substring",
@@ -786,7 +871,8 @@
           "Microsoft",
           "Apple"
         ],
-        "videoId": "jRmvsY5SgS2"
+        "videoId": "jRmvsY5SgS2",
+        "difficulty": "Hard"
       },
       {
         "name": "Split Array Largest Sum",
@@ -796,7 +882,8 @@
           "Microsoft",
           "Meta",
           "Apple"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Longest Increasing Path in a Matrix",
@@ -804,7 +891,8 @@
         "topic": "Arrays",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Shortest Path in Binary Matrix",
@@ -814,7 +902,8 @@
           "Meta",
           "Bloomberg",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Fruit Into Baskets",
@@ -823,7 +912,8 @@
         "companies": [
           "Uber",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Encode and Decode Strings",
@@ -833,7 +923,8 @@
           "Meta",
           "Bloomberg"
         ],
-        "videoId": "B1k_snOS4gw"
+        "videoId": "B1k_snOS4gw",
+        "difficulty": "Medium"
       },
       {
         "name": "Valid Sudoku",
@@ -842,7 +933,8 @@
         "companies": [
           "Bloomberg"
         ],
-        "videoId": "TjFXEUCMqI8"
+        "videoId": "TjFXEUCMqI8",
+        "difficulty": "Medium"
       },
       {
         "name": "Longest Consecutive Sequence",
@@ -852,7 +944,8 @@
           "TikTok",
           "Meta"
         ],
-        "videoId": "P6RZZMu_maU"
+        "videoId": "P6RZZMu_maU",
+        "difficulty": "Medium"
       },
       {
         "name": "Two Sum II Input Array Is Sorted",
@@ -862,7 +955,8 @@
           "Uber",
           "Apple"
         ],
-        "videoId": "cQ1Oz4ckceM"
+        "videoId": "cQ1Oz4ckceM",
+        "difficulty": "Medium"
       },
       {
         "name": "Best Time to Buy And Sell Stock",
@@ -871,7 +965,8 @@
         "companies": [
           "Amazon"
         ],
-        "videoId": "1pkOgXD63yU"
+        "videoId": "1pkOgXD63yU",
+        "difficulty": "Easy"
       },
       {
         "name": "Permutation In String",
@@ -879,7 +974,8 @@
         "topic": "Sliding Window",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       }
     ],
     "total": 71
@@ -896,7 +992,8 @@
           "Google",
           "Bloomberg",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Convert Sorted Array to Binary Search Tree",
@@ -904,7 +1001,8 @@
         "topic": "Divide and Conquer",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Find Minimum in Rotated Sorted Array",
@@ -912,7 +1010,8 @@
         "topic": "Sorting & Searching",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Search in Rotated Sorted Array",
@@ -921,7 +1020,8 @@
         "companies": [
           "Uber",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Binary Search",
@@ -931,7 +1031,8 @@
           "Amazon",
           "Uber"
         ],
-        "videoId": "s4DPM8ct1pI"
+        "videoId": "s4DPM8ct1pI",
+        "difficulty": "Easy"
       },
       {
         "name": "First Bad Version",
@@ -939,7 +1040,8 @@
         "topic": "Sorting & Searching",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Kth Largest Element in an Array",
@@ -948,7 +1050,8 @@
         "companies": [
           "Apple",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Sort List",
@@ -957,7 +1060,8 @@
         "companies": [
           "Microsoft",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Search a 2D Matrix",
@@ -967,7 +1071,8 @@
           "Uber",
           "Amazon"
         ],
-        "videoId": "Ber2pi2C0j0"
+        "videoId": "Ber2pi2C0j0",
+        "difficulty": "Medium"
       },
       {
         "name": "Search a 2D Matrix II",
@@ -977,7 +1082,8 @@
           "Bloomberg",
           "TikTok",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Different Ways to Add Parentheses",
@@ -985,7 +1091,8 @@
         "topic": "Divide and Conquer",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Median of Two Sorted Arrays",
@@ -994,7 +1101,8 @@
         "companies": [
           "Google"
         ],
-        "videoId": "q6IEA26zGlQ"
+        "videoId": "q6IEA26zGlQ",
+        "difficulty": "Hard"
       },
       {
         "name": "Find Median from Data Stream",
@@ -1004,7 +1112,8 @@
           "Uber",
           "Meta",
           "Apple"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Koko Eating Bananas",
@@ -1013,7 +1122,8 @@
         "companies": [
           "TikTok"
         ],
-        "videoId": "U2SozAs9RzA"
+        "videoId": "U2SozAs9RzA",
+        "difficulty": "Medium"
       },
       {
         "name": "Find Minimum In Rotated Sorted Array",
@@ -1023,7 +1133,8 @@
           "Google",
           "TikTok"
         ],
-        "videoId": "nIVW4P8b1VA"
+        "videoId": "nIVW4P8b1VA",
+        "difficulty": "Medium"
       },
       {
         "name": "Search In Rotated Sorted Array",
@@ -1034,7 +1145,8 @@
           "TikTok",
           "Bloomberg"
         ],
-        "videoId": "U8XENwh8Oy8"
+        "videoId": "U8XENwh8Oy8",
+        "difficulty": "Medium"
       },
       {
         "name": "Time Based Key Value Store",
@@ -1044,7 +1156,8 @@
           "TikTok",
           "Microsoft"
         ],
-        "videoId": "fu2cD_6E8Hw"
+        "videoId": "fu2cD_6E8Hw",
+        "difficulty": "Medium"
       }
     ],
     "total": 17
@@ -1061,7 +1174,8 @@
           "TikTok",
           "Apple",
           "Google"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Reverse Linked List",
@@ -1071,7 +1185,8 @@
           "TikTok",
           "Meta"
         ],
-        "videoId": "G0_I-ZF0S38"
+        "videoId": "G0_I-ZF0S38",
+        "difficulty": "Easy"
       },
       {
         "name": "Middle of the Linked List",
@@ -1079,7 +1194,8 @@
         "topic": "Linked List",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Remove Linked List Elements",
@@ -1089,7 +1205,8 @@
           "Microsoft",
           "TikTok",
           "Uber"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Palindrome Linked List",
@@ -1098,7 +1215,8 @@
         "companies": [
           "Uber",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Odd Even Linked List",
@@ -1108,7 +1226,8 @@
           "Google",
           "Apple",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Remove Nth Node From End of List",
@@ -1117,7 +1236,8 @@
         "companies": [
           "Microsoft"
         ],
-        "videoId": "XVuQxGnc19h"
+        "videoId": "XVuQxGnc19h",
+        "difficulty": "Medium"
       },
       {
         "name": "Add Two Numbers",
@@ -1127,7 +1247,8 @@
           "Apple",
           "Microsoft"
         ],
-        "videoId": "wgFbg7yX60P"
+        "videoId": "wgFbg7yX60P",
+        "difficulty": "Medium"
       },
       {
         "name": "Swap Nodes in Pairs",
@@ -1135,7 +1256,8 @@
         "topic": "Linked List",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Rotate List",
@@ -1145,7 +1267,8 @@
           "TikTok",
           "Amazon",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Reorder List",
@@ -1155,7 +1278,8 @@
           "Bloomberg",
           "TikTok"
         ],
-        "videoId": "S5bfdUTrKlM"
+        "videoId": "S5bfdUTrKlM",
+        "difficulty": "Medium"
       },
       {
         "name": "Populating Next Right Pointers in Each Node",
@@ -1163,7 +1287,8 @@
         "topic": "Linked List",
         "companies": [
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Copy List with Random Pointer",
@@ -1173,7 +1298,8 @@
           "Bloomberg",
           "Microsoft",
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Linked List Cycle II",
@@ -1183,7 +1309,8 @@
           "Amazon",
           "TikTok",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Merge K Sorted Lists",
@@ -1194,7 +1321,8 @@
           "Amazon",
           "Google"
         ],
-        "videoId": "q5a5OiGbT6Q"
+        "videoId": "q5a5OiGbT6Q",
+        "difficulty": "Hard"
       },
       {
         "name": "Merge Two Sorted Lists",
@@ -1203,7 +1331,8 @@
         "companies": [
           "Microsoft"
         ],
-        "videoId": "XIdigk956u0"
+        "videoId": "XIdigk956u0",
+        "difficulty": "Easy"
       },
       {
         "name": "Linked List Cycle",
@@ -1213,7 +1342,8 @@
           "Google",
           "Meta"
         ],
-        "videoId": "gBTe7lFR3vc"
+        "videoId": "gBTe7lFR3vc",
+        "difficulty": "Easy"
       },
       {
         "name": "Copy List With Random Pointer",
@@ -1222,7 +1352,8 @@
         "companies": [
           "Apple"
         ],
-        "videoId": "5Y2EiZST97Y"
+        "videoId": "5Y2EiZST97Y",
+        "difficulty": "Medium"
       },
       {
         "name": "Find The Duplicate Number",
@@ -1233,7 +1364,8 @@
           "Uber",
           "Meta"
         ],
-        "videoId": "wjYnzkAh752"
+        "videoId": "wjYnzkAh752",
+        "difficulty": "Medium"
       },
       {
         "name": "LRU Cache",
@@ -1243,7 +1375,8 @@
           "Amazon",
           "TikTok"
         ],
-        "videoId": "7ABFKPK2hD4"
+        "videoId": "7ABFKPK2hD4",
+        "difficulty": "Medium"
       },
       {
         "name": "Reverse Nodes In K Group",
@@ -1253,7 +1386,8 @@
           "Uber",
           "Bloomberg"
         ],
-        "videoId": "1UOPsfP85A4"
+        "videoId": "1UOPsfP85A4",
+        "difficulty": "Hard"
       }
     ],
     "total": 21
@@ -1271,7 +1405,8 @@
           "TikTok",
           "Amazon"
         ],
-        "videoId": "WTzjTskDFMg"
+        "videoId": "WTzjTskDFMg",
+        "difficulty": "Easy"
       },
       {
         "name": "Min Stack",
@@ -1280,7 +1415,8 @@
         "companies": [
           "TikTok"
         ],
-        "videoId": "qkLl7nAwDPo"
+        "videoId": "qkLl7nAwDPo",
+        "difficulty": "Medium"
       },
       {
         "name": "Evaluate Reverse Polish Notation",
@@ -1290,7 +1426,8 @@
           "Meta",
           "Google"
         ],
-        "videoId": "iu0082c4HDE"
+        "videoId": "iu0082c4HDE",
+        "difficulty": "Medium"
       },
       {
         "name": "Daily Temperatures",
@@ -1300,7 +1437,8 @@
           "Bloomberg",
           "Microsoft"
         ],
-        "videoId": "cTBiBSnjO3c"
+        "videoId": "cTBiBSnjO3c",
+        "difficulty": "Medium"
       },
       {
         "name": "Car Fleet",
@@ -1311,7 +1449,8 @@
           "Uber",
           "Meta"
         ],
-        "videoId": "Pr6T-3yB9RM"
+        "videoId": "Pr6T-3yB9RM",
+        "difficulty": "Medium"
       },
       {
         "name": "Largest Rectangle In Histogram",
@@ -1321,7 +1460,8 @@
           "Bloomberg",
           "Meta"
         ],
-        "videoId": "zx5Sw9130L0"
+        "videoId": "zx5Sw9130L0",
+        "difficulty": "Hard"
       }
     ],
     "total": 6
@@ -1337,7 +1477,8 @@
         "companies": [
           "Microsoft"
         ],
-        "videoId": "3OamzN90kPg"
+        "videoId": "3OamzN90kPg",
+        "difficulty": "Easy"
       },
       {
         "name": "Valid Anagram",
@@ -1346,7 +1487,8 @@
         "companies": [
           "Meta"
         ],
-        "videoId": "9UtInBqnCgA"
+        "videoId": "9UtInBqnCgA",
+        "difficulty": "Easy"
       },
       {
         "name": "Group Anagrams",
@@ -1356,7 +1498,8 @@
           "Apple",
           "Bloomberg"
         ],
-        "videoId": "vzdNOKCGsz4"
+        "videoId": "vzdNOKCGsz4",
+        "difficulty": "Medium"
       },
       {
         "name": "Two Sum",
@@ -1367,7 +1510,8 @@
           "Google",
           "Apple"
         ],
-        "videoId": "KLlXCFG5TnA"
+        "videoId": "KLlXCFG5TnA",
+        "difficulty": "Easy"
       },
       {
         "name": "Top K Frequent Elements",
@@ -1378,7 +1522,8 @@
           "Microsoft",
           "Meta"
         ],
-        "videoId": "YPTqKIzVkZa"
+        "videoId": "YPTqKIzVkZa",
+        "difficulty": "Medium"
       },
       {
         "name": "Product of Array Except Self",
@@ -1389,7 +1534,8 @@
           "Apple",
           "Microsoft"
         ],
-        "videoId": "bNvIQI2wAjk"
+        "videoId": "bNvIQI2wAjk",
+        "difficulty": "Medium"
       },
       {
         "name": "Longest Consecutive Sequence",
@@ -1400,7 +1546,8 @@
           "Amazon",
           "Microsoft"
         ],
-        "videoId": "P6RZZMu_maU"
+        "videoId": "P6RZZMu_maU",
+        "difficulty": "Medium"
       },
       {
         "name": "Valid Sudoku",
@@ -1411,7 +1558,8 @@
           "Apple",
           "Uber"
         ],
-        "videoId": "TjFXEUCMqI8"
+        "videoId": "TjFXEUCMqI8",
+        "difficulty": "Medium"
       },
       {
         "name": "Encode and Decode Strings",
@@ -1421,7 +1569,8 @@
           "Meta",
           "Google"
         ],
-        "videoId": "B1k_snOS4gw"
+        "videoId": "B1k_snOS4gw",
+        "difficulty": "Medium"
       },
       {
         "name": "Subarray Sum Equals K",
@@ -1430,7 +1579,8 @@
         "companies": [
           "Meta",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Find All Anagrams in a String",
@@ -1439,7 +1589,8 @@
         "companies": [
           "Amazon",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Intersection of Two Arrays",
@@ -1448,7 +1599,8 @@
         "companies": [
           "Meta",
           "Google"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Insert Delete GetRandom O(1)",
@@ -1457,7 +1609,8 @@
         "companies": [
           "Bloomberg",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "First Missing Positive",
@@ -1466,7 +1619,8 @@
         "companies": [
           "Amazon",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Word Pattern",
@@ -1475,7 +1629,8 @@
         "companies": [
           "Amazon",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       }
     ],
     "total": 3
@@ -1490,7 +1645,8 @@
         "topic": "Trees",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Same Tree",
@@ -1501,7 +1657,8 @@
           "Google",
           "Amazon"
         ],
-        "videoId": "vRbbcKXCxOw"
+        "videoId": "vRbbcKXCxOw",
+        "difficulty": "Easy"
       },
       {
         "name": "Symmetric Tree",
@@ -1509,7 +1666,8 @@
         "topic": "Trees",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Maximum Depth of Binary Tree",
@@ -1519,7 +1677,8 @@
           "Amazon",
           "TikTok"
         ],
-        "videoId": "hTM3phVI6YQ"
+        "videoId": "hTM3phVI6YQ",
+        "difficulty": "Easy"
       },
       {
         "name": "Balanced Binary Tree",
@@ -1530,7 +1689,8 @@
           "Apple",
           "Uber"
         ],
-        "videoId": "QfJsau0ItOY"
+        "videoId": "QfJsau0ItOY",
+        "difficulty": "Easy"
       },
       {
         "name": "Minimum Depth of Binary Tree",
@@ -1539,7 +1699,8 @@
         "companies": [
           "Apple",
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Invert Binary Tree",
@@ -1550,7 +1711,8 @@
           "Amazon",
           "Meta"
         ],
-        "videoId": "OnSn2XEQ4MY"
+        "videoId": "OnSn2XEQ4MY",
+        "difficulty": "Easy"
       },
       {
         "name": "Repeated Substring Pattern",
@@ -1559,7 +1721,8 @@
         "companies": [
           "Meta",
           "Uber"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Diameter of Binary Tree",
@@ -1568,7 +1731,8 @@
         "companies": [
           "Google"
         ],
-        "videoId": "bkxqA8RxH5e"
+        "videoId": "bkxqA8RxH5e",
+        "difficulty": "Easy"
       },
       {
         "name": "Find Mode in Binary Search Tree",
@@ -1577,7 +1741,8 @@
         "companies": [
           "Uber",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Minimum Absolute Difference in BST",
@@ -1586,7 +1751,8 @@
         "companies": [
           "Google",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Convert BST to Greater Tree",
@@ -1594,7 +1760,8 @@
         "topic": "Trees",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Range Sum of BST",
@@ -1602,7 +1769,8 @@
         "topic": "Trees",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Leaf-Similar Trees",
@@ -1611,7 +1779,8 @@
         "companies": [
           "Apple",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Univalued Binary Tree",
@@ -1621,7 +1790,8 @@
           "Meta",
           "Google",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Cousins in Binary Tree",
@@ -1630,7 +1800,8 @@
         "companies": [
           "Amazon",
           "Apple"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Binary Tree Paths",
@@ -1639,7 +1810,8 @@
         "companies": [
           "Bloomberg",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Sum of Left Leaves",
@@ -1648,7 +1820,8 @@
         "companies": [
           "TikTok",
           "Uber"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Find Bottom Left Tree Value",
@@ -1658,7 +1831,8 @@
           "Google",
           "Microsoft",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Average of Levels in Binary Tree",
@@ -1666,7 +1840,8 @@
         "topic": "Trees",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Binary Tree Tilt",
@@ -1675,7 +1850,8 @@
         "companies": [
           "Meta",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Binary Tree Level Order Traversal",
@@ -1686,7 +1862,8 @@
           "Microsoft",
           "Amazon"
         ],
-        "videoId": "X71o9i1fE4s"
+        "videoId": "X71o9i1fE4s",
+        "difficulty": "Medium"
       },
       {
         "name": "Binary Tree Right Side View",
@@ -1695,7 +1872,8 @@
         "companies": [
           "Amazon",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Subtree of Another Tree",
@@ -1705,7 +1883,8 @@
           "Meta",
           "TikTok"
         ],
-        "videoId": "E36O5SWp-LE"
+        "videoId": "E36O5SWp-LE",
+        "difficulty": "Easy"
       },
       {
         "name": "Kth Smallest Element in a BST",
@@ -1714,7 +1893,8 @@
         "companies": [
           "Google",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Lowest Common Ancestor of a Binary Tree",
@@ -1723,7 +1903,8 @@
         "companies": [
           "Microsoft",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Construct Binary Tree from Preorder and Inorder Traversal",
@@ -1733,7 +1914,8 @@
           "Uber",
           "Amazon",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Flatten Binary Tree to Linked List",
@@ -1743,7 +1925,8 @@
           "Apple",
           "Uber",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Binary Tree Maximum Path Sum",
@@ -1752,7 +1935,8 @@
         "companies": [
           "Microsoft",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Binary Search Tree Iterator",
@@ -1761,7 +1945,8 @@
         "companies": [
           "Microsoft",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Implement Trie (Prefix Tree)",
@@ -1769,7 +1954,8 @@
         "topic": "Trees",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Minimum Height Trees",
@@ -1777,7 +1963,8 @@
         "topic": "Trees",
         "companies": [
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Serialize and Deserialize Binary Tree",
@@ -1787,7 +1974,8 @@
           "Uber",
           "Bloomberg",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Recover Binary Search Tree",
@@ -1796,7 +1984,8 @@
         "companies": [
           "Uber",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Count Complete Tree Nodes",
@@ -1805,7 +1994,8 @@
         "companies": [
           "Meta",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Maximum Width of Binary Tree",
@@ -1815,7 +2005,8 @@
           "Bloomberg",
           "Meta",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Substring with Concatenation of All Words",
@@ -1823,7 +2014,8 @@
         "topic": "Trees",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Word Search II",
@@ -1833,7 +2025,8 @@
           "Apple",
           "Amazon",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Lowest Common Ancestor of a Binary Search Tree",
@@ -1842,7 +2035,8 @@
         "companies": [
           "Amazon"
         ],
-        "videoId": "gs2LMfuHd9C"
+        "videoId": "gs2LMfuHd9C",
+        "difficulty": "Medium"
       },
       {
         "name": "Count Good Nodes In Binary Tree",
@@ -1851,7 +2045,8 @@
         "companies": [
           "Amazon",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Validate Binary Search Tree",
@@ -1860,7 +2055,8 @@
         "companies": [
           "Google",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Kth Smallest Element In a Bst",
@@ -1870,7 +2066,8 @@
           "TikTok",
           "Bloomberg",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Construct Binary Tree From Preorder And Inorder Traversal",
@@ -1879,7 +2076,8 @@
         "companies": [
           "Uber",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Serialize And Deserialize Binary Tree",
@@ -1888,7 +2086,8 @@
         "companies": [
           "Meta",
           "Apple"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Implement Trie Prefix Tree",
@@ -1896,7 +2095,8 @@
         "topic": "Tries",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Design Add And Search Words Data Structure",
@@ -1904,7 +2104,8 @@
         "topic": "Tries",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Word Dictionary",
@@ -1913,7 +2114,8 @@
         "companies": [
           "Amazon",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Count Good Nodes in Binary Tree",
@@ -1922,7 +2124,8 @@
         "companies": [
           "Microsoft",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       }
     ],
     "total": 46
@@ -1939,7 +2142,8 @@
         "companies": [
           "Uber",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Kth Largest Element In a Stream",
@@ -1948,7 +2152,8 @@
         "companies": [
           "Bloomberg",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Last Stone Weight",
@@ -1956,7 +2161,8 @@
         "topic": "Heap / Priority Queue",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "K Closest Points to Origin",
@@ -1964,7 +2170,8 @@
         "topic": "Heap / Priority Queue",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Kth Largest Element In An Array",
@@ -1972,7 +2179,8 @@
         "topic": "Heap / Priority Queue",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Design Twitter",
@@ -1981,7 +2189,8 @@
         "companies": [
           "Amazon",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Find Median From Data Stream",
@@ -1989,7 +2198,8 @@
         "topic": "Heap / Priority Queue",
         "companies": [
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Hard"
       }
     ]
   },
@@ -2005,7 +2215,8 @@
         "companies": [
           "Google",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Course Schedule",
@@ -2014,7 +2225,8 @@
         "companies": [
           "Google",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Clone Graph",
@@ -2023,7 +2235,8 @@
         "companies": [
           "Google",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Course Schedule II",
@@ -2031,7 +2244,8 @@
         "topic": "Graphs",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Network Delay Time",
@@ -2040,7 +2254,8 @@
         "companies": [
           "Bloomberg",
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Word Ladder",
@@ -2048,7 +2263,8 @@
         "topic": "Graphs",
         "companies": [
           "Meta"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Cheapest Flights Within K Stops",
@@ -2058,7 +2274,8 @@
           "Uber",
           "Meta",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Course Schedule III",
@@ -2067,7 +2284,8 @@
         "companies": [
           "Bloomberg",
           "Uber"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Graph Valid Tree",
@@ -2076,7 +2294,8 @@
         "companies": [
           "TikTok",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Number of Connected Components in an Undirected Graph",
@@ -2084,7 +2303,8 @@
         "topic": "Graphs",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Max Area of Island",
@@ -2094,7 +2314,8 @@
           "Meta",
           "TikTok",
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Walls And Gates",
@@ -2103,7 +2324,8 @@
         "companies": [
           "Apple",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Rotting Oranges",
@@ -2112,7 +2334,8 @@
         "companies": [
           "TikTok",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Pacific Atlantic Water Flow",
@@ -2121,7 +2344,8 @@
         "companies": [
           "Meta",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Surrounded Regions",
@@ -2129,7 +2353,8 @@
         "topic": "Graphs",
         "companies": [
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Number of Connected Components In An Undirected Graph",
@@ -2139,7 +2364,8 @@
           "Amazon",
           "Meta",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Redundant Connection",
@@ -2148,7 +2374,8 @@
         "companies": [
           "Apple",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Reconstruct Itinerary",
@@ -2156,7 +2383,8 @@
         "topic": "Advanced Graphs",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Min Cost to Connect All Points",
@@ -2166,7 +2394,8 @@
           "Amazon",
           "Uber",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Swim In Rising Water",
@@ -2174,7 +2403,8 @@
         "topic": "Advanced Graphs",
         "companies": [
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Alien Dictionary",
@@ -2183,7 +2413,8 @@
         "companies": [
           "TikTok",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Hard"
       }
     ]
   },
@@ -2199,7 +2430,8 @@
         "companies": [
           "Meta",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Insert Interval",
@@ -2209,7 +2441,8 @@
           "Amazon",
           "Google",
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Jump Game",
@@ -2217,7 +2450,8 @@
         "topic": "Greedy",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Jump Game II",
@@ -2226,7 +2460,8 @@
         "companies": [
           "Amazon",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Gas Station",
@@ -2236,7 +2471,8 @@
           "Apple",
           "Meta",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "IPO",
@@ -2244,7 +2480,8 @@
         "topic": "Greedy",
         "companies": [
           "Meta"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Maximum Subarray",
@@ -2252,7 +2489,8 @@
         "topic": "Greedy",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Hand of Straights",
@@ -2261,7 +2499,8 @@
         "companies": [
           "Meta",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Merge Triplets to Form Target Triplet",
@@ -2270,7 +2509,8 @@
         "companies": [
           "Bloomberg",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Partition Labels",
@@ -2280,7 +2520,8 @@
           "TikTok",
           "Microsoft",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Valid Parenthesis String",
@@ -2290,7 +2531,8 @@
           "TikTok",
           "Microsoft",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Non Overlapping Intervals",
@@ -2299,7 +2541,8 @@
         "companies": [
           "Uber",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Meeting Rooms",
@@ -2309,7 +2552,8 @@
           "TikTok",
           "Microsoft",
           "Meta"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Meeting Rooms II",
@@ -2318,7 +2562,8 @@
         "companies": [
           "Meta",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Minimum Interval to Include Each Query",
@@ -2327,7 +2572,8 @@
         "companies": [
           "Microsoft",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Hard"
       }
     ]
   },
@@ -2343,7 +2589,8 @@
         "companies": [
           "TikTok",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Generate Parentheses",
@@ -2352,7 +2599,8 @@
         "companies": [
           "TikTok"
         ],
-        "videoId": "s9fokUqJf3A"
+        "videoId": "s9fokUqJf3A",
+        "difficulty": "Medium"
       },
       {
         "name": "Permutations",
@@ -2361,7 +2609,8 @@
         "companies": [
           "Meta",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Subsets",
@@ -2369,7 +2618,8 @@
         "topic": "Backtracking",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Combination Sum",
@@ -2377,7 +2627,8 @@
         "topic": "Backtracking",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Letter Combinations of a Phone Number",
@@ -2385,7 +2636,8 @@
         "topic": "Backtracking",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Combination Sum II",
@@ -2394,7 +2646,8 @@
         "companies": [
           "Amazon",
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "N-Queens",
@@ -2403,7 +2656,8 @@
         "companies": [
           "Amazon",
           "Apple"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Sudoku Solver",
@@ -2411,7 +2665,8 @@
         "topic": "Backtracking",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Subsets II",
@@ -2419,7 +2674,8 @@
         "topic": "Backtracking",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Palindrome Partitioning",
@@ -2429,7 +2685,8 @@
           "Apple",
           "Microsoft",
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "N Queens",
@@ -2438,7 +2695,8 @@
         "companies": [
           "Uber",
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Hard"
       }
     ]
   },
@@ -2454,7 +2712,8 @@
         "companies": [
           "Bloomberg",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Is Subsequence",
@@ -2462,7 +2721,8 @@
         "topic": "Dynamic Programming",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "House Robber",
@@ -2471,7 +2731,8 @@
         "companies": [
           "Microsoft",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Coin Change",
@@ -2479,7 +2740,8 @@
         "topic": "1-D Dynamic Programming",
         "companies": [
           "Meta"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Longest Increasing Subsequence",
@@ -2488,7 +2750,8 @@
         "companies": [
           "Uber",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Partition Equal Subset Sum",
@@ -2497,7 +2760,8 @@
         "companies": [
           "Amazon",
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Decode Ways",
@@ -2505,7 +2769,8 @@
         "topic": "1-D Dynamic Programming",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Longest Palindromic Substring",
@@ -2515,7 +2780,8 @@
           "Google",
           "Meta",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Word Break",
@@ -2524,7 +2790,8 @@
         "companies": [
           "Bloomberg",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Maximum Product Subarray",
@@ -2534,7 +2801,8 @@
           "Meta",
           "Uber",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "House Robber II",
@@ -2543,7 +2811,8 @@
         "companies": [
           "Bloomberg",
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Palindromic Substrings",
@@ -2551,7 +2820,8 @@
         "topic": "1-D Dynamic Programming",
         "companies": [
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Edit Distance",
@@ -2561,7 +2831,8 @@
           "Meta",
           "Microsoft",
           "Google"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Distinct Subsequences",
@@ -2569,7 +2840,8 @@
         "topic": "2-D Dynamic Programming",
         "companies": [
           "Amazon"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Burst Balloons",
@@ -2577,7 +2849,8 @@
         "topic": "2-D Dynamic Programming",
         "companies": [
           "Bloomberg"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Interleaving String",
@@ -2585,7 +2858,8 @@
         "topic": "2-D Dynamic Programming",
         "companies": [
           "Uber"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Min Cost Climbing Stairs",
@@ -2594,7 +2868,8 @@
         "companies": [
           "Uber",
           "Amazon"
-        ]
+        ],
+        "difficulty": "Easy"
       },
       {
         "name": "Unique Paths",
@@ -2603,7 +2878,8 @@
         "companies": [
           "Amazon",
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Longest Common Subsequence",
@@ -2611,7 +2887,8 @@
         "topic": "2-D Dynamic Programming",
         "companies": [
           "Apple"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Best Time to Buy And Sell Stock With Cooldown",
@@ -2619,7 +2896,8 @@
         "topic": "2-D Dynamic Programming",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Coin Change II",
@@ -2627,7 +2905,8 @@
         "topic": "2-D Dynamic Programming",
         "companies": [
           "TikTok"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Target Sum",
@@ -2636,7 +2915,8 @@
         "companies": [
           "Apple",
           "Microsoft"
-        ]
+        ],
+        "difficulty": "Medium"
       },
       {
         "name": "Longest Increasing Path In a Matrix",
@@ -2645,7 +2925,8 @@
         "companies": [
           "Meta",
           "Apple"
-        ]
+        ],
+        "difficulty": "Hard"
       },
       {
         "name": "Regular Expression Matching",
@@ -2654,7 +2935,8 @@
         "companies": [
           "Bloomberg",
           "Uber"
-        ]
+        ],
+        "difficulty": "Hard"
       }
     ]
   }

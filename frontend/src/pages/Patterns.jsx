@@ -1,13 +1,24 @@
 import { useState, useMemo } from 'react';
 import { useData } from '../context/DataContext';
-import { ExternalLink, CheckCircle, Circle, LibraryBig, Code2, Bookmark } from 'lucide-react';
+import { ExternalLink, CheckCircle, Circle, LibraryBig, Code2, Bookmark, ChevronDown } from 'lucide-react';
 import DSALoader from '../components/DSALoader';
 import VideoModal from '../components/VideoModal';
 import YoutubeIcon from '../components/YoutubeIcon';
 
+const difficultyWeights = {
+  'Easy': 1,
+  'Medium': 2,
+  'Hard': 3
+};
+
 export default function Patterns() {
   const { data, loading, error, toggleProblemStatus, toggleDoLaterStatus } = useData();
   const [activeTechnique, setActiveTechnique] = useState(null);
+  
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [sortBy, setSortBy] = useState('default');
+  const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   
   // Video Modal State
   const [videoModalConfig, setVideoModalConfig] = useState({
@@ -54,17 +65,38 @@ export default function Patterns() {
     }
   }, [sortedTechniques, activeTechnique]);
 
-  const currentProblems = useMemo(() => {
+  const filteredProblems = useMemo(() => {
     const problems = activeTechnique ? techniquesMap.get(activeTechnique) || [] : [];
-    return [...problems].sort((a, b) => {
-      if (a.solved !== b.solved) {
-        return a.solved ? 1 : -1;
-      }
-      if (a.level !== b.level) {
-        return a.level - b.level;
-      }
-      return a.originalIndex - b.originalIndex;
-    });
+    return problems
+      .filter(p => {
+        if (filterStatus === 'solved' && !p.solved) return false;
+        if (filterStatus === 'unsolved' && p.solved) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        if (a.solved !== b.solved) {
+          return a.solved ? 1 : -1;
+        }
+        
+        if (sortBy === 'difficultyAsc') {
+          const diffA = difficultyWeights[a.difficulty] || 2;
+          const diffB = difficultyWeights[b.difficulty] || 2;
+          if (diffA !== diffB) return diffA - diffB;
+        } else if (sortBy === 'difficultyDesc') {
+          const diffA = difficultyWeights[a.difficulty] || 2;
+          const diffB = difficultyWeights[b.difficulty] || 2;
+          if (diffA !== diffB) return diffB - diffA;
+        }
+        
+        if (a.level !== b.level) {
+          return a.level - b.level;
+        }
+        return a.originalIndex - b.originalIndex;
+      });
+  }, [activeTechnique, techniquesMap, filterStatus, sortBy]);
+
+  const activeProblems = useMemo(() => {
+    return activeTechnique ? techniquesMap.get(activeTechnique) || [] : [];
   }, [activeTechnique, techniquesMap]);
 
   if (loading || !data || data.length === 0) {
@@ -73,8 +105,9 @@ export default function Patterns() {
   if (error) {
     return <div className="p-12 text-center text-red-500">{error}</div>;
   }
-  const totalCurrent = currentProblems.length;
-  const solvedCurrent = currentProblems.filter(p => p.solved).length;
+
+  const totalCurrent = activeProblems.length;
+  const solvedCurrent = activeProblems.filter(p => p.solved).length;
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 pt-8">
@@ -159,8 +192,93 @@ export default function Patterns() {
               )}
             </div>
 
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-6 border-b border-surface-800">
+              <div className="flex items-center gap-2 relative z-30">
+                {/* Sort Dropdown */}
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                    className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold bg-surface-950 border border-surface-700 rounded-lg text-surface-300 hover:text-white transition-colors"
+                  >
+                    <span>Sort: {sortBy === 'default' ? 'Default' : sortBy === 'difficultyAsc' ? 'Easy → Hard' : 'Hard → Easy'}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {isSortDropdownOpen && (
+                    <>
+                      <div 
+                        className="fixed inset-0 z-40" 
+                        onClick={() => setIsSortDropdownOpen(false)}
+                      />
+                      <div className="absolute left-0 mt-2 w-48 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
+                        <div className="py-1">
+                          {[
+                            { value: 'default', label: 'Default Order' },
+                            { value: 'difficultyAsc', label: 'Difficulty: Easy to Hard' },
+                            { value: 'difficultyDesc', label: 'Difficulty: Hard to Easy' }
+                          ].map(opt => (
+                            <button
+                              key={opt.value}
+                              onClick={() => {
+                                setSortBy(opt.value);
+                                setIsSortDropdownOpen(false);
+                              }}
+                              className={`w-full text-left px-4 py-2 text-xs transition-colors ${sortBy === opt.value ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Filter Dropdown */}
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                    className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold bg-surface-950 border border-surface-700 rounded-lg text-surface-300 hover:text-white transition-colors"
+                  >
+                    <span className="capitalize">{filterStatus} Problems</span>
+                    <ChevronDown className={`w-3.5 h-3.5 opacity-70 transition-transform ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {isFilterDropdownOpen && (
+                    <>
+                      <div 
+                        className="fixed inset-0 z-40" 
+                        onClick={() => setIsFilterDropdownOpen(false)}
+                      />
+                      <div className="absolute left-0 mt-2 w-40 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
+                        <div className="py-1">
+                          {['all', 'solved', 'unsolved'].map(f => (
+                            <button
+                              key={f}
+                              onClick={() => {
+                                setFilterStatus(f);
+                                setIsFilterDropdownOpen(false);
+                              }}
+                              className={`w-full text-left px-4 py-2 text-xs capitalize transition-colors ${filterStatus === f ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
+                            >
+                              {f} Problems
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-3">
-              {currentProblems.map((problem) => (
+              {filteredProblems.length === 0 ? (
+                <div className="text-center py-12 text-surface-500 italic">
+                  No problems match this filter.
+                </div>
+              ) : (
+                filteredProblems.map((problem) => (
                 <div
                   key={`${problem.level}-${problem.originalIndex}`}
                   className={`group relative flex items-center justify-between p-4 sm:p-5 bg-surface-800/50 rounded-2xl border transition-colors ${
@@ -201,6 +319,16 @@ export default function Patterns() {
                         <span className="px-2 py-0.5 rounded text-[10px] sm:text-xs font-medium bg-surface-900 text-surface-400 border border-surface-700">
                           {problem.topic}
                         </span>
+
+                        {problem.difficulty && (
+                          <span className={`px-2 py-0.5 rounded text-[10px] sm:text-xs font-bold border ${
+                            problem.difficulty === 'Easy' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+                            problem.difficulty === 'Medium' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
+                            'bg-red-500/10 border-red-500/20 text-red-400'
+                          }`}>
+                            {problem.difficulty}
+                          </span>
+                        )}
                         
                         {problem.companies && problem.companies.length > 0 && (
                           <span className="hidden sm:inline-block px-2 py-0.5 rounded text-xs font-medium bg-accent-amber/10 text-accent-amber border border-accent-amber/20">
@@ -266,13 +394,7 @@ export default function Patterns() {
                     </div>
                   </div>
                 </div>
-              ))}
-              
-              {currentProblems.length === 0 && (
-                <div className="text-center py-12 text-surface-400">
-                  No problems found for this technique.
-                </div>
-              )}
+              )))}
             </div>
           </div>
         </div>

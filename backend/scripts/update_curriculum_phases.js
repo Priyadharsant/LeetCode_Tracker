@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const JSON_FILE = path.join(__dirname, 'data', 'problems.json');
+const JSON_FILE = path.join(__dirname, '..', 'data', 'problems.json');
 
 function updateCurriculum() {
   const data = JSON.parse(fs.readFileSync(JSON_FILE, 'utf8'));

@@ -6,6 +6,12 @@ import DSALoader from '../components/DSALoader';
 import VideoModal from '../components/VideoModal';
 import YoutubeIcon from '../components/YoutubeIcon';
 
+const difficultyWeights = {
+  'Easy': 1,
+  'Medium': 2,
+  'Hard': 3
+};
+
 export default function Revise() {
   const { data: levels, loading, toggleProblemStatus, toggleRevisionStatus, resetReviseProgress, resetTechniqueRevision } = useData();
   const { user } = useAuth();
@@ -15,7 +21,9 @@ export default function Revise() {
   const [selectedTechnique, setSelectedTechnique] = React.useState(null);
   const [showConfirm, setShowConfirm] = React.useState(false);
   const [filterStatus, setFilterStatus] = React.useState('all');
+  const [sortBy, setSortBy] = React.useState('default');
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = React.useState(false);
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = React.useState(false);
   
   const [videoModalConfig, setVideoModalConfig] = React.useState({
     isOpen: false,
@@ -78,11 +86,31 @@ export default function Revise() {
     ? (activeLevel ? activeLevel.solvedProblems : [])
     : (activeTechniqueProblems || []);
 
-  const filteredProblems = currentProblems.filter(p => {
-    if (filterStatus === 'revised' && !p.revised) return false;
-    if (filterStatus === 'needs revision' && p.revised) return false;
-    return true;
-  });
+  const filteredProblems = React.useMemo(() => {
+    return currentProblems
+      .filter(p => {
+        if (filterStatus === 'revised' && !p.revised) return false;
+        if (filterStatus === 'needs revision' && p.revised) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        if (a.revised !== b.revised) {
+          return a.revised ? 1 : -1;
+        }
+        
+        if (sortBy === 'difficultyAsc') {
+          const diffA = difficultyWeights[a.difficulty] || 2;
+          const diffB = difficultyWeights[b.difficulty] || 2;
+          if (diffA !== diffB) return diffA - diffB;
+        } else if (sortBy === 'difficultyDesc') {
+          const diffA = difficultyWeights[a.difficulty] || 2;
+          const diffB = difficultyWeights[b.difficulty] || 2;
+          if (diffA !== diffB) return diffB - diffA;
+        }
+        
+        return a.originalIndex - b.originalIndex;
+      });
+  }, [currentProblems, filterStatus, sortBy]);
 
   const handleConfirmReset = () => {
     if (viewMode === 'phase' && activeLevel) {
@@ -283,39 +311,82 @@ export default function Revise() {
                     )}
                   </div>
 
-                  <div className="relative z-30">
-                    <button 
-                      onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-                      className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-surface-900 border border-surface-700 rounded-lg text-surface-300 hover:text-white hover:border-surface-600 transition-colors"
-                    >
-                      <span className="capitalize">{filterStatus === 'needs revision' ? 'Needs Revision' : filterStatus}</span>
-                      <ChevronDown className={`w-4 h-4 opacity-70 transition-transform ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    
-                    {isFilterDropdownOpen && (
-                      <>
-                        <div 
-                          className="fixed inset-0 z-40" 
-                          onClick={() => setIsFilterDropdownOpen(false)}
-                        />
-                        <div className="absolute right-0 mt-2 w-48 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
-                          <div className="py-1">
-                            {['all', 'revised', 'needs revision'].map(f => (
-                              <button
-                                key={f}
-                                onClick={() => {
-                                  setFilterStatus(f);
-                                  setIsFilterDropdownOpen(false);
-                                }}
-                                className={`w-full text-left px-4 py-2 text-sm capitalize transition-colors ${filterStatus === f ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
-                              >
-                                {f === 'needs revision' ? 'Needs Revision' : f}
-                              </button>
-                            ))}
+                  <div className="flex items-center gap-2 relative z-30">
+                    {/* Sort Dropdown */}
+                    <div className="relative">
+                      <button 
+                        onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-surface-900 border border-surface-700 rounded-lg text-surface-300 hover:text-white hover:border-surface-600 transition-colors"
+                      >
+                        <span>Sort: {sortBy === 'default' ? 'Default' : sortBy === 'difficultyAsc' ? 'Easy → Hard' : 'Hard → Easy'}</span>
+                        <ChevronDown className={`w-4 h-4 opacity-70 transition-transform ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      
+                      {isSortDropdownOpen && (
+                        <>
+                          <div 
+                            className="fixed inset-0 z-40" 
+                            onClick={() => setIsSortDropdownOpen(false)}
+                          />
+                          <div className="absolute right-0 mt-2 w-48 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
+                            <div className="py-1">
+                              {[
+                                { value: 'default', label: 'Default Order' },
+                                { value: 'difficultyAsc', label: 'Difficulty: Easy to Hard' },
+                                { value: 'difficultyDesc', label: 'Difficulty: Hard to Easy' }
+                              ].map(opt => (
+                                <button
+                                  key={opt.value}
+                                  onClick={() => {
+                                    setSortBy(opt.value);
+                                    setIsSortDropdownOpen(false);
+                                  }}
+                                  className={`w-full text-left px-4 py-2 text-sm transition-colors ${sortBy === opt.value ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
+                                >
+                                  {opt.label}
+                                </button>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    )}
+                        </>
+                      )}
+                    </div>
+
+                    {/* Filter Dropdown */}
+                    <div className="relative">
+                      <button 
+                        onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-surface-900 border border-surface-700 rounded-lg text-surface-300 hover:text-white hover:border-surface-600 transition-colors"
+                      >
+                        <span className="capitalize">{filterStatus === 'needs revision' ? 'Needs Revision' : filterStatus}</span>
+                        <ChevronDown className={`w-4 h-4 opacity-70 transition-transform ${isFilterDropdownOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      
+                      {isFilterDropdownOpen && (
+                        <>
+                          <div 
+                            className="fixed inset-0 z-40" 
+                            onClick={() => setIsFilterDropdownOpen(false)}
+                          />
+                          <div className="absolute right-0 mt-2 w-48 bg-surface-800 border border-surface-700 rounded-xl shadow-xl z-50 overflow-hidden transform origin-top-right transition-all">
+                            <div className="py-1">
+                              {['all', 'revised', 'needs revision'].map(f => (
+                                <button
+                                  key={f}
+                                  onClick={() => {
+                                    setFilterStatus(f);
+                                    setIsFilterDropdownOpen(false);
+                                  }}
+                                  className={`w-full text-left px-4 py-2 text-sm capitalize transition-colors ${filterStatus === f ? 'bg-brand-500/10 text-brand-400 font-bold' : 'text-surface-300 hover:bg-surface-700 hover:text-white'}`}
+                                >
+                                  {f === 'needs revision' ? 'Needs Revision' : f}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
                 
@@ -367,6 +438,16 @@ export default function Revise() {
                                   <div className={`w-1 h-1 rounded-full ${problem.revised ? 'bg-brand-500' : 'bg-surface-600'}`}></div>
                                   {problem.topic}
                                 </span>
+                                
+                                {problem.difficulty && (
+                                  <span className={`text-[10px] px-2 py-0.5 font-bold rounded border ${
+                                    problem.difficulty === 'Easy' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+                                    problem.difficulty === 'Medium' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
+                                    'bg-red-500/10 border-red-500/20 text-red-400'
+                                  }`}>
+                                    {problem.difficulty}
+                                  </span>
+                                )}
                                 
                                 {viewMode === 'technique' && (
                                   <span className="text-[10px] font-bold text-surface-400 bg-surface-800 px-1.5 py-0.5 rounded">

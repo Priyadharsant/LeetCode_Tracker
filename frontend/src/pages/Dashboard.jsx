@@ -43,6 +43,30 @@ export default function Dashboard() {
     return last14Days.map(dateStr => solvedDates.filter(d => d.slice(0, 10) === dateStr).length);
   }, [solvedDates]);
 
+  const difficultyStats = useMemo(() => {
+    const stats = {
+      Easy: { solved: 0, total: 0 },
+      Medium: { solved: 0, total: 0 },
+      Hard: { solved: 0, total: 0 }
+    };
+    
+    if (data) {
+      data.forEach(lvl => {
+        lvl.problems.forEach(p => {
+          const diff = p.difficulty || 'Medium';
+          if (stats[diff]) {
+            stats[diff].total++;
+            if (p.solved) {
+              stats[diff].solved++;
+            }
+          }
+        });
+      });
+    }
+    
+    return stats;
+  }, [data]);
+
   if (loading) {
     return <DSALoader message="Loading workspace..." />;
   }
@@ -103,7 +127,7 @@ export default function Dashboard() {
             <div>
               <h3 className="text-surface-400 text-xs font-bold uppercase tracking-wider mb-1">Up Next • Level {nextProblem.level}</h3>
               <div className="text-white font-semibold flex flex-wrap items-center gap-2">
-                {nextProblem.title}
+                {nextProblem.name}
                 <span className={`text-[10px] px-2 py-0.5 rounded-full border ${
                   nextProblem.difficulty === 'Easy' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
                   nextProblem.difficulty === 'Medium' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
@@ -243,6 +267,76 @@ export default function Dashboard() {
         </div>
 
         <div className="flex flex-col gap-6">
+          {/* Difficulty Progress Panel */}
+          <div className="glass-panel p-6">
+            <div className="flex items-center gap-2 mb-6">
+              <Layers className="w-5 h-5 text-brand-400" />
+              <h3 className="text-lg font-bold text-white">Difficulty Progress</h3>
+            </div>
+            
+            <div className="space-y-4">
+              {/* Easy */}
+              <div>
+                <div className="flex justify-between text-xs font-semibold uppercase tracking-wider mb-1.5">
+                  <span className="text-emerald-400 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Easy
+                  </span>
+                  <span className="text-surface-300">
+                    <span className="text-white font-bold">{difficultyStats.Easy.solved}</span>
+                    <span className="text-surface-500 font-normal"> / {difficultyStats.Easy.total}</span>
+                  </span>
+                </div>
+                <div className="w-full bg-surface-900 rounded-full h-2 overflow-hidden ring-1 ring-inset ring-white/10">
+                  <div
+                    style={{ width: `${difficultyStats.Easy.total > 0 ? (difficultyStats.Easy.solved / difficultyStats.Easy.total) * 100 : 0}%` }}
+                    className="h-full rounded-full bg-emerald-500 transition-all duration-500"
+                  />
+                </div>
+              </div>
+
+              {/* Medium */}
+              <div>
+                <div className="flex justify-between text-xs font-semibold uppercase tracking-wider mb-1.5">
+                  <span className="text-amber-400 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    Medium
+                  </span>
+                  <span className="text-surface-300">
+                    <span className="text-white font-bold">{difficultyStats.Medium.solved}</span>
+                    <span className="text-surface-500 font-normal"> / {difficultyStats.Medium.total}</span>
+                  </span>
+                </div>
+                <div className="w-full bg-surface-900 rounded-full h-2 overflow-hidden ring-1 ring-inset ring-white/10">
+                  <div
+                    style={{ width: `${difficultyStats.Medium.total > 0 ? (difficultyStats.Medium.solved / difficultyStats.Medium.total) * 100 : 0}%` }}
+                    className="h-full rounded-full bg-amber-500 transition-all duration-500"
+                  />
+                </div>
+              </div>
+
+              {/* Hard */}
+              <div>
+                <div className="flex justify-between text-xs font-semibold uppercase tracking-wider mb-1.5">
+                  <span className="text-red-400 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                    Hard
+                  </span>
+                  <span className="text-surface-300">
+                    <span className="text-white font-bold">{difficultyStats.Hard.solved}</span>
+                    <span className="text-surface-500 font-normal"> / {difficultyStats.Hard.total}</span>
+                  </span>
+                </div>
+                <div className="w-full bg-surface-900 rounded-full h-2 overflow-hidden ring-1 ring-inset ring-white/10">
+                  <div
+                    style={{ width: `${difficultyStats.Hard.total > 0 ? (difficultyStats.Hard.solved / difficultyStats.Hard.total) * 100 : 0}%` }}
+                    className="h-full rounded-full bg-red-500 transition-all duration-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <RecentProblems limit={12} />
         </div>
       </div>

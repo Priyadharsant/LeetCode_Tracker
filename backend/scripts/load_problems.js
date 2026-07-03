@@ -22,7 +22,7 @@ const { inferTechniques } = require('./techniques');
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017';
 const DB_NAME = process.env.DB_NAME || 'leetcode_tracker';
-const JSON_FILE = path.join(__dirname, 'data', 'problems.json');
+const JSON_FILE = path.join(__dirname, '..', 'data', 'problems.json');
 
 async function load() {
   const client = new MongoClient(MONGO_URI);
@@ -35,6 +35,7 @@ async function load() {
     levelDoc.problems.map((problem, index) => ({
       name: problem.name,
       link: problem.link,
+      difficulty: problem.difficulty || 'Medium',
       level: levelDoc.level,
       levelGoal: levelDoc.goal,
       levelIndex: index,

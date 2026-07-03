@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const FILE_PATH = path.join(__dirname, 'data', 'problems.json');
+const FILE_PATH = path.join(__dirname, '..', 'data', 'problems.json');
 
 const videoMapping = {
   "Contains Duplicate": "3OamzN90kPg",
