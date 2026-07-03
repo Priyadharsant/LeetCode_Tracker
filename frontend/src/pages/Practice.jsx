@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useData } from '../context/DataContext';
-import { ExternalLink, CheckCircle, Circle, Trophy, PartyPopper, ChevronDown, ChevronUp } from 'lucide-react';
+import { ExternalLink, CheckCircle, Circle, Trophy, PartyPopper, ChevronDown, ChevronUp, Bookmark } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import AchievementOverlay from '../components/AchievementOverlay';
 import MonthCalendar from '../components/MonthCalendar';
@@ -13,7 +13,7 @@ export default function Practice() {
   const [searchParams] = useSearchParams();
   const targetPhase = parseInt(searchParams.get('phase'));
 
-  const { data, loading, error, toggleProblemStatus } = useData();
+  const { data, loading, error, toggleProblemStatus, toggleDoLaterStatus } = useData();
   const [expandedLevel, setExpandedLevel] = useState(null);
   const [currentLevel, setCurrentLevel] = useState(targetPhase || 1);
   const [filterStatus, setFilterStatus] = useState('all');
@@ -318,7 +318,7 @@ export default function Practice() {
                             problemName: p.name
                           });
                         }}
-                        className="p-2 rounded-xl transition-colors text-surface-400 hover:text-white hover:bg-surface-800"
+                        className="group/youtube p-2 rounded-xl transition-colors text-surface-400 hover:text-red-500 hover:bg-red-500/10"
                       >
                         <YoutubeIcon className="w-5 h-5" />
                       </button>
@@ -338,6 +338,21 @@ export default function Practice() {
                       </a>
                       <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/linkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
                         Solve on LeetCode
+                      </div>
+                    </div>
+
+                    <div className={`relative group/bookmarkbtn flex items-center justify-center transition-all ${p.doLater ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleDoLaterStatus(levelObj.level, p.originalIndex, p.doLater);
+                        }}
+                        className={`p-2 rounded-xl transition-colors ${p.doLater ? 'text-amber-500 hover:text-amber-600' : 'text-surface-500 hover:text-amber-500 hover:bg-surface-800'}`}
+                      >
+                        <Bookmark className={`w-5 h-5 ${p.doLater ? 'fill-current' : ''}`} />
+                      </button>
+                      <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/bookmarkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                        {p.doLater ? 'Remove Bookmark' : 'Do Later'}
                       </div>
                     </div>
                   </div>

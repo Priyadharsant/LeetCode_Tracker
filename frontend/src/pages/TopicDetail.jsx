@@ -1,16 +1,25 @@
 import { useParams, Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useState } from 'react';
-import { ExternalLink, CheckCircle, Circle, ArrowLeft } from 'lucide-react';
+import { ExternalLink, CheckCircle, Circle, ArrowLeft, Bookmark } from 'lucide-react';
 import TopicInfo from '../components/TopicInfo';
 import DSALoader from '../components/DSALoader';
+import VideoModal from '../components/VideoModal';
+import YoutubeIcon from '../components/YoutubeIcon';
 
 export default function TopicDetail({ mode = 'topic' }) {
   const { topicId } = useParams();
   const decodedTopic = decodeURIComponent(topicId);
-  const { getTopicData, getTechniqueData, loading, error, toggleProblemStatus } = useData();
+  const { getTopicData, getTechniqueData, loading, error, toggleProblemStatus, toggleDoLaterStatus } = useData();
   const [filterStatus, setFilterStatus] = useState('all');
   const isTechnique = mode === 'technique';
+
+  // Video Modal State
+  const [videoModalConfig, setVideoModalConfig] = useState({
+    isOpen: false,
+    videoId: null,
+    problemName: ''
+  });
 
   if (loading) {
     return <DSALoader message="Loading topic details..." />;
@@ -165,18 +174,71 @@ export default function TopicDetail({ mode = 'topic' }) {
                 </div>
               </div>
 
-              <a 
-                href={p.link} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="p-2 text-surface-600 hover:text-brand-300 opacity-0 group-hover:opacity-100 focus:opacity-100"
-              >
-                <ExternalLink className="w-5 h-5" />
-              </a>
+              <div className="flex items-center gap-1 shrink-0 ml-2">
+                {/* Video Solution Button */}
+                {(p.videoId || p.name) && (
+                  <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setVideoModalConfig({
+                          isOpen: true,
+                          videoId: p.videoId || null,
+                          problemName: p.name
+                        });
+                      }}
+                      className="group/youtube p-2 rounded-xl transition-colors text-surface-400 hover:text-red-500 hover:bg-red-500/10"
+                    >
+                      <YoutubeIcon className="w-5 h-5" />
+                    </button>
+                    <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/vidbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                      Video Solution
+                    </div>
+                  </div>
+                )}
+
+                {/* LeetCode link */}
+                <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                  <a 
+                    href={p.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl text-surface-500 hover:text-brand-500 hover:bg-brand-500/10 transition-colors"
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                  </a>
+                  <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/linkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                    Solve on LeetCode
+                  </div>
+                </div>
+
+                {/* Bookmark Button */}
+                <div className={`relative group/bookmarkbtn flex items-center justify-center transition-all ${p.doLater ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleDoLaterStatus(p.originalLevel, p.originalIndex, p.doLater);
+                    }}
+                    className={`p-2 rounded-xl transition-colors ${p.doLater ? 'text-amber-500 hover:text-amber-600' : 'text-surface-500 hover:text-amber-500 hover:bg-surface-800'}`}
+                  >
+                    <Bookmark className={`w-5 h-5 ${p.doLater ? 'fill-current' : ''}`} />
+                  </button>
+                  <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/bookmarkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                    {p.doLater ? 'Remove Bookmark' : 'Do Later'}
+                  </div>
+                </div>
+              </div>
             </div>
           ))
         )}
       </div>
+
+      <VideoModal 
+        isOpen={videoModalConfig.isOpen}
+        onClose={() => setVideoModalConfig({ ...videoModalConfig, isOpen: false })}
+        videoId={videoModalConfig.videoId}
+        problemName={videoModalConfig.problemName}
+      />
     </div>
   );
 }

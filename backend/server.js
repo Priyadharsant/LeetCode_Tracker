@@ -111,11 +111,13 @@ function applyUserProgress(problems, progress = {}) {
     const progressEntry = progress[problemProgressKey(problem)];
     const solved = Boolean(progressEntry?.solved);
     const revised = Boolean(progressEntry?.revised);
+    const doLater = Boolean(progressEntry?.doLater);
     const hydratedProblem = {
       name: problem.name,
       link: problem.link,
       solved,
       revised,
+      doLater,
       topic: problem.topic,
       companies: problem.companies || [],
       techniques: Array.isArray(problem.techniques) && problem.techniques.length > 0
@@ -440,11 +442,62 @@ app.patch('/api/levels/:level/problem/:index', async (req, res) => {
 
     const progressKey = `progress.${levelId}-${index}`;
 
-    const updateQuery = {};
-    updateQuery[progressKey] = { solved };
-    if (solvedAt) {
-      updateQuery[progressKey].solvedAt = solvedAt;
+    const updateQuery = {
+      $set: {
+        [`${progressKey}.solved`]: solved
+      }
+    };
+    if (solved) {
+      if (solvedAt) {
+        updateQuery.$set[`${progressKey}.solvedAt`] = solvedAt;
+      }
+    } else {
+      updateQuery.$unset = {
+        [`${progressKey}.solvedAt`]: ""
+      };
     }
+
+    await usersCol.updateOne(
+      { username },
+      updateQuery
+    );
+
+    res.json({ success: true, message: 'Updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// UPDATE doLater status of a specific problem inside the user's progress
+app.patch('/api/levels/:level/problem/:index/do-later', async (req, res) => {
+  try {
+    const levelId = parseInt(req.params.level);
+    const index = parseInt(req.params.index);
+    const { doLater } = req.body;
+    const username = req.header('X-Username');
+
+    if (!username) {
+      return res.status(401).json({ error: 'Unauthorized: X-Username header required' });
+    }
+
+    const problemsCol = db.collection('problems');
+    const problem = await problemsCol.findOne({ level: levelId, levelIndex: index });
+    if (!problem) {
+      return res.status(404).json({ error: 'Problem not found' });
+    }
+
+    const usersCol = db.collection('users');
+    const user = await usersCol.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const progressKey = `progress.${levelId}-${index}`;
+
+    const updateQuery = {};
+    updateQuery[`${progressKey}.doLater`] = doLater;
 
     await usersCol.updateOne(
       { username },
@@ -457,6 +510,7 @@ app.patch('/api/levels/:level/problem/:index', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // UPDATE revised status of a specific problem inside the user's progress
 app.patch('/api/levels/:level/problem/:index/revise', async (req, res) => {

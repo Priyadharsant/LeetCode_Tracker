@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen, Terminal, LibraryBig } from 'lucide-react';
+import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen, Terminal, LibraryBig, Bookmark } from 'lucide-react';
 
 export default function Navbar({ isOffline }) {
   const { user, isGuest } = useAuth();
@@ -15,6 +15,7 @@ export default function Navbar({ isOffline }) {
     { to: '/patterns', label: 'Patterns', icon: LibraryBig },
     { to: '/practice', label: 'Practice', icon: Layers3 },
     { to: '/revise', label: 'Revise', icon: BookOpen },
+    { to: '/do-later', label: 'Do Later', icon: Bookmark },
     { to: '/cheatsheet', label: 'CheatSheet', icon: Terminal },
   ];
 

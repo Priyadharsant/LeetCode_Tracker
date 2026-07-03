@@ -405,7 +405,7 @@ export default function Revise() {
                                     problemName: problem.name
                                   });
                                 }}
-                                className="p-2 rounded-xl transition-colors text-surface-400 hover:text-white hover:bg-surface-800"
+                                className="group/youtube p-2 rounded-xl transition-colors text-surface-400 hover:text-red-500 hover:bg-red-500/10"
                               >
                                 <YoutubeIcon className="w-5 h-5" />
                               </button>

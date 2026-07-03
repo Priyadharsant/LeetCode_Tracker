@@ -45,7 +45,7 @@ export function DataProvider({ children }) {
     if (!cachedLevels) {
       return levels.map(lvl => ({
         ...lvl,
-        problems: lvl.problems.map(p => ({ ...p, solved: false, revised: false }))
+        problems: lvl.problems.map(p => ({ ...p, solved: false, revised: false, doLater: false }))
       }));
     }
 
@@ -56,7 +56,8 @@ export function DataProvider({ children }) {
           solved: Boolean(problem.solved),
           solvedAt: problem.solvedAt,
           revised: Boolean(problem.revised),
-          revisedAt: problem.revisedAt
+          revisedAt: problem.revisedAt,
+          doLater: Boolean(problem.doLater)
         });
       });
     });
@@ -69,6 +70,7 @@ export function DataProvider({ children }) {
           ...p,
           solved: Boolean(cached?.solved),
           revised: Boolean(cached?.revised),
+          doLater: Boolean(cached?.doLater),
           ...(cached?.solved && cached.solvedAt ? { solvedAt: cached.solvedAt } : {}),
           ...(cached?.revised && cached.revisedAt ? { revisedAt: cached.revisedAt } : {})
         };
@@ -238,6 +240,52 @@ export function DataProvider({ children }) {
     }
   };
 
+  const toggleDoLaterStatus = async (originalLevel, originalIndex, currentStatus) => {
+    const newStatus = !currentStatus;
+    
+    const newData = [...data];
+    const idx = newData.findIndex(d => d.level === originalLevel);
+    if (idx !== -1) {
+      const updatedLevel = { ...newData[idx] };
+      const updatedProblems = [...updatedLevel.problems];
+      const updatedProblem = { ...updatedProblems[originalIndex], doLater: newStatus };
+      updatedProblems[originalIndex] = updatedProblem;
+      updatedLevel.problems = updatedProblems;
+      newData[idx] = updatedLevel;
+    }
+
+    setData(newData);
+
+    const guestMode = !user && (isGuest || localStorage.getItem('dsa_guest') === 'true');
+    if (guestMode) {
+      localStorage.setItem('dsa_progress_guest', JSON.stringify(newData));
+    } else {
+      try {
+        const payload = { doLater: newStatus };
+        const res = await fetch(`${API_BASE}/levels/${originalLevel}/problem/${originalIndex}/do-later`, {
+          method: 'PATCH',
+          headers: getHeaders(),
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Update doLater failed on server');
+      } catch (err) {
+        console.error('Update doLater failed:', err);
+        setData(prevData => {
+          const newData = [...prevData];
+          const idx = newData.findIndex(d => d.level === originalLevel);
+          if (idx !== -1) {
+            const updatedLevel = { ...newData[idx] };
+            const updatedProblems = [...updatedLevel.problems];
+            updatedProblems[originalIndex] = { ...updatedProblems[originalIndex], doLater: currentStatus };
+            updatedLevel.problems = updatedProblems;
+            newData[idx] = updatedLevel;
+          }
+          return newData;
+        });
+      }
+    }
+  };
+
   const resetReviseProgress = async (level = undefined) => {
     // Optimistic UI update
     const newData = data.map(lvl => {
@@ -361,6 +409,7 @@ export function DataProvider({ children }) {
       error,
       toggleProblemStatus,
       toggleRevisionStatus,
+      toggleDoLaterStatus,
       resetReviseProgress,
       resetTechniqueRevision,
       getTopicData,
