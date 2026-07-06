@@ -11,7 +11,7 @@ import Patterns from './pages/Patterns';
 import Account from './pages/Account';
 import Revise from './pages/Revise';
 import CheatSheet from './pages/CheatSheet';
-import DoLater from './pages/DoLater';
+import Bookmarks from './pages/Bookmarks';
 import { useAuth } from './context/AuthContext';
 import DSALoader from './components/DSALoader';
 import FeedbackModal from './components/FeedbackModal';
@@ -62,7 +62,8 @@ function App() {
             <Route path="/patterns" element={<ProtectedRoute><Patterns /></ProtectedRoute>} />
             <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
             <Route path="/revise" element={<ProtectedRoute><Revise /></ProtectedRoute>} />
-            <Route path="/do-later" element={<ProtectedRoute><DoLater /></ProtectedRoute>} />
+            <Route path="/do-later" element={<Navigate to="/bookmarks" replace />} />
+            <Route path="/bookmarks" element={<ProtectedRoute><Bookmarks /></ProtectedRoute>} />
             <Route path="/cheatsheet" element={<ProtectedRoute><CheatSheet /></ProtectedRoute>} />
             <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to="/" />} />

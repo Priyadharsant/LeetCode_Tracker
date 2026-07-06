@@ -19,7 +19,7 @@ async function main() {
 
         const db = mongoose.connection.db;
         const problemsCol = db.collection('problems');
-        const data = await problemsCol.find().toArray();
+        const data = (await problemsCol.find().toArray()).reverse();;
         console.log(`Found ${data.length} problems in database.`);
 
         let updatedCount = 0;
@@ -29,11 +29,20 @@ async function main() {
 
         for (const problem of data) {
             // Skip problems that already have a videoId
-            if (problem.videoId) {
-                alreadyUpdated++;
-                continue;
-            }
+            // if (problem.videoId) {
+            //     alreadyUpdated++;
+            //     continue;
+            // }
+            if (problem.updatedAt) {
+                const updated = new Date(problem.updatedAt);
 
+                if (updated.toDateString() === new Date().toDateString()) {
+                    alreadyUpdated++;
+                    console.log("Skip");
+
+                    continue; // Skip this problem
+                }
+            }
             if (quotaExceeded) {
                 break;
             }
@@ -42,8 +51,11 @@ async function main() {
             console.log(`Fetching video for: "${problemName}"`);
 
             try {
-                const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(problemName)}&maxResults=1&type=video&key=${API_KEY}`;
-                const res = await fetch(url);
+                const CHANNEL_ID = "UCJskGeByzRRSvmOyZOz61ig"; // take U forward
+
+                const query = `${problemName} leetcode`;
+
+                const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&channelId=${CHANNEL_ID}&q=${encodeURIComponent(query)}&maxResults=1&key=${API_KEY}`; const res = await fetch(url);
                 const json = await res.json();
 
                 if (res.status === 403) {

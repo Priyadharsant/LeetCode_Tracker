@@ -12,7 +12,7 @@ const difficultyWeights = {
   'Hard': 3
 };
 
-export default function DoLater() {
+export default function Bookmarks() {
   const { data: levels, loading, toggleProblemStatus, toggleDoLaterStatus } = useData();
 
   const [filterStatus, setFilterStatus] = React.useState('all');
@@ -25,6 +25,13 @@ export default function DoLater() {
     videoId: null,
     problemName: ''
   });
+
+  React.useEffect(() => {
+    document.title = "Bookmarks | LeetCodeTracker";
+    return () => {
+      document.title = "LeetCodeTracker";
+    };
+  }, []);
 
   // Extract all bookmarked problems across all levels
   const bookmarkedProblems = React.useMemo(() => {
@@ -88,7 +95,7 @@ export default function DoLater() {
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-300 mb-4">
             <Bookmark className="w-3.5 h-3.5" />
-            Do Later List
+            Bookmarks
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
             Bookmarked Problems
@@ -294,10 +301,12 @@ export default function DoLater() {
                             });
                           }}
                           className="group/youtube p-2 rounded-xl transition-colors text-surface-400 hover:text-red-500 hover:bg-red-500/10"
-                          title="Video Solution"
                         >
                           <YoutubeIcon className="w-5 h-5" />
                         </button>
+                        <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/vidbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                          Video Solution
+                        </div>
                       </div>
                     )}
                     
@@ -308,10 +317,12 @@ export default function DoLater() {
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="p-2 rounded-xl text-surface-500 hover:text-brand-500 hover:bg-brand-500/10 transition-colors"
-                        title="Solve on LeetCode"
                       >
                         <ExternalLink className="w-5 h-5" />
                       </a>
+                      <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/linkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                        Solve on LeetCode
+                      </div>
                     </div>
 
                     {/* Bookmark Toggle (un-bookmark from here) */}
@@ -322,10 +333,12 @@ export default function DoLater() {
                           toggleDoLaterStatus(problem.level, problem.originalIndex, true);
                         }}
                         className="p-2 rounded-xl text-amber-500 hover:text-amber-600 transition-colors"
-                        title="Remove Bookmark"
                       >
                         <Bookmark className="w-5 h-5 fill-current" />
                       </button>
+                      <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/bookmarkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
+                        Remove Bookmark
+                      </div>
                     </div>
                   </div>
                 </div>
