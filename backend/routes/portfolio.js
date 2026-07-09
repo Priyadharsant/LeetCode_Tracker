@@ -313,6 +313,23 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
       await activityCol.insertOne({ type: 'VISIT', ip, ua, createdAt: new Date() });
       console.log(`[API] Saved VISIT to DB from IP: ${ip}`);
 
+      // Send immediate Telegram notification
+      const safeIp = escapeHtml(ip);
+      const safeUa = escapeHtml(ua);
+      const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+
+      const visitMsg = `🌐 <b>PORTFOLIO OPENED</b>
+<i>New visitor active on your site</i>
+
+<b>Client Details</b>
+• <b>IP:</b> <code>${safeIp}</code>
+• <b>Device:</b> <code>${safeUa}</code>
+
+<b>Time</b>
+• <code>${timestamp} IST</code>`;
+
+      await sendTelegramMessage(visitMsg);
+
       return res.json({ success: true });
     } catch (err) {
       console.error('[API] Notify visit error:', err);
