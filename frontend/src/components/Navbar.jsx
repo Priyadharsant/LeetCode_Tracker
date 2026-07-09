@@ -15,7 +15,7 @@ export default function Navbar({ isOffline }) {
     { to: '/patterns', label: 'Patterns', icon: LibraryBig },
     { to: '/practice', label: 'Practice', icon: Layers3 },
     { to: '/revise', label: 'Revise', icon: BookOpen },
-    { to: '/do-later', label: 'Do Later', icon: Bookmark },
+    { to: '/bookmarks', label: 'Bookmarks', icon: Bookmark },
     { to: '/cheatsheet', label: 'CheatSheet', icon: Terminal },
   ];
 

@@ -295,7 +295,7 @@ export default function TopicDetail({ mode = 'topic' }) {
                     <Bookmark className={`w-5 h-5 ${p.doLater ? 'fill-current' : ''}`} />
                   </button>
                   <div className="absolute top-full mt-2 right-0 px-2 py-1 bg-surface-800 text-surface-200 text-xs font-medium rounded opacity-0 group-hover/bookmarkbtn:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-surface-700 shadow-xl z-[60]">
-                    {p.doLater ? 'Remove Bookmark' : 'Do Later'}
+                    {p.doLater ? 'Remove Bookmark' : 'Bookmark'}
                   </div>
                 </div>
               </div>
