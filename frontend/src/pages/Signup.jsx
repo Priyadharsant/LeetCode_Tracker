@@ -153,6 +153,18 @@ export default function Signup() {
             </Link>
           </p>
         </div>
+
+        <div className="text-center mt-8 text-xs text-surface-500">
+          Created by{' '}
+          <a
+            href="https://priyan.online"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-brand-400 hover:text-brand-300 font-semibold transition-all hover:underline"
+          >
+            Priyan
+          </a>
+        </div>
       </div>
     </div>
   );

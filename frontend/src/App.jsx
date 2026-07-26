@@ -16,6 +16,7 @@ import { useAuth } from './context/AuthContext';
 import DSALoader from './components/DSALoader';
 import FeedbackModal from './components/FeedbackModal';
 import YoutubeIcon from './components/YoutubeIcon';
+import NotificationToast from './components/NotificationToast';
 
 function ProtectedRoute({ children }) {
   const { user, isGuest, loading } = useAuth();
@@ -43,7 +44,7 @@ function App() {
       setIsMenuOpen(false);
     }
   };
-  
+
   useEffect(() => {
     const handleOffline = () => setIsOffline(true);
     const handleOnline = () => setIsOffline(false);
@@ -58,7 +59,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen text-white selection:bg-brand-500/30 relative pb-20">
+    <div className="min-h-screen text-white selection:bg-brand-500/30 relative">
       <div className="grid-overlay"></div>
       {isOffline && (
         <div className="bg-red-500/90 text-white text-center py-1.5 text-sm font-medium fixed top-0 w-full z-[100] backdrop-blur-sm shadow-md">
@@ -86,19 +87,18 @@ function App() {
       </div>
 
       {(user || isGuest) && (
-        <div 
+        <div
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className="fixed bottom-6 right-6 z-40 flex flex-row-reverse items-center gap-3"
         >
           {/* Main Trigger Button: Left Chevron */}
-          <button 
+          <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`p-3 border rounded-full shadow-lg transition-all duration-300 flex items-center justify-center group/trigger relative ${
-              isMenuOpen 
-                ? 'bg-brand-500 text-white border-brand-500 scale-105' 
+            className={`p-3 border rounded-full shadow-lg transition-all duration-300 flex items-center justify-center group/trigger relative ${isMenuOpen
+                ? 'bg-brand-500 text-white border-brand-500 scale-105'
                 : 'bg-surface-800 border-surface-700 text-brand-400 hover:bg-brand-500 hover:text-white hover:border-brand-500'
-            }`}
+              }`}
           >
             <ChevronLeft className={`w-5 h-5 transition-transform duration-300 ${isMenuOpen ? 'rotate-180' : ''}`} />
             {!isMenuOpen && (
@@ -109,11 +109,10 @@ function App() {
           </button>
 
           {/* Expanded Menu Items: Horizontal Row extending to the left */}
-          <div className={`flex flex-row-reverse items-center gap-3 transition-all duration-300 ${
-            isMenuOpen ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 translate-x-4 pointer-events-none'
-          }`}>
+          <div className={`flex flex-row-reverse items-center gap-3 transition-all duration-300 ${isMenuOpen ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 translate-x-4 pointer-events-none'
+            }`}>
             {/* takeUforward YouTube */}
-            <a 
+            <a
               href="https://www.youtube.com/@takeUforward/"
               target="_blank"
               rel="noopener noreferrer"
@@ -127,7 +126,7 @@ function App() {
             </a>
 
             {/* Striver's A2Z Sheet */}
-            <a 
+            <a
               href="https://takeuforward.org/dsa/strivers-a2z-sheet-learn-dsa-a-to-z"
               target="_blank"
               rel="noopener noreferrer"
@@ -141,7 +140,7 @@ function App() {
             </a>
 
             {/* Send Feedback */}
-            <button 
+            <button
               onClick={() => {
                 setIsFeedbackOpen(true);
                 setIsMenuOpen(false);
@@ -157,6 +156,7 @@ function App() {
           <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} />
         </div>
       )}
+      <NotificationToast />
     </div>
   );
 }

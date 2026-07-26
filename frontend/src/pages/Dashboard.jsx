@@ -8,7 +8,7 @@ import Heatmap from '../components/Heatmap';
 import StreakCard from '../components/StreakCard';
 import Sparkline from '../components/Sparkline';
 import DSALoader from '../components/DSALoader';
-import NotificationToast from '../components/NotificationToast';
+
 
 export default function Dashboard() {
   const { data, getTopicData, getTechniqueData, loading, error } = useData();
@@ -340,7 +340,6 @@ export default function Dashboard() {
           <RecentProblems limit={12} />
         </div>
       </div>
-      <NotificationToast />
     </div>
   );
 }
