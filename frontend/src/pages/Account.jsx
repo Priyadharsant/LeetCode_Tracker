@@ -6,6 +6,7 @@ import { User, LogOut, Shield, Activity, Lock, Clock, ExternalLink, KeyRound, Ch
 import Heatmap from '../components/Heatmap';
 import NotificationManager from '../utils/NotificationManager';
 import ModernTimePicker from '../components/ModernTimePicker';
+import FeedbackModal from '../components/FeedbackModal';
 
 export default function Account() {
   const { user, isGuest, logout, changePassword } = useAuth();
@@ -21,6 +22,7 @@ export default function Account() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [pwdStatus, setPwdStatus] = useState({ loading: false, error: null, success: false });
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
   // Notifications state
   const [notifPermission, setNotifPermission] = useState('default');
@@ -191,7 +193,7 @@ export default function Account() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 md:p-12">
+    <div className="max-w-6xl mx-auto p-6 md:p-12 pb-6">
       <div className="mb-10">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-300 mb-4">
           <Shield className="w-3.5 h-3.5" />
@@ -523,6 +525,47 @@ export default function Account() {
           </div>
         </div>
       </div>
+      <footer className="w-full mt-16 pt-8 border-t border-white/5 flex flex-col items-center gap-4 text-xs text-surface-500">
+        {/* Footer Navigation Links */}
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-medium">
+          <a 
+            href="https://priyan.online" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-surface-400 hover:text-brand-400 transition-colors"
+          >
+            Portfolio
+          </a>
+          <span className="w-1 h-1 rounded-full bg-surface-800" />
+          <a 
+            href="mailto:contact@priyan.online" 
+            className="text-surface-400 hover:text-brand-400 transition-colors"
+          >
+            Contact
+          </a>
+          <span className="w-1 h-1 rounded-full bg-surface-800" />
+          <button 
+            onClick={() => setIsFeedbackOpen(true)}
+            className="text-surface-400 hover:text-brand-400 transition-colors"
+          >
+            Feedback
+          </button>
+        </div>
+
+        {/* Footer Credit & Copyright */}
+        <div className="text-center text-[11px] text-surface-600">
+          <span>&copy; {new Date().getFullYear()} DSA Tracker. Created by </span>
+          <a 
+            href="https://priyan.online" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-brand-400 hover:text-brand-300 font-bold transition-all hover:underline"
+          >
+            Priyan
+          </a>
+        </div>
+      </footer>
+      <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} />
     </div>
   );
 }

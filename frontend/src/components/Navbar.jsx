@@ -39,33 +39,31 @@ export default function Navbar({ isOffline }) {
           <div className="hidden md:flex items-center gap-1">
             <div className="flex items-center gap-6">
               {navItems.map(({ to, label, icon: Icon }) => (
-                <Link 
-                  key={to} 
-                  to={to} 
-                  className={`group relative flex items-center gap-2 py-5 text-sm font-medium transition-colors ${
-                    isActive(to) ? 'text-white' : 'text-surface-400 hover:text-white'
-                  }`}
+                <Link
+                  key={to}
+                  to={to}
+                  className={`group relative flex items-center gap-2 py-5 text-sm font-medium transition-colors ${isActive(to) ? 'text-white' : 'text-surface-400 hover:text-white'
+                    }`}
                 >
                   <Icon className={`w-4 h-4 transition-colors ${isActive(to) ? 'text-brand-400' : 'text-surface-500 group-hover:text-brand-400/70'}`} />
                   {label}
                   {isActive(to) && (
-                    <div 
+                    <div
                       className="absolute bottom-2 left-0 right-0 h-[3px] bg-brand-400 rounded-full shadow-[0_-2px_10px_rgba(56,204,177,0.5)]"
                     />
                   )}
                 </Link>
               ))}
             </div>
-            
+
             <div className="h-6 w-px bg-white/10 mx-4"></div>
 
-            <Link 
+            <Link
               to="/account"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive('/account') 
-                  ? 'bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20' 
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive('/account')
+                  ? 'bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20'
                   : 'text-surface-400 hover:bg-white/5 hover:text-white'
-              }`}
+                }`}
               title="Account"
             >
               <User className="w-4 h-4" />
@@ -75,11 +73,10 @@ export default function Navbar({ isOffline }) {
 
           {/* Mobile Controls */}
           <div className="flex items-center gap-2 md:hidden">
-            <Link 
+            <Link
               to="/account"
-              className={`p-2 rounded-lg text-surface-400 hover:bg-white/5 hover:text-white transition-colors ${
-                isActive('/account') ? 'text-brand-300 bg-brand-500/10 ring-1 ring-brand-500/20' : ''
-              }`}
+              className={`p-2 rounded-lg text-surface-400 hover:bg-white/5 hover:text-white transition-colors ${isActive('/account') ? 'text-brand-300 bg-brand-500/10 ring-1 ring-brand-500/20' : ''
+                }`}
               title="Account"
             >
               <User className="w-5 h-5" />
@@ -104,16 +101,26 @@ export default function Navbar({ isOffline }) {
               key={to}
               to={to}
               onClick={() => setIsOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                isActive(to)
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${isActive(to)
                   ? 'bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/30'
                   : 'text-surface-400 hover:bg-white/5 hover:text-white'
-              }`}
+                }`}
             >
               <Icon className={`w-5 h-5 ${isActive(to) ? 'text-brand-400' : 'text-surface-500'}`} />
               <span>{label}</span>
             </Link>
           ))}
+          <div className="border-t border-white/5 pt-4 text-center text-xs text-surface-500">
+            Created by{' '}
+            <a
+              href="https://priyan.online"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-400 hover:text-brand-300 font-semibold transition-all hover:underline"
+            >
+              Priyan
+            </a>
+          </div>
         </div>
       )}
     </nav>

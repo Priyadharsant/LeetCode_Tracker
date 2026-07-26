@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, X } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import NotificationManager from '../utils/NotificationManager';
 import { useAuth } from '../context/AuthContext';
 
 export default function NotificationToast() {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, isGuest } = useAuth();
 
   useEffect(() => {
     if (isGuest || !user) return;
     
-    // Only show if notifications are supported, permission is not denied, user hasn't dismissed it recently, and hasn't saved a time yet
+    if (location.pathname !== '/dashboard') {
+      setShow(false);
+      return;
+    }
+    
+    // Only show if notifications are supported, permission is not denied, user hasn't dismissed or seen it recently, and hasn't saved a time yet
     const dismissed = sessionStorage.getItem(`dsa_notify_dismissed_${user.username}`);
+    const shown = sessionStorage.getItem(`dsa_notify_shown_${user.username}`);
     const timeSaved = localStorage.getItem(`dsa_reminder_time_${user.username}`);
     
-    if (NotificationManager.isSupported && Notification.permission !== 'denied' && !dismissed && !timeSaved) {
+    if (NotificationManager.isSupported && Notification.permission !== 'denied' && !dismissed && !shown && !timeSaved) {
       // Add a slight delay before popping up so it feels less aggressive
       const timer = setTimeout(() => {
         setShow(true);
+        sessionStorage.setItem(`dsa_notify_shown_${user.username}`, 'true');
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, [user, isGuest]);
+  }, [user, isGuest, location.pathname]);
 
   useEffect(() => {
     let hideTimer;
