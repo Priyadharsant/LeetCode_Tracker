@@ -220,9 +220,9 @@ export default function Bookmarks() {
           ) : (
             <div className="grid grid-cols-1 gap-3">
               {filteredProblems.map((problem) => (
-                <div 
+                 <div 
                   key={`${problem.level}-${problem.originalIndex}`} 
-                  className={`group flex items-center justify-between p-4 md:p-5 rounded-2xl border transition-all duration-300 ${
+                  className={`group flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-5 rounded-2xl border transition-all duration-300 gap-3 sm:gap-4 ${
                     problem.solved 
                       ? 'bg-brand-500/[0.02] border-brand-500/10 opacity-80' 
                       : 'bg-surface-800 border-surface-700 hover:border-brand-500/30 hover:bg-surface-700/80 hover:shadow-lg hover:shadow-black/10'
@@ -287,10 +287,10 @@ export default function Bookmarks() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1 shrink-0 ml-2">
+                  <div className="flex items-center gap-2 shrink-0 sm:ml-2 mt-2 sm:mt-0 justify-end sm:justify-start w-full sm:w-auto border-t border-surface-700/30 sm:border-0 pt-2 sm:pt-0">
                     {/* Video Solution Button */}
                     {(problem.videoId || problem.name) && (
-                      <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                      <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100">
                         <button
                           onClick={(e) => {
                             e.preventDefault();
@@ -311,7 +311,7 @@ export default function Bookmarks() {
                     )}
                     
                     {/* LeetCode link */}
-                    <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                    <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100">
                       <a 
                         href={problem.link} 
                         target="_blank" 

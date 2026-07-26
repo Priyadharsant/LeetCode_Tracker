@@ -1,6 +1,6 @@
 import { useData } from '../context/DataContext';
 import { Link } from 'react-router-dom';
-import { Map, CheckCircle, Code } from 'lucide-react';
+import { Map, CheckCircle, Code, ExternalLink } from 'lucide-react';
 import DSALoader from '../components/DSALoader';
 
 export default function Roadmap() {
@@ -17,9 +17,41 @@ export default function Roadmap() {
         </div>
         <h1 className="text-4xl font-bold text-white mb-3">DSA Roadmap</h1>
         <p className="text-surface-400 max-w-2xl mx-auto">
-          Follow this 10-phase structured path to master Data Structures and Algorithms. 
+          Follow this 10-phase structured path to master Data Structures and Algorithms.
           Complete each node to unlock your full potential.
         </p>
+
+        <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-3">
+          <div className="flex flex-wrap justify-center gap-3">
+            <a
+              href="https://roadmap.sh/datastructures-and-algorithms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-surface-700 bg-surface-800/40 hover:bg-surface-800 text-surface-300 hover:text-white hover:border-brand-500 transition-all duration-200 text-sm font-medium"
+            >
+              <ExternalLink className="w-4 h-4 text-brand-500" />
+              <span>DSA Roadmap</span>
+            </a>
+            <a
+              href="https://roadmap.sh/leetcode"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-surface-700 bg-surface-800/40 hover:bg-surface-800 text-surface-300 hover:text-white hover:border-brand-500 transition-all duration-200 text-sm font-medium"
+            >
+              <ExternalLink className="w-4 h-4 text-brand-500" />
+              <span>LeetCode Roadmap</span>
+            </a>
+            <a
+              href="https://visualgo.net/en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-surface-700 bg-surface-800/40 hover:bg-surface-800 text-surface-300 hover:text-white hover:border-brand-500 transition-all duration-200 text-sm font-medium"
+            >
+              <ExternalLink className="w-4 h-4 text-brand-500" />
+              <span>VisuAlgo</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <div className="relative py-10">
@@ -50,16 +82,16 @@ export default function Roadmap() {
                         <Code className="w-6 h-6 text-surface-500 shrink-0" />
                       )}
                     </div>
-                    
+
                     <div className="flex justify-between items-end">
                       <div className="text-sm font-medium text-surface-400">
                         <span className={isComplete ? 'text-brand-500' : 'text-white'}>{solved}</span> / {total} Problems
                       </div>
                       <div className="text-sm font-bold text-surface-300">{progress.toFixed(0)}%</div>
                     </div>
-                    
+
                     <div className="w-full bg-surface-900 rounded-full h-1.5 mt-3 overflow-hidden">
-                      <div 
+                      <div
                         className="h-full bg-brand-500"
                         style={{ width: `${progress}%` }}
                       />

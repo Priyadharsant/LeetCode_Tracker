@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen, Terminal, LibraryBig, Bookmark } from 'lucide-react';
+import { CodeXml, LayoutDashboard, Layers3, User, Map, BookOpen, Terminal, LibraryBig, Bookmark, Menu, X } from 'lucide-react';
 
 export default function Navbar({ isOffline }) {
   const { user, isGuest } = useAuth();
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
 
   if (!user && !isGuest) return null;
 
@@ -32,9 +34,10 @@ export default function Navbar({ isOffline }) {
               <span className="block text-sm font-bold text-white tracking-tight sm:text-base">DSA Tracker</span>
             </div>
           </Link>
-          <div className="flex items-center gap-1 overflow-x-auto">
-            {/* Desktop Menu */}
-            <div className="hidden items-center gap-6 md:flex mr-6">
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-1">
+            <div className="flex items-center gap-6">
               {navItems.map(({ to, label, icon: Icon }) => (
                 <Link 
                   key={to} 
@@ -54,23 +57,7 @@ export default function Navbar({ isOffline }) {
               ))}
             </div>
             
-            {/* Mobile Menu */}
-            <div className="flex items-center gap-2 md:hidden mr-4">
-              {navItems.map(({ to, label, icon: Icon }) => (
-                <Link 
-                  key={to} 
-                  to={to} 
-                  className={`p-2 rounded-lg transition-colors ${
-                    isActive(to) ? 'bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/30' : 'text-surface-400 hover:bg-white/5 hover:text-white'
-                  }`} 
-                  title={label}
-                >
-                  <Icon className="w-5 h-5" />
-                </Link>
-              ))}
-            </div>
-            
-            <div className="h-6 w-px bg-white/10 mx-2 hidden sm:block"></div>
+            <div className="h-6 w-px bg-white/10 mx-4"></div>
 
             <Link 
               to="/account"
@@ -82,11 +69,53 @@ export default function Navbar({ isOffline }) {
               title="Account"
             >
               <User className="w-4 h-4" />
-              <span className="hidden sm:inline">{isGuest ? 'Guest' : user?.username}</span>
+              <span>{isGuest ? 'Guest' : user?.username}</span>
             </Link>
+          </div>
+
+          {/* Mobile Controls */}
+          <div className="flex items-center gap-2 md:hidden">
+            <Link 
+              to="/account"
+              className={`p-2 rounded-lg text-surface-400 hover:bg-white/5 hover:text-white transition-colors ${
+                isActive('/account') ? 'text-brand-300 bg-brand-500/10 ring-1 ring-brand-500/20' : ''
+              }`}
+              title="Account"
+            >
+              <User className="w-5 h-5" />
+            </Link>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-lg text-surface-400 hover:bg-white/5 hover:text-white transition-colors focus:outline-none"
+              aria-label="Toggle Menu"
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Panel */}
+      {isOpen && (
+        <div className="md:hidden border-t border-white/10 bg-surface-900/98 backdrop-blur-2xl px-4 py-3 space-y-1 shadow-2xl animate-page-enter">
+          {navItems.map(({ to, label, icon: Icon }) => (
+            <Link
+              key={to}
+              to={to}
+              onClick={() => setIsOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                isActive(to)
+                  ? 'bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/30'
+                  : 'text-surface-400 hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              <Icon className={`w-5 h-5 ${isActive(to) ? 'text-brand-400' : 'text-surface-500'}`} />
+              <span>{label}</span>
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }

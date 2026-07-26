@@ -111,7 +111,7 @@ export default function Patterns() {
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 pt-8">
-      <div className="mb-8">
+      <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-400 mb-6">
             <LibraryBig className="w-4 h-4" />
@@ -120,9 +120,20 @@ export default function Patterns() {
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 pb-2 bg-gradient-to-r from-white to-surface-400 bg-clip-text text-transparent">
             Technique View
           </h1>
-          <p className="text-lg text-surface-400 max-w-2xl mb-8">
+          <p className="text-lg text-surface-400 max-w-2xl">
             Master algorithms by learning the core patterns. Once you understand a pattern like Sliding Window or Two Pointers, you can solve dozens of problems regardless of the underlying data structure.
           </p>
+        </div>
+        <div className="flex-shrink-0 mb-2 md:mb-0">
+          <a
+            href="https://visualgo.net/en"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-surface-700 bg-surface-800/40 hover:bg-surface-800 text-surface-300 hover:text-white hover:border-brand-500 transition-all duration-200 text-sm font-semibold shadow-md"
+          >
+            <ExternalLink className="w-4 h-4 text-brand-500" />
+            <span>Visualize with VisuAlgo</span>
+          </a>
         </div>
       </div>
 
@@ -281,7 +292,7 @@ export default function Patterns() {
                 filteredProblems.map((problem) => (
                 <div
                   key={`${problem.level}-${problem.originalIndex}`}
-                  className={`group relative flex items-center justify-between p-4 sm:p-5 bg-surface-800/50 rounded-2xl border transition-colors ${
+                  className={`group relative flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 bg-surface-800/50 rounded-2xl border transition-colors gap-3 sm:gap-4 ${
                     problem.solved 
                       ? 'border-brand-500/30 bg-brand-500/5' 
                       : 'border-surface-700 hover:border-surface-600 hover:bg-surface-800'
@@ -301,7 +312,7 @@ export default function Patterns() {
                       )}
                     </button>
                     
-                    <div className="min-w-0 pr-4">
+                    <div className="min-w-0 pr-4 flex-1">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <a 
                           href={problem.link} 
@@ -339,10 +350,10 @@ export default function Patterns() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1 shrink-0 ml-2">
+                  <div className="flex items-center gap-2 shrink-0 sm:ml-2 mt-2 sm:mt-0 justify-end sm:justify-start w-full sm:w-auto border-t border-surface-700/30 sm:border-0 pt-2 sm:pt-0">
                     {/* Video Solution Button */}
                     {(problem.videoId || problem.name) && (
-                      <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                      <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100">
                         <button
                           onClick={(e) => {
                             e.preventDefault();
@@ -363,7 +374,7 @@ export default function Patterns() {
                     )}
                     
                     {/* LeetCode link */}
-                    <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                    <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100">
                       <a 
                         href={problem.link} 
                         target="_blank" 
@@ -377,8 +388,8 @@ export default function Patterns() {
                       </div>
                     </div>
 
-                    {/* Bookmark Button */}
-                    <div className={`relative group/bookmarkbtn flex items-center justify-center transition-all ${problem.doLater ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
+                    {/* Bookmark status button */}
+                    <div className={`relative group/bookmarkbtn flex items-center justify-center transition-all ${problem.doLater ? 'opacity-100' : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100'}`}>
                       <button
                         onClick={(e) => {
                           e.preventDefault();

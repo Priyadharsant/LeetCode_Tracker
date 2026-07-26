@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     const { data, error } = await resend.emails.send({
       from: process.env.MAIL_USER || 'contact@priyan.online',
       to: process.env.MAIL_TO || 'priyadharsant4@gmail.com',
-      subject: `[LeetCode Tracker Feedback] ${type}`,
+      subject: `[DSA Tracker Feedback] ${type}`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-w-lg mx-auto bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
           <div style="background-color: #38CCB1; padding: 24px; text-align: center;">
@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
             <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; color: #1f2937; font-size: 15px; line-height: 1.6; white-space: pre-wrap;">${message}</div>
           </div>
           <div style="padding: 16px; text-align: center; background-color: #f3f4f6; color: #9ca3af; font-size: 12px;">
-            Sent automatically from your LeetCode Tracker App
+            Sent automatically from your DSA Tracker App
           </div>
         </div>
       `,

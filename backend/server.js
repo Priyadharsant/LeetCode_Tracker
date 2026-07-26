@@ -405,7 +405,7 @@ app.get('/api/backup', async (req, res) => {
     // Add metadata
     const backupData = {
       exportedAt: new Date().toISOString(),
-      app: "LeetCode Tracker",
+      app: "DSA Tracker",
       data: user
     };
 
