@@ -400,7 +400,7 @@ export default function Revise() {
                       filteredProblems.map((problem, pIdx) => (
                         <div
                           key={pIdx}
-                          className={`group flex items-center justify-between p-3 md:p-4 rounded-xl border transition-colors ${
+                          className={`group flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 rounded-xl border transition-colors gap-3 sm:gap-4 ${
                             problem.revised 
                               ? 'bg-surface-800/40 border-brand-500/30 opacity-75' 
                               : 'bg-surface-900 border-surface-700 hover:border-brand-500/50'
@@ -475,8 +475,8 @@ export default function Revise() {
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-1 shrink-0 ml-2">
-                            <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                          <div className="flex items-center gap-2 shrink-0 sm:ml-2 mt-2 sm:mt-0 justify-end sm:justify-start w-full sm:w-auto border-t border-surface-700/30 sm:border-0 pt-2 sm:pt-0">
+                            <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100">
                               <button
                                 onClick={(e) => {
                                   e.preventDefault();
@@ -495,7 +495,7 @@ export default function Revise() {
                               </div>
                             </div>
                             
-                            <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                            <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100">
                               <a 
                                 href={problem.link} 
                                 target="_blank" 

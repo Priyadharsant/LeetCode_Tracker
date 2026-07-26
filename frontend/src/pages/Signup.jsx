@@ -67,7 +67,7 @@ export default function Signup() {
           Create Account
         </h1>
         <p className="text-center text-surface-400 mb-8 text-sm">
-          Join us and track your DSA journey.
+          Join us and track your progress on DSA Tracker.
         </p>
 
         {error && (

@@ -182,13 +182,13 @@ export default function TopicDetail({ mode = 'topic' }) {
           filteredProblems.map((p) => (
             <div 
               key={`${p.originalLevel}-${p.originalIndex}`} 
-              className={`group flex items-center justify-between p-4 rounded-xl border ${
+              className={`group flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border gap-3 sm:gap-4 ${
                 p.solved 
                   ? 'bg-surface-950/50 border-white/5 opacity-75' 
                   : 'bg-surface-900/75 border-white/10 hover:border-brand-400/30 hover:bg-surface-900 hover:shadow-lg hover:shadow-black/20'
               }`}
             >
-              <div className="flex items-center gap-4 flex-1">
+              <div className="flex items-center gap-4 flex-1 min-w-0">
                 <button 
                   onClick={() => toggleProblemStatus(p.originalLevel, p.originalIndex, p.solved)}
                   className="focus:outline-none flex-shrink-0"
@@ -200,12 +200,12 @@ export default function TopicDetail({ mode = 'topic' }) {
                   )}
                 </button>
                 
-                <div className="flex flex-col">
+                <div className="flex flex-col min-w-0 flex-1">
                   <a 
                     href={p.link} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className={`font-medium transition-colors ${
+                    className={`font-medium transition-colors truncate ${
                       p.solved 
                         ? 'text-surface-500 line-through decoration-surface-700' 
                         : 'text-surface-200 group-hover:text-brand-300'
@@ -245,10 +245,10 @@ export default function TopicDetail({ mode = 'topic' }) {
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 shrink-0 ml-2">
+              <div className="flex items-center gap-2 shrink-0 sm:ml-2 mt-2 sm:mt-0 justify-end sm:justify-start w-full sm:w-auto border-t border-surface-700/30 sm:border-0 pt-2 sm:pt-0">
                 {/* Video Solution Button */}
                 {(p.videoId || p.name) && (
-                  <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                  <div className="relative group/vidbtn flex items-center justify-center transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100">
                     <button
                       onClick={(e) => {
                         e.preventDefault();
@@ -269,7 +269,7 @@ export default function TopicDetail({ mode = 'topic' }) {
                 )}
 
                 {/* LeetCode link */}
-                <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+                <div className="relative group/linkbtn flex items-center justify-center transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100">
                   <a 
                     href={p.link} 
                     target="_blank" 
@@ -284,7 +284,7 @@ export default function TopicDetail({ mode = 'topic' }) {
                 </div>
 
                 {/* Bookmark Button */}
-                <div className={`relative group/bookmarkbtn flex items-center justify-center transition-all ${p.doLater ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}>
+                <div className={`relative group/bookmarkbtn flex items-center justify-center transition-all ${p.doLater ? 'opacity-100' : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100'}`}>
                   <button
                     onClick={(e) => {
                       e.preventDefault();

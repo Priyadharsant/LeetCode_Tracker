@@ -47,7 +47,7 @@ export default function LandingPage() {
         </div>
 
         <h1 className="text-3xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-accent-sky to-accent-amber mb-2">
-          DSA Journey
+          DSA Tracker
         </h1>
         <p className="text-center text-surface-400 mb-8 text-sm">
           Master Data Structures and Algorithms level by level.
