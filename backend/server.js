@@ -55,7 +55,7 @@ if (!process.env.MONGO_URI) {
 
 const DEFAULT_MONGO_URI = 'mongodb://127.0.0.1:27017';
 const configuredMongoUri = process.env.MONGO_URI;
-const primaryMongoUri = configuredMongoUri || DEFAULT_MONGO_URI;
+const primaryMongoUri = DEFAULT_MONGO_URI;
 
 const client = new MongoClient(primaryMongoUri, { serverSelectionTimeoutMS: 5000 });
 

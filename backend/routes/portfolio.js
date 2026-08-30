@@ -1,12 +1,16 @@
 const express = require('express');
 const cron = require('node-cron');
+const jwt = require('jsonwebtoken');
 
 module.exports = function (db) {
   const router = express.Router();
 
   // Helper collections
   const portfolioCol = db.collection('Portfolio');
+  const revisionsCol = db.collection('PortfolioRevisions');
   const activityCol = db.collection('ActivityLogs');
+  const adminDevicesCol = db.collection('PortfolioAdminDevices');
+  const webpush = require('web-push');
 
   const requiredEnv = ['PORTFOLIO_RESEND_API_KEY', 'PORTFOLIO_RESEND_FROM', 'PORTFOLIO_MAIL_TO'];
 
@@ -328,7 +332,31 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
 <b>Time</b>
 • <code>${timestamp} IST</code>`;
 
-      await sendTelegramMessage(visitMsg);
+      // await sendTelegramMessage(visitMsg);
+
+      // Web Push Notification to Admin Devices
+      try {
+        const devices = await adminDevicesCol.find({}).toArray();
+        const payload = JSON.stringify({
+          title: '🌐 New Portfolio Visitor',
+          body: `IP: ${ip}\nDevice: ${ua}`,
+          icon: '/favicon.svg'
+        });
+
+        const pushPromises = devices.map(device => 
+          webpush.sendNotification(device.subscription, payload)
+            .catch(err => {
+              if (err.statusCode === 410 || err.statusCode === 404) {
+                // Subscription has expired or is no longer valid, remove it
+                return adminDevicesCol.deleteOne({ _id: device._id });
+              }
+              console.error(`Failed to send push to ${device.deviceName}:`, err);
+            })
+        );
+        await Promise.all(pushPromises);
+      } catch (pushErr) {
+        console.error('[API] Web push error:', pushErr);
+      }
 
       return res.json({ success: true });
     } catch (err) {
@@ -629,8 +657,193 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
     timezone: "Asia/Kolkata"
   });
 
+  // ─── Admin middleware ──────────────────────────────────────────────────────
+  function verifyAdmin(req, res, next) {
+    const auth = req.headers.authorization;
+    if (!auth || !auth.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Unauthorized: no token' });
+    }
+    const token = auth.slice(7);
+    try {
+      const decoded = jwt.verify(token, process.env.PORTFOLIO_ADMIN_JWT_SECRET);
+      if (!decoded.isAdmin) throw new Error('Not admin');
+      next();
+    } catch {
+      return res.status(401).json({ message: 'Unauthorized: invalid token' });
+    }
+  }
+
+  // POST /api/admin/login
+  router.post('/admin/login', (req, res) => {
+    const { password } = req.body ?? {};
+    if (!password || password !== process.env.PORTFOLIO_ADMIN_PASSWORD) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+    const token = jwt.sign({ isAdmin: true }, process.env.PORTFOLIO_ADMIN_JWT_SECRET, { expiresIn: '7d' });
+    return res.json({ token });
+  });
+
+  // GET /api/admin/portfolio  (protected)
+  // GET /admin/portfolio/analytics  (protected)
+  router.get('/admin/portfolio/analytics', verifyAdmin, async (_req, res) => {
+    try {
+      const totalVisits = await activityCol.countDocuments({ type: 'VISIT' });
+      
+      const uniqueVisitorsResult = await activityCol.aggregate([
+        { $match: { type: 'VISIT' } },
+        { $group: { _id: "$ip" } },
+        { $count: "uniqueCount" }
+      ]).toArray();
+      const uniqueVisitors = uniqueVisitorsResult.length > 0 ? uniqueVisitorsResult[0].uniqueCount : 0;
+
+      const recentVisits = await activityCol
+        .find({ type: 'VISIT' })
+        .sort({ createdAt: -1 })
+        .toArray();
+
+      const dateWiseStats = await activityCol.aggregate([
+        { $match: { type: 'VISIT' } },
+        {
+          $group: {
+            _id: { 
+              date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt", timezone: "Asia/Kolkata" } },
+              ip: "$ip"
+            },
+            visits: { $sum: 1 }
+          }
+        },
+        {
+          $group: {
+            _id: "$_id.date",
+            totalVisits: { $sum: "$visits" },
+            uniqueVisitors: { $sum: 1 }
+          }
+        },
+        { $sort: { _id: -1 } }
+      ]).toArray();
+
+      return res.json({
+        success: true,
+        data: {
+          totalVisits,
+          uniqueVisitors,
+          recentVisits,
+          dateWiseStats
+        }
+      });
+    } catch (err) {
+      console.error('[API] Error fetching analytics:', err);
+      return res.status(500).json({ success: false, message: 'Failed to fetch analytics' });
+    }
+  });
+
+  router.get('/admin/portfolio', verifyAdmin, async (_req, res) => {
+    try {
+      const data = await portfolioCol.findOne();
+      if (!data) return res.status(404).json({ message: 'Portfolio data not found' });
+      return res.json(data);
+    } catch (error) {
+      console.error('Failed to fetch portfolio data:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  // PUT /api/admin/portfolio  (protected) — replaces entire portfolio document
+  router.put('/admin/portfolio', verifyAdmin, async (req, res) => {
+    try {
+      const existing = await portfolioCol.findOne();
+      if (!existing) {
+        return res.status(404).json({ message: 'Portfolio document not found' });
+      }
+
+      const { _id, __v, _isRevert, ...update } = req.body ?? {};
+
+      // Compute diff summary
+      const changes = [];
+      if (_isRevert) {
+        changes.push('Restored from Backup');
+      } else {
+        if (JSON.stringify(existing.profile) !== JSON.stringify(update.profile)) changes.push('Profile');
+        if (JSON.stringify(existing.hero) !== JSON.stringify(update.hero)) changes.push('Hero');
+        if (JSON.stringify(existing.about) !== JSON.stringify(update.about)) changes.push('About');
+        if (JSON.stringify(existing.skills) !== JSON.stringify(update.skills)) changes.push('Skills');
+        if (JSON.stringify(existing.experience) !== JSON.stringify(update.experience)) changes.push('Experience');
+        if (JSON.stringify(existing.projects) !== JSON.stringify(update.projects)) changes.push('Projects');
+        if (JSON.stringify(existing.achievements) !== JSON.stringify(update.achievements)) changes.push('Achievements');
+      }
+
+      // Save a revision backup before updating
+      const { _id: oldId, ...backupData } = existing;
+      await revisionsCol.insertOne({
+        data: backupData,
+        changes: changes,
+        isRevert: !!_isRevert,
+        revisionCreatedAt: new Date()
+      });
+
+      // Keep maximum 50 revisions to save space
+      const revCount = await revisionsCol.countDocuments();
+      if (revCount > 50) {
+        const oldestRevs = await revisionsCol.find().sort({ revisionCreatedAt: 1 }).limit(revCount - 50).toArray();
+        const oldestIds = oldestRevs.map(r => r._id);
+        await revisionsCol.deleteMany({ _id: { $in: oldestIds } });
+      }
+
+      await portfolioCol.updateOne({ _id: existing._id }, { $set: update });
+      return res.json({ message: 'Portfolio updated successfully' });
+    } catch (error) {
+      console.error('Failed to update portfolio data:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  // GET /api/admin/portfolio/revisions (protected)
+  router.get('/admin/portfolio/revisions', verifyAdmin, async (req, res) => {
+    try {
+      const revisions = await revisionsCol
+        .find()
+        .sort({ revisionCreatedAt: -1 })
+        .toArray();
+      return res.json(revisions);
+    } catch (error) {
+      console.error('Failed to fetch revisions:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
   // Run initialization setup
   setupTelegramMenu();
+
+  router.get('/admin/portfolio/vapidPublicKey', verifyAdmin, (req, res) => {
+    res.json({ publicKey: process.env.VAPID_PUBLIC_KEY });
+  });
+
+  router.post('/admin/portfolio/subscribe', verifyAdmin, async (req, res) => {
+    try {
+      const { subscription, deviceName } = req.body;
+      if (!subscription || !deviceName) {
+        return res.status(400).json({ error: 'Missing subscription or deviceName' });
+      }
+
+      // Upsert by endpoint to avoid duplicates
+      await adminDevicesCol.updateOne(
+        { "subscription.endpoint": subscription.endpoint },
+        { 
+          $set: { 
+            subscription, 
+            deviceName,
+            updatedAt: new Date()
+          } 
+        },
+        { upsert: true }
+      );
+      
+      res.status(201).json({ success: true });
+    } catch (err) {
+      console.error(`[API Admin Subscribe] Error:`, err);
+      res.status(500).json({ error: err.message });
+    }
+  });
 
   return router;
 };
