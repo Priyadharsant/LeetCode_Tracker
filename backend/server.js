@@ -37,6 +37,13 @@ app.use(express.json());
 // Feedback route (does not require DB connection)
 app.use('/api/feedback', require('./routes/feedback'));
 
+// SafarSplit (Trip Expense Tracker & Live Web Monitor)
+try {
+  require('./safarsplit').initSafarSplit(app);
+} catch (err) {
+  console.error('Failed to initialize SafarSplit:', err);
+}
+
 let db;
 
 app.use((req, res, next) => {
@@ -75,6 +82,7 @@ async function connectWithFallback() {
     const dbGeneral = client.db('General');
     app.use('/api/movies', require('./routes/movies')(dbGeneral));
     app.use('/api', require('./routes/portfolio')(dbGeneral));
+
     startServer();
   } catch (error) {
     console.error('MongoDB connection error:', error);
