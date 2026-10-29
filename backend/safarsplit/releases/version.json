@@ -1,8 +1,8 @@
 {
-  "versionCode": 4,
-  "versionName": "1.0.3",
-  "releaseNotes": "Fix member expenses in passbook, add member & organizer UPI update API, and improve updater",
-  "publishedAt": "2026-10-29T18:20:45.789Z",
+  "versionCode": 5,
+  "versionName": "1.0.4",
+  "releaseNotes": "Multi-contact picker, custom name editing, field error validation, keyboard padding, smooth page transitions, and log overlay fix",
+  "publishedAt": "2026-10-30T00:00:00.000Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
