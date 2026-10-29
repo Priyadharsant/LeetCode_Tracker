@@ -305,6 +305,34 @@ router.get('/trips/:tripCode', async (req, res) => {
   }
 });
 
+// 3b. Update trip details (organizerUpi, title, destination)
+router.put('/trips/:tripCode', async (req, res) => {
+  try {
+    const tripCode = req.params.tripCode.toUpperCase();
+    const { title, destination, organizerUpi, organizerName } = req.body;
+    const updateData = {};
+    if (title) updateData.title = title.trim();
+    if (destination !== undefined) updateData.destination = destination.trim();
+    if (organizerUpi !== undefined) updateData.organizerUpi = organizerUpi.trim();
+    if (organizerName !== undefined) updateData.organizerName = organizerName.trim();
+
+    const trip = await Trip.findOneAndUpdate({ tripCode }, updateData, { new: true });
+    if (!trip) return res.status(404).json({ error: 'Trip not found' });
+
+    // Also update organizer member's upiId / name if changed
+    if (organizerUpi !== undefined || organizerName !== undefined) {
+      const memUpdate = {};
+      if (organizerUpi !== undefined) memUpdate.upiId = organizerUpi.trim();
+      if (organizerName !== undefined) memUpdate.name = organizerName.trim();
+      await Member.findOneAndUpdate({ tripId: trip._id, isOrganizer: true }, memUpdate);
+    }
+
+    res.json({ success: true, trip });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // 4. Add member to trip
 router.post('/trips/:tripCode/members', async (req, res) => {
   try {
@@ -337,6 +365,24 @@ router.post('/trips/:tripCode/members', async (req, res) => {
   }
 });
 
+// 4b. Update member details (name, phone, upiId)
+router.put('/trips/:tripCode/members/:memberId', async (req, res) => {
+  try {
+    const { name, phone, upiId } = req.body;
+    const updateData = {};
+    if (name) updateData.name = name.trim();
+    if (phone !== undefined) updateData.phone = phone.trim();
+    if (upiId !== undefined) updateData.upiId = upiId.trim();
+
+    const member = await Member.findByIdAndUpdate(req.params.memberId, updateData, { new: true });
+    if (!member) return res.status(404).json({ error: 'Member not found' });
+
+    res.json({ success: true, member });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // 5. Add Expense to trip
 router.post('/trips/:tripCode/expenses', async (req, res) => {
   try {
@@ -349,6 +395,46 @@ router.post('/trips/:tripCode/expenses', async (req, res) => {
       return res.status(400).json({ error: 'Title and valid amount required' });
     }
 
+    // Helper to resolve organizer member if 'ORGANIZER' passed as id
+    let organizerMember = null;
+    async function resolveMemberId(mId) {
+      if (!mId) return null;
+      if (mId === 'ORGANIZER') {
+        if (!organizerMember) {
+          organizerMember = await Member.findOne({ tripId: trip._id, isOrganizer: true });
+        }
+        return organizerMember ? organizerMember._id : null;
+      }
+      return mId;
+    }
+
+    const resolvedPayers = [];
+    if (Array.isArray(payers)) {
+      for (const p of payers) {
+        const mId = await resolveMemberId(p.memberId);
+        resolvedPayers.push({
+          type: p.type || 'MEMBER',
+          memberId: mId,
+          memberName: p.memberName || '',
+          amount: Number(p.amount) || 0
+        });
+      }
+    }
+
+    const resolvedSplits = [];
+    if (Array.isArray(splits)) {
+      for (const s of splits) {
+        const mId = await resolveMemberId(s.memberId);
+        if (mId) {
+          resolvedSplits.push({
+            memberId: mId,
+            memberName: s.memberName || '',
+            shareAmount: Number(s.shareAmount) || 0
+          });
+        }
+      }
+    }
+
     const expense = new Expense({
       tripId: trip._id,
       title: title.trim(),
@@ -357,8 +443,8 @@ router.post('/trips/:tripCode/expenses', async (req, res) => {
       location: location || '',
       notes: notes || '',
       payerType: payerType || 'POOL',
-      payers: payers || [],
-      splits: splits || []
+      payers: resolvedPayers,
+      splits: resolvedSplits
     });
 
     await expense.save();
@@ -369,8 +455,8 @@ router.post('/trips/:tripCode/expenses', async (req, res) => {
     // 2. If paid by POOL or partial POOL
     if (payerType === 'POOL') {
       trip.totalPoolSpent = (trip.totalPoolSpent || 0) + expAmount;
-    } else if (payerType === 'MULTI' && Array.isArray(payers)) {
-      for (const p of payers) {
+    } else if (payerType === 'MULTI' && Array.isArray(resolvedPayers)) {
+      for (const p of resolvedPayers) {
         if (p.type === 'POOL') {
           trip.totalPoolSpent = (trip.totalPoolSpent || 0) + (Number(p.amount) || 0);
         } else if (p.type === 'MEMBER' && p.memberId) {
@@ -379,8 +465,8 @@ router.post('/trips/:tripCode/expenses', async (req, res) => {
           });
         }
       }
-    } else if (payerType === 'MEMBER' && payers?.[0]?.memberId) {
-      await Member.findByIdAndUpdate(payers[0].memberId, {
+    } else if (payerType === 'MEMBER' && resolvedPayers?.[0]?.memberId) {
+      await Member.findByIdAndUpdate(resolvedPayers[0].memberId, {
         $inc: { directPaidOutOfPocket: expAmount }
       });
     }
@@ -388,8 +474,8 @@ router.post('/trips/:tripCode/expenses', async (req, res) => {
     await trip.save();
 
     // 3. Update splits for each member
-    if (Array.isArray(splits) && splits.length > 0) {
-      for (const s of splits) {
+    if (Array.isArray(resolvedSplits) && resolvedSplits.length > 0) {
+      for (const s of resolvedSplits) {
         if (s.memberId) {
           await Member.findByIdAndUpdate(s.memberId, {
             $inc: { totalExpenseShare: Number(s.shareAmount) || 0 }
