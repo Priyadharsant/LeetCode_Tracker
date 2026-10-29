@@ -1,9 +1,185 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 const Trip = require('../models/Trip');
 const Member = require('../models/Member');
 const Expense = require('../models/Expense');
 const Payment = require('../models/Payment');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'safarsplit_secure_jwt_secret_2026';
+
+// Middleware: extract JWT user if present
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return next();
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (!err && user) {
+      req.user = user;
+    }
+    next();
+  });
+}
+
+// Middleware: require authentication
+function requireAuth(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'Authentication required. Please login.' });
+  }
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err || !user) {
+      return res.status(403).json({ error: 'Session expired or invalid token.' });
+    }
+    req.user = user;
+    next();
+  });
+}
+
+// Apply token extraction across all routes
+router.use(authenticateToken);
+
+// ==========================================
+// AUTHENTICATION ROUTES
+// ==========================================
+
+// 1. User Sign Up
+router.post('/auth/signup', async (req, res) => {
+  try {
+    const { name, email, password, phone } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: 'Name, email, and password are required' });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const existing = await User.findOne({ email: cleanEmail });
+    if (existing) {
+      return res.status(409).json({ error: 'An account with this email already exists' });
+    }
+
+    const user = new User({
+      name: name.trim(),
+      email: cleanEmail,
+      password,
+      phone: phone ? phone.trim() : ''
+    });
+    await user.save();
+
+    const token = jwt.sign(
+      { id: user._id, email: user.email, name: user.name },
+      JWT_SECRET,
+      { expiresIn: '365d' }
+    );
+
+    res.status(201).json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone
+      }
+    });
+  } catch (err) {
+    console.error('Signup error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 2. User Login
+router.post('/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: cleanEmail });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, email: user.email, name: user.name },
+      JWT_SECRET,
+      { expiresIn: '365d' }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone
+      }
+    });
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 3. Get Current User Profile
+router.get('/auth/me', requireAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({ success: true, user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ==========================================
+// APP VERSION & AUTO-RELEASE ROUTES
+// ==========================================
+
+router.get('/release/latest', (req, res) => {
+  try {
+    const versionFile = path.join(__dirname, '../releases/version.json');
+    if (fs.existsSync(versionFile)) {
+      const data = JSON.parse(fs.readFileSync(versionFile, 'utf8'));
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+      const host = req.get('host');
+      data.apkUrl = `${protocol}://${host}/api/release/download`;
+      return res.json(data);
+    }
+    res.status(404).json({ error: 'No release information found' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get('/release/download', (req, res) => {
+  try {
+    const apkPath = path.join(__dirname, '../releases/app-latest.apk');
+    if (fs.existsSync(apkPath)) {
+      res.setHeader('Content-Type', 'application/vnd.android.package-archive');
+      res.setHeader('Content-Disposition', 'attachment; filename="safarsplit-latest.apk"');
+      return res.sendFile(apkPath);
+    }
+    res.status(404).json({ error: 'Release APK not found on server' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Helper to generate a random 6-character trip code if not provided
 function generateTripCode() {
@@ -35,12 +211,13 @@ router.post('/trips', async (req, res) => {
     }
 
     const trip = new Trip({
+      userId: req.user ? req.user.id : null,
       tripCode,
       title,
       destination: destination || '',
       currency: currency || '₹',
       organizerUpi: organizerUpi || '',
-      organizerName: organizerName || 'Host',
+      organizerName: organizerName || (req.user ? req.user.name : 'Host'),
       initialPoolPerMember: Number(initialPoolPerMember) || 0
     });
 
@@ -93,10 +270,11 @@ router.post('/trips', async (req, res) => {
   }
 });
 
-// 2. List all trips
+// 2. List user-specific trips
 router.get('/trips', async (req, res) => {
   try {
-    const trips = await Trip.find().sort({ createdAt: -1 });
+    const query = req.user ? { userId: req.user.id } : {};
+    const trips = await Trip.find(query).sort({ createdAt: -1 });
     res.json(trips);
   } catch (err) {
     res.status(500).json({ error: err.message });

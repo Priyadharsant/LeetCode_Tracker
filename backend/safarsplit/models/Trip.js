@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const tripSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'SafarSplitUser',
+    index: true
+  },
   tripCode: {
     type: String,
     required: true,
