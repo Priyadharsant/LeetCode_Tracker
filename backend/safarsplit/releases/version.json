@@ -1,8 +1,8 @@
 {
-  "versionCode": 10,
-  "versionName": "1.0.9",
-  "releaseNotes": "Include direct expense contributions in passbook activity and display unified Total Credit (all money given to trip) vs Total Debit (all expenses)",
-  "publishedAt": "2026-10-30T12:31:58.919Z",
+  "versionCode": 11,
+  "versionName": "1.1.0",
+  "releaseNotes": "Display member contributions (initial pool & spent payments) paired with expenses in passbook and dashboard feed, with unified Total Given (Credit) vs Total Spent (Debit)",
+  "publishedAt": "2026-10-30T12:51:55.624Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
