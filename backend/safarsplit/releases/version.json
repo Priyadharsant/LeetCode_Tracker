@@ -1,8 +1,8 @@
 {
-  "versionCode": 7,
-  "versionName": "1.0.6",
-  "releaseNotes": "Option 2 Stylized S app launcher icon and clean native in-app UI",
-  "publishedAt": "2026-10-30T08:46:20.916Z",
+  "versionCode": 8,
+  "versionName": "1.0.7",
+  "releaseNotes": "Encrypted share links for trip and member passbooks",
+  "publishedAt": "2026-10-30T11:53:18.541Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
