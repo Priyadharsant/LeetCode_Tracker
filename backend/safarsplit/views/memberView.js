@@ -29,8 +29,19 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
   // Combine shared expenses, direct payments, and payments for member passbook
   const passbookList = [];
 
+  // 1. Initial pool contribution
+  const paymentsSum = payments.reduce((acc, p) => acc + (p.amount || 0), 0);
+  const initialPoolDelta = (member.poolContributed || 0) - paymentsSum;
+  if (initialPoolDelta > 0.5) {
+    passbookList.push({
+      type: 'INITIAL_POOL',
+      amount: initialPoolDelta,
+      date: new Date(trip.createdAt || Date.now())
+    });
+  }
+
   sharedExpenses.forEach(e => {
-    // 1. If member contributed/paid money for this expense (Credit)
+    // 2. If member contributed/paid money for this expense (Credit)
     const myPayer = e.payers?.find(p => p.memberId?.toString() === member._id.toString());
     if (myPayer && Number(myPayer.amount) > 0) {
       passbookList.push({
@@ -41,7 +52,7 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
       });
     }
 
-    // 2. If member has a share in this expense (Debit)
+    // 3. If member has a share in this expense (Debit)
     const mySplit = e.splits?.find(s => s.memberId?.toString() === member._id.toString());
     if (mySplit && Number(mySplit.shareAmount) > 0) {
       passbookList.push({
@@ -72,6 +83,23 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
       day: 'numeric',
       month: 'short'
     });
+
+    if (item.type === 'INITIAL_POOL') {
+      return `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#ffffff;border:1px solid #d1fae5;border-radius:12px;margin-bottom:8px;">
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#065f46;">💰 Initial Pool Contribution</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;">
+              Cash / Initial • ${formattedDate}
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#059669;">+${currency}${item.amount}</div>
+            <div style="font-size:11px;color:#059669;font-weight:600;">Credit</div>
+          </div>
+        </div>
+      `;
+    }
 
     if (item.type === 'EXPENSE_PAID') {
       const e = item.data;

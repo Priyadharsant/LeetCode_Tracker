@@ -69,11 +69,55 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
     `;
   }).join('');
 
-  // Combine expenses & payments into sorted activity stream
-  const activityList = [
-    ...expenses.map(e => ({ type: 'EXPENSE', data: e, date: new Date(e.date) })),
-    ...payments.map(p => ({ type: 'PAYMENT', data: p, date: new Date(p.date) }))
-  ].sort((a, b) => b.date - a.date);
+  // Combine all activities: initial pool, expense contributions, expenses, and pool top-ups
+  const activityList = [];
+
+  // 1. Initial pool contributions from members
+  members.forEach(m => {
+    const pSum = payments.filter(p => p.fromMemberId?.toString() === m._id.toString()).reduce((acc, x) => acc + (x.amount || 0), 0);
+    const initialDiff = (m.poolContributed || 0) - pSum;
+    if (initialDiff > 0.5) {
+      activityList.push({
+        type: 'INITIAL_POOL',
+        memberName: m.name,
+        amount: initialDiff,
+        date: new Date(trip.createdAt || Date.now())
+      });
+    }
+  });
+
+  // 2. Direct expense out-of-pocket payments (Credit) & expenses (Debit)
+  expenses.forEach(e => {
+    if (Array.isArray(e.payers)) {
+      e.payers.forEach(p => {
+        if (Number(p.amount) > 0 && p.type === 'MEMBER') {
+          activityList.push({
+            type: 'EXPENSE_PAID',
+            expense: e,
+            memberName: p.memberName || 'Friend',
+            amount: Number(p.amount),
+            date: new Date(new Date(e.date).getTime() - 1)
+          });
+        }
+      });
+    }
+    activityList.push({
+      type: 'EXPENSE',
+      data: e,
+      date: new Date(e.date)
+    });
+  });
+
+  // 3. Pool top-ups & settlements
+  payments.forEach(p => {
+    activityList.push({
+      type: 'PAYMENT',
+      data: p,
+      date: new Date(p.date)
+    });
+  });
+
+  activityList.sort((a, b) => b.date - a.date);
 
   const activitiesHtml = activityList.length === 0 ? `
     <div style="text-align:center;padding:32px 16px;background:#ffffff;border-radius:16px;border:1px dashed #d1d5db;color:#6b7280;">
@@ -88,6 +132,46 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
       hour: '2-digit',
       minute: '2-digit'
     });
+
+    if (act.type === 'INITIAL_POOL') {
+      return `
+        <div style="background:#ffffff;border:1px solid #d1fae5;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;font-size:18px;">💰</div>
+              <div>
+                <div style="font-weight:700;font-size:15px;color:#065f46;">${act.memberName} gave Initial Pool Cash</div>
+                <div style="font-size:12px;color:#6b7280;">Trip Inception • ${formattedDate}</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:800;font-size:17px;color:#059669;">+${currency}${act.amount}</div>
+              <div style="font-size:11px;color:#059669;font-weight:600;">Contribution</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    if (act.type === 'EXPENSE_PAID') {
+      return `
+        <div style="background:#ffffff;border:1px solid #d1fae5;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;font-size:18px;">💳</div>
+              <div>
+                <div style="font-weight:700;font-size:15px;color:#065f46;">${act.memberName} contributed for ${act.expense.title}</div>
+                <div style="font-size:12px;color:#6b7280;">${act.expense.category} • Direct Out of Pocket • ${formattedDate}</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:800;font-size:17px;color:#059669;">+${currency}${act.amount}</div>
+              <div style="font-size:11px;color:#059669;font-weight:600;">Contribution</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
 
     if (act.type === 'PAYMENT') {
       const p = act.data;
