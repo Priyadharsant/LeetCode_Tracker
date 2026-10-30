@@ -8,6 +8,13 @@ const Trip = require('../models/Trip');
 const Member = require('../models/Member');
 const Expense = require('../models/Expense');
 const Payment = require('../models/Payment');
+const { createTripToken, createMemberToken } = require('../utils/cryptoHelper');
+
+function getBaseUrl(req) {
+  const host = req.get('host');
+  const protocol = req.protocol;
+  return `${protocol}://${host}`;
+}
 
 const JWT_SECRET = process.env.JWT_SECRET || 'safarsplit_secure_jwt_secret_2026';
 
@@ -298,7 +305,48 @@ router.get('/trips/:tripCode', async (req, res) => {
       trip,
       members,
       expenses,
-      payments
+      payments,
+      shareToken: createTripToken(trip.tripCode),
+      shareUrl: `${getBaseUrl(req)}/s/${createTripToken(trip.tripCode)}`
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 3a. Get encrypted share token for trip
+router.get('/trips/:tripCode/share-token', async (req, res) => {
+  try {
+    const tripCode = req.params.tripCode.toUpperCase();
+    const trip = await Trip.findOne({ tripCode });
+    if (!trip) return res.status(404).json({ error: 'Trip not found' });
+    const token = createTripToken(trip.tripCode);
+    const baseUrl = getBaseUrl(req);
+    res.json({
+      tripCode: trip.tripCode,
+      shareToken: token,
+      shareUrl: `${baseUrl}/s/${token}`
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 3b. Get encrypted share token for individual member passbook
+router.get('/trips/:tripCode/members/:memberId/share-token', async (req, res) => {
+  try {
+    const tripCode = req.params.tripCode.toUpperCase();
+    const trip = await Trip.findOne({ tripCode });
+    if (!trip) return res.status(404).json({ error: 'Trip not found' });
+    const member = await Member.findById(req.params.memberId);
+    if (!member) return res.status(404).json({ error: 'Member not found' });
+    const token = createMemberToken(trip.tripCode, member._id.toString());
+    const baseUrl = getBaseUrl(req);
+    res.json({
+      tripCode: trip.tripCode,
+      memberId: member._id,
+      shareToken: token,
+      shareUrl: `${baseUrl}/s/${token}`
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

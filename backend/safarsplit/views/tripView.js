@@ -1,3 +1,5 @@
+const { createMemberToken } = require('../utils/cryptoHelper');
+
 function getCategoryBadge(category) {
   const map = {
     Food: { emoji: '🍔', bg: '#ecfdf5', text: '#065f46', border: '#a7f3d0' },
@@ -40,9 +42,10 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
     }
 
     const initials = m.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const secureMemberToken = createMemberToken(trip.tripCode, m._id.toString());
 
     return `
-      <a href="${baseUrl}/t/${trip.tripCode}/m/${m._id}" style="text-decoration:none;color:inherit;">
+      <a href="${baseUrl}/s/${secureMemberToken}" style="text-decoration:none;color:inherit;">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,0.04);transition:transform 0.1s ease;">
           <div style="display:flex;align-items:center;gap:12px;">
             <div style="width:40px;height:40px;border-radius:50%;background:#0d9488;color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">

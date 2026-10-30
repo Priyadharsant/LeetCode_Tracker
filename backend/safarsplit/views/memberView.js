@@ -1,4 +1,5 @@
 const QRCode = require('qrcode');
+const { createTripToken } = require('../utils/cryptoHelper');
 
 async function renderMemberView(trip, member, sharedExpenses, payments = [], baseUrl) {
   const currency = trip.currency || '₹';
@@ -173,7 +174,7 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
 </head>
 <body>
   <div class="container">
-    <a href="${baseUrl}/t/${trip.tripCode}" class="back-nav">
+    <a href="${baseUrl}/s/${createTripToken(trip.tripCode)}" class="back-nav">
       ← Back to ${trip.title}
     </a>
 
