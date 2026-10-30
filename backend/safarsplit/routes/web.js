@@ -51,7 +51,10 @@ async function renderMemberById(tripCode, memberId, req, res) {
 
   const sharedExpenses = await Expense.find({
     tripId: trip._id,
-    'splits.memberId': member._id
+    $or: [
+      { 'splits.memberId': member._id },
+      { 'payers.memberId': member._id }
+    ]
   }).sort({ date: -1 });
 
   const payments = await Payment.find({

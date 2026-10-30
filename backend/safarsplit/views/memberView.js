@@ -23,11 +23,45 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
     }
   }
 
-  // Combine shared expenses and payments for member passbook
-  const passbookList = [
-    ...sharedExpenses.map(e => ({ type: 'EXPENSE', data: e, date: new Date(e.date) })),
-    ...payments.map(p => ({ type: 'PAYMENT', data: p, date: new Date(p.date) }))
-  ].sort((a, b) => b.date - a.date);
+  const totalCredit = (member.poolContributed || 0) + (member.directPaidOutOfPocket || 0) + (member.settledAmount || 0);
+  const totalDebit = (member.totalExpenseShare || 0);
+
+  // Combine shared expenses, direct payments, and payments for member passbook
+  const passbookList = [];
+
+  sharedExpenses.forEach(e => {
+    // 1. If member contributed/paid money for this expense (Credit)
+    const myPayer = e.payers?.find(p => p.memberId?.toString() === member._id.toString());
+    if (myPayer && Number(myPayer.amount) > 0) {
+      passbookList.push({
+        type: 'EXPENSE_PAID',
+        data: e,
+        paidAmount: Number(myPayer.amount),
+        date: new Date(new Date(e.date).getTime() - 1)
+      });
+    }
+
+    // 2. If member has a share in this expense (Debit)
+    const mySplit = e.splits?.find(s => s.memberId?.toString() === member._id.toString());
+    if (mySplit && Number(mySplit.shareAmount) > 0) {
+      passbookList.push({
+        type: 'EXPENSE_SHARE',
+        data: e,
+        shareAmount: Number(mySplit.shareAmount),
+        date: new Date(e.date)
+      });
+    }
+  });
+
+  payments.forEach(p => {
+    passbookList.push({
+      type: 'PAYMENT',
+      data: p,
+      date: new Date(p.date)
+    });
+  });
+
+  passbookList.sort((a, b) => b.date - a.date);
 
   const itemsHtml = passbookList.length === 0 ? `
     <div style="text-align:center;padding:24px 16px;background:#ffffff;border-radius:14px;border:1px dashed #d1d5db;color:#6b7280;">
@@ -38,6 +72,24 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
       day: 'numeric',
       month: 'short'
     });
+
+    if (item.type === 'EXPENSE_PAID') {
+      const e = item.data;
+      return `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#ffffff;border:1px solid #d1fae5;border-radius:12px;margin-bottom:8px;">
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#065f46;">💳 Paid for ${e.title}</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;">
+              ${e.category} • Direct Out of Pocket • ${formattedDate}
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#059669;">+${currency}${item.paidAmount}</div>
+            <div style="font-size:11px;color:#059669;font-weight:600;">Credit</div>
+          </div>
+        </div>
+      `;
+    }
 
     if (item.type === 'PAYMENT') {
       const p = item.data;
@@ -191,15 +243,15 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
 
       <div class="metrics-row">
         <div class="metric-pill">
-          <div style="font-size:11px;color:#64748b;font-weight:600;">💰 POOL GIVEN</div>
+          <div style="font-size:11px;color:#64748b;font-weight:600;">💰 TOTAL GIVEN (CREDIT)</div>
           <div style="font-size:17px;font-weight:800;color:#0f766e;margin-top:2px;">
-            +${currency}${member.poolContributed || 0}
+            +${currency}${Math.round(totalCredit)}
           </div>
         </div>
         <div class="metric-pill">
-          <div style="font-size:11px;color:#64748b;font-weight:600;">🍔 TOTAL SHARE</div>
+          <div style="font-size:11px;color:#64748b;font-weight:600;">🍔 TOTAL SPENT (DEBIT)</div>
           <div style="font-size:17px;font-weight:800;color:#b91c1c;margin-top:2px;">
-            -${currency}${Math.round(member.totalExpenseShare || 0)}
+            -${currency}${Math.round(totalDebit)}
           </div>
         </div>
       </div>

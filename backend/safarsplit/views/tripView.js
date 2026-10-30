@@ -42,6 +42,8 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
     }
 
     const initials = m.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const memberTotalCredit = (m.poolContributed || 0) + (m.directPaidOutOfPocket || 0) + (m.settledAmount || 0);
+    const memberTotalDebit = m.totalExpenseShare || 0;
     const secureMemberToken = createMemberToken(trip.tripCode, m._id.toString());
 
     return `
@@ -53,7 +55,7 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
             </div>
             <div>
               <div style="font-weight:600;font-size:15px;color:#111827;">${m.name} ${m.isOrganizer ? '<span style="font-size:11px;background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:6px;font-weight:500;">Host</span>' : ''}</div>
-              <div style="font-size:12px;color:#6b7280;margin-top:2px;">Contributed: ${currency}${m.poolContributed || 0} • Share: ${currency}${Math.round(m.totalExpenseShare || 0)}</div>
+              <div style="font-size:12px;color:#6b7280;margin-top:2px;">Given: ${currency}${Math.round(memberTotalCredit)} • Spent: ${currency}${Math.round(memberTotalDebit)}</div>
             </div>
           </div>
           <div style="text-align:right;">
