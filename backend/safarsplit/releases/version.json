@@ -1,8 +1,8 @@
 {
-  "versionCode": 12,
-  "versionName": "1.1.2",
-  "releaseNotes": "Passbook activity ordering: bill spent first followed immediately by pay for bill",
-  "publishedAt": "2026-10-30T13:02:31.628Z",
+  "versionCode": 13,
+  "versionName": "1.1.3",
+  "releaseNotes": "v1.1.3: Edit and delete trip, scrollable popup dialogs, high-contrast vibrant buttons, locked INR currency, Common Fund terminology, and over-spend validation.",
+  "publishedAt": "2026-10-30T17:25:30.735Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
