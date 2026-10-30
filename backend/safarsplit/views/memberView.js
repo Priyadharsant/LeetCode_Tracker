@@ -36,30 +36,33 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
     passbookList.push({
       type: 'INITIAL_POOL',
       amount: initialPoolDelta,
-      date: new Date(trip.createdAt || Date.now())
+      date: new Date(trip.createdAt || Date.now()),
+      order: 3
     });
   }
 
   sharedExpenses.forEach(e => {
-    // 2. If member contributed/paid money for this expense (Credit)
-    const myPayer = e.payers?.find(p => p.memberId?.toString() === member._id.toString());
-    if (myPayer && Number(myPayer.amount) > 0) {
-      passbookList.push({
-        type: 'EXPENSE_PAID',
-        data: e,
-        paidAmount: Number(myPayer.amount),
-        date: new Date(new Date(e.date).getTime() - 1)
-      });
-    }
-
-    // 3. If member has a share in this expense (Debit)
+    // 1. Bill Spent (Debit - First)
     const mySplit = e.splits?.find(s => s.memberId?.toString() === member._id.toString());
     if (mySplit && Number(mySplit.shareAmount) > 0) {
       passbookList.push({
         type: 'EXPENSE_SHARE',
         data: e,
         shareAmount: Number(mySplit.shareAmount),
-        date: new Date(e.date)
+        date: new Date(e.date),
+        order: 0
+      });
+    }
+
+    // 2. Pay for Bill (Credit - Follows right below bill)
+    const myPayer = e.payers?.find(p => p.memberId?.toString() === member._id.toString());
+    if (myPayer && Number(myPayer.amount) > 0) {
+      passbookList.push({
+        type: 'EXPENSE_PAID',
+        data: e,
+        paidAmount: Number(myPayer.amount),
+        date: new Date(e.date),
+        order: 1
       });
     }
   });
@@ -68,11 +71,12 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
     passbookList.push({
       type: 'PAYMENT',
       data: p,
-      date: new Date(p.date)
+      date: new Date(p.date),
+      order: 2
     });
   });
 
-  passbookList.sort((a, b) => b.date - a.date);
+  passbookList.sort((a, b) => b.date - a.date || a.order - b.order);
 
   const itemsHtml = passbookList.length === 0 ? `
     <div style="text-align:center;padding:24px 16px;background:#ffffff;border-radius:14px;border:1px dashed #d1d5db;color:#6b7280;">
