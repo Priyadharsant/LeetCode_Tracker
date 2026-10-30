@@ -1,8 +1,8 @@
 {
-  "versionCode": 8,
-  "versionName": "1.0.7",
-  "releaseNotes": "Encrypted share links for trip and member passbooks",
-  "publishedAt": "2026-10-30T11:53:18.541Z",
+  "versionCode": 9,
+  "versionName": "1.0.8",
+  "releaseNotes": "Elegantly animated loading components for fetch and save operations with MongoDB Atlas cloud sync",
+  "publishedAt": "2026-10-30T12:11:26.724Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
