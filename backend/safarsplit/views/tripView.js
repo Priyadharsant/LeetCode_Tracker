@@ -36,7 +36,7 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
       badgeBg = '#fef2f2';
       badgeText = '#b91c1c';
     } else {
-      badge = `+${currency}${Math.round(net)} in Pool`;
+      badge = `+${currency}${Math.round(net)} in Fund`;
       badgeBg = '#eff6ff';
       badgeText = '#1d4ed8';
     }
@@ -123,7 +123,7 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
     <div style="text-align:center;padding:32px 16px;background:#ffffff;border-radius:16px;border:1px dashed #d1d5db;color:#6b7280;">
       <div style="font-size:32px;margin-bottom:8px;">🏖️</div>
       <div style="font-weight:600;">No activities recorded yet</div>
-      <div style="font-size:13px;margin-top:4px;">When the host adds expenses or pool money, they will appear live here!</div>
+      <div style="font-size:13px;margin-top:4px;">When the host adds expenses or common fund money, they will appear live here!</div>
     </div>
   ` : activityList.map(act => {
     const formattedDate = act.date.toLocaleDateString('en-IN', {
@@ -140,7 +140,7 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:36px;height:36px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;font-size:18px;">💰</div>
               <div>
-                <div style="font-weight:700;font-size:15px;color:#065f46;">${act.memberName} gave Initial Pool Cash</div>
+                <div style="font-weight:700;font-size:15px;color:#065f46;">${act.memberName} contributed to Common Fund</div>
                 <div style="font-size:12px;color:#6b7280;">Trip Inception • ${formattedDate}</div>
               </div>
             </div>
@@ -181,7 +181,7 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:36px;height:36px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;font-size:18px;">💰</div>
               <div>
-                <div style="font-weight:700;font-size:15px;color:#065f46;">Pool Cash Added</div>
+                <div style="font-weight:700;font-size:15px;color:#065f46;">Common Fund Added</div>
                 <div style="font-size:12px;color:#6b7280;">${p.paymentMethod || 'Cash'} • ${formattedDate}</div>
               </div>
             </div>
@@ -195,7 +195,7 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
     }
 
     const e = act.data;
-    let payerLabel = 'Paid from Common Pool';
+    let payerLabel = 'Paid from Common Fund';
     if (e.payerType === 'ORGANIZER') payerLabel = 'Paid by Host';
     else if (e.payerType === 'MEMBER') payerLabel = `Paid by ${e.payers?.[0]?.memberName || 'Friend'}`;
     else if (e.payerType === 'MULTI') payerLabel = 'Paid by Multiple Members';
@@ -340,7 +340,7 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
 
       <div class="metric-grid">
         <div class="metric-box">
-          <div style="font-size:11px;opacity:0.8;font-weight:600;">💰 IN-HAND COMMON POOL</div>
+          <div style="font-size:11px;opacity:0.8;font-weight:600;">💰 IN-HAND COMMON FUND</div>
           <div style="font-size:20px;font-weight:800;margin-top:2px;color:#a7f3d0;">${currency}${Math.round(inHandPool)}</div>
           <div style="font-size:10px;opacity:0.75;margin-top:2px;">of ${currency}${Math.round(trip.totalPoolCollected || 0)} collected</div>
         </div>
@@ -360,7 +360,7 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
 
     <div class="section-title">
       <span>📝 Live Activity Feed (${activityList.length})</span>
-      <span style="font-size:12px;color:#64748b;font-weight:500;">Expenses & Pool Cash</span>
+      <span style="font-size:12px;color:#64748b;font-weight:500;">Expenses & Common Fund</span>
     </div>
     ${activitiesHtml}
 

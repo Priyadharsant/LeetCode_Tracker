@@ -92,7 +92,7 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
       return `
         <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#ffffff;border:1px solid #d1fae5;border-radius:12px;margin-bottom:8px;">
           <div>
-            <div style="font-weight:700;font-size:14px;color:#065f46;">💰 Initial Pool Contribution</div>
+            <div style="font-weight:700;font-size:14px;color:#065f46;">💰 Initial Common Fund Contribution</div>
             <div style="font-size:12px;color:#6b7280;margin-top:2px;">
               Cash / Initial • ${formattedDate}
             </div>
@@ -128,7 +128,7 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
       return `
         <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#ffffff;border:1px solid #d1fae5;border-radius:12px;margin-bottom:8px;">
           <div>
-            <div style="font-weight:700;font-size:14px;color:#065f46;">💰 Pool Contribution (${p.paymentMethod || 'Cash'})</div>
+            <div style="font-weight:700;font-size:14px;color:#065f46;">💰 Common Fund Contribution (${p.paymentMethod || 'Cash'})</div>
             <div style="font-size:12px;color:#6b7280;margin-top:2px;">
               ${formattedDate} ${p.notes ? `• "${p.notes}"` : ''}
             </div>
@@ -326,7 +326,7 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
       ` : `
         <div class="status-banner-green">
           <div style="font-size:12px;color:#047857;font-weight:700;text-transform:uppercase;">
-            ${Math.abs(net) < 1 ? 'ALL SETTLED ✅' : 'SURPLUS CREDIT IN POOL 🎉'}
+            ${Math.abs(net) < 1 ? 'ALL SETTLED ✅' : 'SURPLUS IN COMMON FUND 🎉'}
           </div>
           <div style="font-size:30px;font-weight:800;color:#059669;margin:4px 0;">
             ${currency}${Math.round(Math.max(0, net))}

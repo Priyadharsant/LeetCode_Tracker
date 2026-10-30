@@ -381,6 +381,26 @@ router.put('/trips/:tripCode', async (req, res) => {
   }
 });
 
+// 3c. Delete trip and all related data (members, expenses, payments)
+router.delete('/trips/:tripCode', async (req, res) => {
+  try {
+    const tripCode = req.params.tripCode.toUpperCase();
+    const trip = await Trip.findOne({ tripCode });
+    if (!trip) return res.status(404).json({ error: 'Trip not found' });
+
+    // Cascade delete members, expenses, and payments
+    await Member.deleteMany({ tripId: trip._id });
+    await Expense.deleteMany({ tripId: trip._id });
+    await Payment.deleteMany({ tripId: trip._id });
+    await Trip.deleteOne({ _id: trip._id });
+
+    res.json({ success: true, message: `Trip ${tripCode} and all related records deleted successfully` });
+  } catch (err) {
+    console.error('Error deleting trip:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // 4. Add member to trip
 router.post('/trips/:tripCode/members', async (req, res) => {
   try {
