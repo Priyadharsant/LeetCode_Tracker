@@ -1,8 +1,8 @@
 {
-  "versionCode": 11,
-  "versionName": "1.1.0",
-  "releaseNotes": "Display member contributions (initial pool & spent payments) paired with expenses in passbook and dashboard feed, with unified Total Given (Credit) vs Total Spent (Debit)",
-  "publishedAt": "2026-10-30T12:51:55.624Z",
+  "versionCode": 12,
+  "versionName": "1.1.2",
+  "releaseNotes": "Passbook activity ordering: bill spent first followed immediately by pay for bill",
+  "publishedAt": "2026-10-30T13:02:31.628Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
