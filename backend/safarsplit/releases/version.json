@@ -1,8 +1,8 @@
 {
-  "versionCode": 9,
-  "versionName": "1.0.8",
-  "releaseNotes": "Elegantly animated loading components for fetch and save operations with MongoDB Atlas cloud sync",
-  "publishedAt": "2026-10-30T12:11:26.724Z",
+  "versionCode": 10,
+  "versionName": "1.0.9",
+  "releaseNotes": "Include direct expense contributions in passbook activity and display unified Total Credit (all money given to trip) vs Total Debit (all expenses)",
+  "publishedAt": "2026-10-30T12:31:58.919Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
