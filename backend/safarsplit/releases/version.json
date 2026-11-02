@@ -1,8 +1,8 @@
 {
-  "versionCode": 14,
-  "versionName": "1.1.4",
-  "releaseNotes": "v1.1.4: Bento-Grid UI overhaul, 60fps micro-animated icons, isolated member passbook view, and network recovery.",
-  "publishedAt": "2026-11-02T04:10:24.058Z",
+  "versionCode": 15,
+  "versionName": "1.1.5",
+  "releaseNotes": "v1.1.5: Performance updates, UI polish, and stability improvements.",
+  "publishedAt": "2026-11-02T04:28:57.231Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
