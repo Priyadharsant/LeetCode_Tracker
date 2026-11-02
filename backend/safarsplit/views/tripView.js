@@ -47,25 +47,22 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
     const secureMemberToken = createMemberToken(trip.tripCode, m._id.toString());
 
     return `
-      <a href="${baseUrl}/s/${secureMemberToken}" style="text-decoration:none;color:inherit;">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,0.04);transition:transform 0.1s ease;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:40px;height:40px;border-radius:50%;background:#0d9488;color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">
-              ${initials}
-            </div>
-            <div>
-              <div style="font-weight:600;font-size:15px;color:#111827;">${m.name} ${m.isOrganizer ? '<span style="font-size:11px;background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:6px;font-weight:500;">Host</span>' : ''}</div>
-              <div style="font-size:12px;color:#6b7280;margin-top:2px;">Given: ${currency}${Math.round(memberTotalCredit)} • Spent: ${currency}${Math.round(memberTotalDebit)}</div>
-            </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#0d9488;color:#ffffff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;">
+            ${initials}
           </div>
-          <div style="text-align:right;">
-            <span style="display:inline-block;padding:4px 10px;border-radius:10px;font-size:12px;font-weight:700;background:${badgeBg};color:${badgeText};">
-              ${badge}
-            </span>
-            <div style="font-size:11px;color:#0d9488;margin-top:4px;font-weight:500;">View Passbook →</div>
+          <div>
+            <div style="font-weight:600;font-size:15px;color:#111827;">${m.name} ${m.isOrganizer ? '<span style="font-size:11px;background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:6px;font-weight:500;">Host</span>' : ''}</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Given: ${currency}${Math.round(memberTotalCredit)} • Spent: ${currency}${Math.round(memberTotalDebit)}</div>
           </div>
         </div>
-      </a>
+        <div style="text-align:right;">
+          <span style="display:inline-block;padding:4px 10px;border-radius:10px;font-size:12px;font-weight:700;background:${badgeBg};color:${badgeText};">
+            ${badge}
+          </span>
+        </div>
+      </div>
     `;
   }).join('');
 

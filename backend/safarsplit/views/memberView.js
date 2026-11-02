@@ -258,9 +258,9 @@ async function renderMemberView(trip, member, sharedExpenses, payments = [], bas
 </head>
 <body>
   <div class="container">
-    <a href="${baseUrl}/s/${createTripToken(trip.tripCode)}" class="back-nav">
-      ← Back to ${trip.title}
-    </a>
+    <div style="display:inline-flex;align-items:center;gap:6px;color:#0f766e;font-size:12px;font-weight:700;margin-bottom:14px;background:#f0fdfa;padding:5px 12px;border-radius:20px;border:1px solid #ccfbf1;">
+      🔒 Personal Statement • ${trip.title}
+    </div>
 
     <div class="passbook-card">
       <div style="font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">
