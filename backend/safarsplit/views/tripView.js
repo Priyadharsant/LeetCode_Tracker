@@ -212,8 +212,8 @@ function renderTripView(trip, members, expenses, payments = [], baseUrl) {
             </div>
           </div>
           <div style="text-align:right;">
-            <div style="font-weight:800;font-size:17px;color:#0f766e;">${currency}${e.amount}</div>
-            <div style="font-size:11px;color:#9ca3af;margin-top:2px;">${formattedDate}</div>
+            <div style="font-weight:800;font-size:17px;color:#dc2626;">-${currency}${e.amount}</div>
+            <div style="font-size:11px;color:#dc2626;font-weight:600;">Bill Spent</div>
           </div>
         </div>
 

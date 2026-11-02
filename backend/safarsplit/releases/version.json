@@ -1,8 +1,8 @@
 {
-  "versionCode": 15,
-  "versionName": "1.1.5",
-  "releaseNotes": "v1.1.5: Performance updates, UI polish, and stability improvements.",
-  "publishedAt": "2026-11-02T04:28:57.231Z",
+  "versionCode": 16,
+  "versionName": "1.1.6",
+  "releaseNotes": "Unified 3 financial pillars (Contribution, Expense, Net Balance), color-coded activity logs (green contribution / red spent), micro-animated icons across dashboard & passbook, and enhanced UI buttons.",
+  "publishedAt": "2026-11-02T05:05:22.570Z",
   "minSupportedVersion": 1,
   "apkFileName": "app-latest.apk"
 }
