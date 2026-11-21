@@ -313,9 +313,27 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
       const ua = req.headers['user-agent'] || 'Unknown';
       const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
 
+      // Check if a visit notification was already sent for this IP
+      const alreadyNotified = await activityCol.findOne({
+        type: 'VISIT',
+        ip,
+        notificationSent: true,
+      });
+
       // Save to DB for daily digest
-      await activityCol.insertOne({ type: 'VISIT', ip, ua, createdAt: new Date() });
-      console.log(`[API] Saved VISIT to DB from IP: ${ip}`);
+      await activityCol.insertOne({
+        type: 'VISIT',
+        ip,
+        ua,
+        notificationSent: !alreadyNotified,
+        createdAt: new Date(),
+      });
+      console.log(`[API] Saved VISIT to DB from IP: ${ip} (alreadyNotified: ${!!alreadyNotified})`);
+
+      if (alreadyNotified) {
+        console.log(`[API] Skipped push/telegram notification for returning IP: ${ip}`);
+        return res.json({ success: true, message: 'Visit logged; notification already sent for this IP.' });
+      }
 
       // Send immediate Telegram notification
       const safeIp = escapeHtml(ip);
