@@ -541,60 +541,63 @@ Projects: ${JSON.stringify(portfolio.projects)}
 Achievements: ${JSON.stringify(portfolio.achievements)}
 About: ${JSON.stringify(portfolio.about)}
 
-MANDATORY RESPONSE FORMAT:
+CRITICAL RULES:
 1. Speak exclusively in first-person ("I", "my", "we").
-2. Provide a direct, concise, and structured answer.
-3. For projects, never say "Demo", "Demo link", or "Demo live" — always refer to live links as "Preview" or "[Preview](url)".
-4. Format all links as clickable Markdown: e.g. [LinkedIn Profile](url), [GitHub Profile](url), [Email](mailto:email), [Preview](url).
-5. At the very end of your response, you MUST provide exactly 2 or 3 relevant follow-up questions from the visitor's perspective to ask me next.
+2. Answer ONLY using the facts from my verified background above. Do NOT make up unlisted experiences, schedule meetings, or pretend to look for roles not mentioned in my profile.
+3. For project links, always format as "[View Project](url)" or "[View Live](url)" (e.g. [View Project](https://fakekart.netlify.app/)).
+4. Format all links as clickable Markdown: e.g. [LinkedIn Profile](url), [GitHub Profile](url), [Email](mailto:email), [View Project](url).
+5. At the very end of your response, you MUST append exactly 2 or 3 relevant follow-up questions from the visitor's perspective to ask me about my profile (skills, projects, experience, contact).
+6. DO NOT write questions in first person from me (e.g. do NOT write "What kind of roles are you looking for?" or "Can we schedule a call?"). Questions MUST be what the VISITOR asks ME, strictly about my profile:
 Format the ending exactly like this:
 Quick Questions:
-• Can you tell me more about your React projects?
+• Can you tell me more about your experience with React?
 • What was your role in the College Website project?
-• How can I contact you directly?`;
+• What is the best email to get in touch with you?`;
 
-    function generateFollowUpQuestions(text, query) {
+    function getStrictFollowUps(query, text) {
       const q = (query || '').toLowerCase();
       const t = (text || '').toLowerCase();
 
-      if (t.includes('quick questions:')) {
-        return text;
-      }
-
-      let questions = [];
-      if (q.includes('skill') || q.includes('stack') || q.includes('technolog') || t.includes('frontend') || t.includes('react')) {
-        questions = [
-          'What are your featured projects built with React?',
+      if (q.includes('skill') || q.includes('stack') || q.includes('technolog') || t.includes('react') || t.includes('node')) {
+        return [
+          'What featured projects have you built with React?',
           'Do you have backend API development experience?',
           'How can I get in touch with you directly?'
         ];
-      } else if (q.includes('project') || q.includes('built') || q.includes('work') || t.includes('college') || t.includes('fakekart')) {
-        questions = [
-          'What is your core tech stack?',
-          'What is your work experience as Backend Lead?',
+      }
+      if (q.includes('project') || q.includes('built') || q.includes('work') || t.includes('fakekart') || t.includes('college')) {
+        return [
+          'What is your core technical stack?',
+          'What was your role as Backend Lead?',
           'Where can I view your verified resume?'
         ];
-      } else if (q.includes('experience') || q.includes('job') || q.includes('intern') || t.includes('velammal')) {
-        questions = [
+      }
+      if (q.includes('experience') || q.includes('job') || q.includes('intern') || t.includes('velammal')) {
+        return [
           'What projects did you lead during this time?',
           'What databases and cloud tools do you use?',
           'What is the best email to reach you?'
         ];
-      } else if (q.includes('contact') || q.includes('email') || q.includes('reach') || q.includes('hire')) {
-        questions = [
-          'What technical roles are you currently looking for?',
-          'Can you tell me about your key accomplishments?',
-          'Can I view your verified resume?'
-        ];
-      } else {
-        questions = [
-          'What are your strongest technical skills?',
-          'What featured projects have you deployed?',
-          'How can I get in touch with you?'
+      }
+      if (q.includes('contact') || q.includes('email') || q.includes('reach') || q.includes('hire') || q.includes('linkedin')) {
+        return [
+          'What are your core technical strengths?',
+          'Can you tell me about your key achievements?',
+          'Where can I view your verified resume?'
         ];
       }
+      return [
+        'What are your strongest technical skills?',
+        'What featured projects have you deployed?',
+        'How can I contact you directly?'
+      ];
+    }
 
-      return `${text.trim()}\n\nQuick Questions:\n${questions.map(item => `• ${item}`).join('\n')}`;
+    function formatResponseWithFollowUps(rawText, userQuery) {
+      // Strip any existing Quick Questions block from model to ensure strict visitor-perspective questions
+      let cleanText = rawText.replace(/(?:Quick Questions|Related Questions|Suggested Questions):?[\s\S]*$/i, '').trim();
+      const questions = getStrictFollowUps(userQuery, cleanText);
+      return `${cleanText}\n\nQuick Questions:\n${questions.map((item) => `• ${item}`).join('\n')}`;
     }
     // 1. Primary Ultra-Fast Engine: Groq LPU (qwen3.8-27b ~400ms, gpt-oss ~700ms)
     if (groqApiKey) {
@@ -632,7 +635,7 @@ Quick Questions:
             const groqData = await groqRes.json();
             const text = groqData.choices?.[0]?.message?.content;
             if (text) {
-              reply = generateFollowUpQuestions(text.trim(), message);
+              reply = formatResponseWithFollowUps(text.trim(), message);
               source = `groq (${groqModel})`;
               break;
             }
@@ -681,7 +684,7 @@ Quick Questions:
             const data = await geminiRes.json();
             const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
             if (text) {
-              reply = generateFollowUpQuestions(text.trim(), message);
+              reply = formatResponseWithFollowUps(text.trim(), message);
               source = `gemini (${model})`;
               break;
             }
@@ -710,7 +713,7 @@ Quick Questions:
       } else {
         reply = offlineVariations[Math.floor(Math.random() * offlineVariations.length)];
       }
-      reply = generateFollowUpQuestions(reply, message);
+      reply = formatResponseWithFollowUps(reply, message);
       source = 'offline-knowledge-base';
     }
 
