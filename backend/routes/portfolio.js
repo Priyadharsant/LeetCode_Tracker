@@ -593,62 +593,14 @@ Quick Questions:
 
       return `${text.trim()}\n\nQuick Questions:\n${questions.map(item => `• ${item}`).join('\n')}`;
     }
-    if (geminiApiKey) {
-      const models = ['gemini-2.5-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite'];
-      for (const model of models) {
-        try {
-          const contents = [];
-          if (Array.isArray(history)) {
-            for (const h of history.slice(-4)) {
-              if (h.role && h.text) {
-                contents.push({
-                  role: h.role === 'user' ? 'user' : 'model',
-                  parts: [{ text: String(h.text) }]
-                });
-              }
-            }
-          }
-          contents.push({
-            role: 'user',
-            parts: [{ text: `${message}\n\n(Remember to end your reply with 2-3 relevant follow-up questions under "Quick Questions:")` }]
-          });
-
-          const geminiRes = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                system_instruction: { parts: [{ text: systemInstruction }] },
-                contents,
-                generationConfig: { temperature: 0.6, maxOutputTokens: 1500 }
-              })
-            }
-          );
-
-          if (geminiRes.ok) {
-            const data = await geminiRes.json();
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (text) {
-              reply = generateFollowUpQuestions(text.trim(), message);
-              source = `gemini (${model})`;
-              break;
-            }
-          }
-        } catch (err) {
-          console.warn(`[AI Chat] Gemini ${model} failed:`, err);
-        }
-      }
-    }
-
-    // 2. Fallback 1: Groq Cloud
-    if (!reply && groqApiKey) {
-      const groqModels = ['openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'qwen/qwen3.8-27b'];
+    // 1. Primary Ultra-Fast Engine: Groq LPU (qwen3.8-27b ~400ms, gpt-oss ~700ms)
+    if (groqApiKey) {
+      const groqModels = ['qwen/qwen3.8-27b', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b'];
       for (const groqModel of groqModels) {
         try {
           const groqMessages = [{ role: 'system', content: systemInstruction }];
           if (Array.isArray(history)) {
-            for (const h of history.slice(-4)) {
+            for (const h of history.slice(-3)) {
               if (h.role && h.text) {
                 groqMessages.push({
                   role: h.role === 'user' ? 'user' : 'assistant',
@@ -668,8 +620,8 @@ Quick Questions:
             body: JSON.stringify({
               model: groqModel,
               messages: groqMessages,
-              temperature: 0.6,
-              max_tokens: 600,
+              temperature: 0.5,
+              max_tokens: 500,
             }),
           });
 
@@ -684,6 +636,55 @@ Quick Questions:
           }
         } catch (err) {
           console.warn(`[AI Chat] Groq ${groqModel} failed:`, err);
+        }
+      }
+    }
+
+    // 2. Secondary Engine: Google Gemini (Fallback)
+    if (!reply && geminiApiKey) {
+      const models = ['gemini-2.5-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite'];
+      for (const model of models) {
+        try {
+          const contents = [];
+          if (Array.isArray(history)) {
+            for (const h of history.slice(-3)) {
+              if (h.role && h.text) {
+                contents.push({
+                  role: h.role === 'user' ? 'user' : 'model',
+                  parts: [{ text: String(h.text) }]
+                });
+              }
+            }
+          }
+          contents.push({
+            role: 'user',
+            parts: [{ text: message }]
+          });
+
+          const geminiRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                system_instruction: { parts: [{ text: systemInstruction }] },
+                contents,
+                generationConfig: { temperature: 0.5, maxOutputTokens: 500 }
+              })
+            }
+          );
+
+          if (geminiRes.ok) {
+            const data = await geminiRes.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) {
+              reply = generateFollowUpQuestions(text.trim(), message);
+              source = `gemini (${model})`;
+              break;
+            }
+          }
+        } catch (err) {
+          console.warn(`[AI Chat] Gemini ${model} failed:`, err);
         }
       }
     }
