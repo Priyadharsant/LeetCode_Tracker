@@ -492,6 +492,220 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
     res.sendStatus(200);
   });
 
+  // AI Chat Route with Multi-Model Fallback
+  const ipChatCounts = new Map();
+  const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+  const MAX_CHAT_REQUESTS = 15;
+
+  function isChatRateLimited(ip) {
+    const now = Date.now();
+    const entry = ipChatCounts.get(ip);
+    if (!entry || now > entry.resetAt) {
+      ipChatCounts.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+      return false;
+    }
+    if (entry.count >= MAX_CHAT_REQUESTS) return true;
+    entry.count += 1;
+    return false;
+  }
+
+  router.post('/ai/chat', async (req, res) => {
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+    if (isChatRateLimited(clientIp)) {
+      return res.status(429).json({ error: 'Too many queries. Please wait a minute.' });
+    }
+
+    const { message, history } = req.body || {};
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({ error: 'Message is required.' });
+    }
+
+    const portfolio = (await portfolioCol.findOne()) || {};
+    const geminiApiKey = process.env.GEMINI_API_KEY;
+    const groqApiKey = process.env.GROQ_API_KEY;
+    let reply = '';
+    let source = 'gemini';
+
+    const systemInstruction = `You are the official AI Assistant for Priyadharsan's personal portfolio website.
+Answer questions accurately and concisely based strictly on his verified background:
+Name: ${portfolio.profile?.name}
+Title: ${portfolio.profile?.title}
+Email: ${portfolio.profile?.email}
+LinkedIn: ${portfolio.profile?.linkedin}
+GitHub: ${portfolio.profile?.github}
+Skills: ${JSON.stringify(portfolio.skills)}
+Experience: ${JSON.stringify(portfolio.experience)}
+Projects: ${JSON.stringify(portfolio.projects)}
+Achievements: ${JSON.stringify(portfolio.achievements)}
+About: ${JSON.stringify(portfolio.about)}
+
+MANDATORY RESPONSE FORMAT:
+1. Provide a direct, concise, and structured answer.
+2. For projects, never say "Demo", "Demo link", or "Demo live" — always refer to live links as "Preview" or "[Preview](url)".
+3. Format all links as clickable Markdown: e.g. [LinkedIn Profile](url), [GitHub Profile](url), [Email](mailto:email), [Preview](url).
+4. At the very end of your response, you MUST provide exactly 2 or 3 relevant follow-up questions for the visitor to click next.
+Format the ending exactly like this:
+Quick Questions:
+• Can you explain his experience with React?
+• What was his role in the College Website project?
+• How can I contact him directly?`;
+
+    function generateFollowUpQuestions(text, query) {
+      const q = (query || '').toLowerCase();
+      const t = (text || '').toLowerCase();
+
+      if (t.includes('quick questions:')) {
+        return text;
+      }
+
+      let questions = [];
+      if (q.includes('skill') || q.includes('stack') || q.includes('technolog') || t.includes('frontend') || t.includes('react')) {
+        questions = [
+          'What are his featured projects built with React?',
+          'Does he have backend API development experience?',
+          'How can I contact Priyadharsan for an interview?'
+        ];
+      } else if (q.includes('project') || q.includes('built') || q.includes('work') || t.includes('college') || t.includes('fakekart')) {
+        questions = [
+          'What is his full technical stack?',
+          'Can I see his work experience and timeline?',
+          'Where can I download his latest resume?'
+        ];
+      } else if (q.includes('experience') || q.includes('job') || q.includes('intern') || t.includes('velammal')) {
+        questions = [
+          'What projects did he build during this time?',
+          'What core databases and cloud tools does he use?',
+          'What is the best email to reach him?'
+        ];
+      } else if (q.includes('contact') || q.includes('email') || q.includes('reach') || q.includes('hire')) {
+        questions = [
+          'What technical roles is Priyadharsan looking for?',
+          'Can you summarize his key accomplishments?',
+          'Can I view his verified resume?'
+        ];
+      } else {
+        questions = [
+          'What are his strongest technical skills?',
+          'What featured projects has he deployed?',
+          'How can I get in touch with him?'
+        ];
+      }
+
+      return `${text.trim()}\n\nQuick Questions:\n${questions.map(item => `• ${item}`).join('\n')}`;
+    }
+    if (geminiApiKey) {
+      const models = ['gemini-2.5-flash', 'gemini-3.5-flash', 'gemini-3.5-flash-lite'];
+      for (const model of models) {
+        try {
+          const contents = [];
+          if (Array.isArray(history)) {
+            for (const h of history.slice(-4)) {
+              if (h.role && h.text) {
+                contents.push({
+                  role: h.role === 'user' ? 'user' : 'model',
+                  parts: [{ text: String(h.text) }]
+                });
+              }
+            }
+          }
+          contents.push({
+            role: 'user',
+            parts: [{ text: `${message}\n\n(Remember to end your reply with 2-3 relevant follow-up questions under "Quick Questions:")` }]
+          });
+
+          const geminiRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                system_instruction: { parts: [{ text: systemInstruction }] },
+                contents,
+                generationConfig: { temperature: 0.6, maxOutputTokens: 1500 }
+              })
+            }
+          );
+
+          if (geminiRes.ok) {
+            const data = await geminiRes.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) {
+              reply = generateFollowUpQuestions(text.trim(), message);
+              source = `gemini (${model})`;
+              break;
+            }
+          }
+        } catch (err) {
+          console.warn(`[AI Chat] Gemini ${model} failed:`, err);
+        }
+      }
+    }
+
+    // 2. Fallback 1: Groq Cloud
+    if (!reply && groqApiKey) {
+      const groqModels = ['openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'qwen/qwen3.8-27b'];
+      for (const groqModel of groqModels) {
+        try {
+          const groqMessages = [{ role: 'system', content: systemInstruction }];
+          if (Array.isArray(history)) {
+            for (const h of history.slice(-4)) {
+              if (h.role && h.text) {
+                groqMessages.push({
+                  role: h.role === 'user' ? 'user' : 'assistant',
+                  content: String(h.text)
+                });
+              }
+            }
+          }
+          groqMessages.push({ role: 'user', content: message });
+
+          const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${groqApiKey}`,
+            },
+            body: JSON.stringify({
+              model: groqModel,
+              messages: groqMessages,
+              temperature: 0.6,
+              max_tokens: 600,
+            }),
+          });
+
+          if (groqRes.ok) {
+            const groqData = await groqRes.json();
+            const text = groqData.choices?.[0]?.message?.content;
+            if (text) {
+              reply = generateFollowUpQuestions(text.trim(), message);
+              source = `groq (${groqModel})`;
+              break;
+            }
+          }
+        } catch (err) {
+          console.warn(`[AI Chat] Groq ${groqModel} failed:`, err);
+        }
+      }
+    }
+
+    // 3. Fallback 2: Offline Knowledge Base
+    if (!reply) {
+      const q = message.toLowerCase();
+      if (q.includes('skill') || q.includes('stack')) {
+        reply = `Priyadharsan's skills include:\n\n${portfolio.skills?.map(s => `**${s.title}**: ${s.items.join(', ')}`).join('\n\n')}`;
+      } else if (q.includes('project') || q.includes('work')) {
+        reply = `Featured projects include:\n\n${portfolio.projects?.map(p => `• **${p.title}**: ${p.description}`).join('\n\n')}`;
+      } else if (q.includes('contact') || q.includes('email')) {
+        reply = `Contact Priyadharsan via email at [${portfolio.profile?.email}](mailto:${portfolio.profile?.email}) or LinkedIn at ${portfolio.profile?.linkedin}.`;
+      } else {
+        reply = `Priyadharsan is a ${portfolio.profile?.title}. Feel free to ask about his skills, projects, or background!`;
+      }
+      source = 'offline-knowledge-base';
+    }
+
+    return res.json({ reply, source });
+  });
+
   router.post('/contact', async (req, res) => {
     const { name, email, message } = req.body ?? {};
     console.log("Mail triggered")
