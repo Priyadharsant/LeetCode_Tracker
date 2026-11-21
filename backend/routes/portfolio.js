@@ -526,8 +526,10 @@ The system processed <b>${visits.length}</b> requests today. ${errors.length ===
     let reply = '';
     let source = 'gemini';
 
-    const systemInstruction = `You are the official AI Assistant for Priyadharsan's personal portfolio website.
-Answer questions accurately and concisely based strictly on his verified background:
+    const systemInstruction = `You are Priyadharsan T himself speaking directly to the visitor in first-person ("I", "me", "my").
+Chat naturally, warmly, professionally, and enthusiastically as Priyadharsan. Never refer to Priyadharsan in third person (do not say "He is...", "Priyadharsan's skills..."). Always say "I am...", "My skills include...", "In my projects, I built...", "You can contact me at...".
+
+Answer questions accurately and concisely based strictly on my verified background:
 Name: ${portfolio.profile?.name}
 Title: ${portfolio.profile?.title}
 Email: ${portfolio.profile?.email}
@@ -540,15 +542,16 @@ Achievements: ${JSON.stringify(portfolio.achievements)}
 About: ${JSON.stringify(portfolio.about)}
 
 MANDATORY RESPONSE FORMAT:
-1. Provide a direct, concise, and structured answer.
-2. For projects, never say "Demo", "Demo link", or "Demo live" — always refer to live links as "Preview" or "[Preview](url)".
-3. Format all links as clickable Markdown: e.g. [LinkedIn Profile](url), [GitHub Profile](url), [Email](mailto:email), [Preview](url).
-4. At the very end of your response, you MUST provide exactly 2 or 3 relevant follow-up questions for the visitor to click next.
+1. Speak exclusively in first-person ("I", "my", "we").
+2. Provide a direct, concise, and structured answer.
+3. For projects, never say "Demo", "Demo link", or "Demo live" — always refer to live links as "Preview" or "[Preview](url)".
+4. Format all links as clickable Markdown: e.g. [LinkedIn Profile](url), [GitHub Profile](url), [Email](mailto:email), [Preview](url).
+5. At the very end of your response, you MUST provide exactly 2 or 3 relevant follow-up questions from the visitor's perspective to ask me next.
 Format the ending exactly like this:
 Quick Questions:
-• Can you explain his experience with React?
-• What was his role in the College Website project?
-• How can I contact him directly?`;
+• Can you tell me more about your React projects?
+• What was your role in the College Website project?
+• How can I contact you directly?`;
 
     function generateFollowUpQuestions(text, query) {
       const q = (query || '').toLowerCase();
@@ -561,33 +564,33 @@ Quick Questions:
       let questions = [];
       if (q.includes('skill') || q.includes('stack') || q.includes('technolog') || t.includes('frontend') || t.includes('react')) {
         questions = [
-          'What are his featured projects built with React?',
-          'Does he have backend API development experience?',
-          'How can I contact Priyadharsan for an interview?'
+          'What are your featured projects built with React?',
+          'Do you have backend API development experience?',
+          'How can I get in touch with you directly?'
         ];
       } else if (q.includes('project') || q.includes('built') || q.includes('work') || t.includes('college') || t.includes('fakekart')) {
         questions = [
-          'What is his full technical stack?',
-          'Can I see his work experience and timeline?',
-          'Where can I download his latest resume?'
+          'What is your core tech stack?',
+          'What is your work experience as Backend Lead?',
+          'Where can I view your verified resume?'
         ];
       } else if (q.includes('experience') || q.includes('job') || q.includes('intern') || t.includes('velammal')) {
         questions = [
-          'What projects did he build during this time?',
-          'What core databases and cloud tools does he use?',
-          'What is the best email to reach him?'
+          'What projects did you lead during this time?',
+          'What databases and cloud tools do you use?',
+          'What is the best email to reach you?'
         ];
       } else if (q.includes('contact') || q.includes('email') || q.includes('reach') || q.includes('hire')) {
         questions = [
-          'What technical roles is Priyadharsan looking for?',
-          'Can you summarize his key accomplishments?',
-          'Can I view his verified resume?'
+          'What technical roles are you currently looking for?',
+          'Can you tell me about your key accomplishments?',
+          'Can I view your verified resume?'
         ];
       } else {
         questions = [
-          'What are his strongest technical skills?',
-          'What featured projects has he deployed?',
-          'How can I get in touch with him?'
+          'What are your strongest technical skills?',
+          'What featured projects have you deployed?',
+          'How can I get in touch with you?'
         ];
       }
 
@@ -692,15 +695,22 @@ Quick Questions:
     // 3. Fallback 2: Offline Knowledge Base
     if (!reply) {
       const q = message.toLowerCase();
+      const offlineVariations = [
+        `I am ${portfolio.profile?.name}, a ${portfolio.profile?.title}. Feel free to ask me anything about my projects, technical skills, or work experience!`,
+        `Hi! I specialize in full-stack development, cloud architecture, and modern backend systems. You can explore my featured projects right on this page or reach out via the Contact section.`,
+        `Welcome! As a Full-Stack Engineer and WebOps Team Lead, I build production-grade web systems with React, Node.js, and AWS. Let me know what you'd like to explore!`
+      ];
+
       if (q.includes('skill') || q.includes('stack')) {
-        reply = `Priyadharsan's skills include:\n\n${portfolio.skills?.map(s => `**${s.title}**: ${s.items.join(', ')}`).join('\n\n')}`;
+        reply = `Here is a breakdown of my core technical skills:\n\n${portfolio.skills?.map(s => `**${s.title}**: ${s.items.join(', ')}`).join('\n\n')}`;
       } else if (q.includes('project') || q.includes('work')) {
-        reply = `Featured projects include:\n\n${portfolio.projects?.map(p => `• **${p.title}**: ${p.description}`).join('\n\n')}`;
-      } else if (q.includes('contact') || q.includes('email')) {
-        reply = `Contact Priyadharsan via email at [${portfolio.profile?.email}](mailto:${portfolio.profile?.email}) or LinkedIn at ${portfolio.profile?.linkedin}.`;
+        reply = `Here are some of my featured projects:\n\n${portfolio.projects?.map(p => `• **${p.title}**: ${p.description}`).join('\n\n')}`;
+      } else if (q.includes('contact') || q.includes('email') || q.includes('reach')) {
+        reply = `You can reach me directly via email at [${portfolio.profile?.email}](mailto:${portfolio.profile?.email}) or connect on LinkedIn at [LinkedIn Profile](${portfolio.profile?.linkedin}).`;
       } else {
-        reply = `Priyadharsan is a ${portfolio.profile?.title}. Feel free to ask about his skills, projects, or background!`;
+        reply = offlineVariations[Math.floor(Math.random() * offlineVariations.length)];
       }
+      reply = generateFollowUpQuestions(reply, message);
       source = 'offline-knowledge-base';
     }
 
