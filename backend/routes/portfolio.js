@@ -717,6 +717,24 @@ Quick Questions:
       source = 'offline-knowledge-base';
     }
 
+    // Send Telegram notification asynchronously
+    (async () => {
+      try {
+        const safeIp = escapeHtml(clientIp);
+        const aiAlertMsg = `🤖 <b>PORTFOLIO AI CHAT USED</b>
+
+A visitor is currently interacting with your AI chat box!
+
+<b>Client Info:</b>
+• <b>IP:</b> <code>${safeIp}</code>
+• <b>Time:</b> <code>${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })} (IST)</code>`;
+
+        await sendTelegramMessage(aiAlertMsg);
+      } catch (notifyErr) {
+        console.error('[API] Failed to send Telegram notification for AI chat:', notifyErr);
+      }
+    })();
+
     return res.json({ reply, source });
   });
 
