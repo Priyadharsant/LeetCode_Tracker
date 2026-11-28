@@ -717,9 +717,30 @@ Quick Questions:
       source = 'offline-knowledge-base';
     }
 
-    // Send Telegram notification asynchronously
+    // Send Telegram notification asynchronously (once per IP per calendar day)
     (async () => {
       try {
+        const { startOfDay, endOfDay } = getKolkataDayBounds();
+        const alreadyNotified = await activityCol.findOne({
+          type: 'AI_CHAT',
+          ip: clientIp,
+          notificationSent: true,
+          createdAt: { $gte: startOfDay, $lte: endOfDay }
+        });
+
+        // Record activity for today
+        await activityCol.insertOne({
+          type: 'AI_CHAT',
+          ip: clientIp,
+          notificationSent: !alreadyNotified,
+          createdAt: new Date(),
+        });
+
+        if (alreadyNotified) {
+          console.log(`[API] Skipped Telegram notification for AI chat; already notified today for IP: ${clientIp}`);
+          return;
+        }
+
         const safeIp = escapeHtml(clientIp);
         const aiAlertMsg = `🤖 <b>PORTFOLIO AI CHAT USED</b>
 
