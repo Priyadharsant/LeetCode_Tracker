@@ -677,6 +677,82 @@ app.delete('/api/notifications/unsubscribe', async (req, res) => {
   }
 });
 
+app.post('/api/terminal/ai', async (req, res) => {
+  const { command, cwd } = req.body || {};
+  if (!command || typeof command !== 'string') {
+    return res.status(400).json({ output: 'bash: missing command' });
+  }
+
+  const systemPrompt = `You are PortfolioOS, a simulated Linux terminal representing Priyadharsan T's developer portfolio.
+Current working directory: ${cwd || '/home/priyan'}
+User typed: "${command}"
+
+Rules:
+1. Respond ONLY with plain-text Linux terminal output (no markdown code fences, no **bold**, no prose).
+2. Keep lines short (max ~48 chars wide) so they fit cleanly in a compact 320px terminal.
+3. If it's a Linux command (like ps, df, git log, top, systemctl, ping), format the output like that real Linux command representing a full-stack developer portfolio (React, TypeScript, Three.js, Node.js, Express, MongoDB, AWS).
+4. If it's a question (like "ask ..."), answer concisely in 2-5 short lines.`;
+
+  const geminiApiKey = process.env.GEMINI_API_KEY;
+  if (geminiApiKey) {
+    try {
+      const resp = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            contents: [{ role: 'user', parts: [{ text: command }] }],
+            generationConfig: { maxOutputTokens: 220, temperature: 0.4 },
+          }),
+        }
+      );
+      if (resp.ok) {
+        const data = await resp.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+        if (text) return res.json({ output: text, source: 'gemini' });
+      }
+    } catch (err) {
+      console.error('[Terminal AI] Gemini error:', err.message);
+    }
+  }
+
+  const groqApiKey = process.env.GROQ_API_KEY;
+  if (groqApiKey) {
+    try {
+      const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${groqApiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'llama-3.1-8b-instant',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: command },
+          ],
+          max_tokens: 220,
+          temperature: 0.4,
+        }),
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        const text = data?.choices?.[0]?.message?.content?.trim();
+        if (text) return res.json({ output: text, source: 'groq' });
+      }
+    } catch (err) {
+      console.error('[Terminal AI] Groq error:', err.message);
+    }
+  }
+
+  return res.json({
+    output: `bash: ${command.split(' ')[0]}: command not found\nTry 'help', 'ls', 'cat about.md', or 'neofetch'.`,
+    source: 'fallback',
+  });
+});
+
 // --- Background Notification Cron Job ---
 // Running every minute on the dot
 cron.schedule('* * * * *', async () => {
